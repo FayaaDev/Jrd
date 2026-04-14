@@ -10,14 +10,17 @@ interface Props {
 interface StatCardProps {
   label: string;
   value: string;
+  subtitle?: string;
   highlight?: 'positive' | 'negative' | 'neutral';
 }
 
-function StatCard({ label, value, highlight = 'neutral' }: StatCardProps) {
+function StatCard({ label, value, subtitle, highlight = 'neutral' }: StatCardProps) {
   return (
     <Card className={`stat-card stat-card--${highlight}`}>
+      <div className="stat-card__eyebrow">Portfolio</div>
       <div className="stat-card__label">{label}</div>
       <div className="stat-card__value">{value}</div>
+      {subtitle && <div className="stat-card__meta">{subtitle}</div>}
     </Card>
   );
 }
@@ -37,10 +40,10 @@ export default function PortfolioSummary({ summary, baseCurrency }: Props) {
 
   return (
     <div className="portfolio-summary">
-      <StatCard label="Market Value" value={marketValue} />
-      <StatCard label="Total Cost" value={totalCost} />
-      <StatCard label="Unrealized P/L" value={unrealizedPl} highlight={highlight} />
-      <StatCard label="P/L %" value={plPct} highlight={highlight} />
+      <StatCard label="Market Value" value={marketValue} subtitle="Live marks blended with snapshot fallback" />
+      <StatCard label="Total Cost" value={totalCost} subtitle="Average acquisition basis across all positions" />
+      <StatCard label="Unrealized P/L" value={unrealizedPl} subtitle="Open profit and loss in base currency" highlight={highlight} />
+      <StatCard label="P/L %" value={plPct} subtitle="Relative performance versus your total cost" highlight={highlight} />
     </div>
   );
 }

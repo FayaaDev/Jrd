@@ -58,7 +58,13 @@ export default function Settings() {
 
   return (
     <div className="settings-page">
-      <h1 className="page-title">Settings</h1>
+      <section className="page-intro card">
+        <span className="section-kicker">System controls</span>
+        <h1 className="page-title">Settings</h1>
+        <p className="page-intro__copy">
+          Tune the portfolio lens, choose your preferred surface mode, and control how the data set moves in and out of the app.
+        </p>
+      </section>
 
       <Card className="settings-section">
         <h2 className="settings-section__title">Portfolio</h2>
@@ -98,7 +104,7 @@ export default function Settings() {
             update('theme', e.target.value as SettingsType['theme'])
           }
           options={[
-            { value: 'system', label: 'System default' },
+            { value: 'system', label: 'Exchange default (dark)' },
             { value: 'light', label: 'Light' },
             { value: 'dark', label: 'Dark' },
           ]}

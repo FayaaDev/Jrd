@@ -4,11 +4,11 @@ import '../styles/app.css';
 
 export default function RootLayout() {
   return (
-    <>
+    <div className="app-shell">
       <NavBar />
       <main className="main-content">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 }

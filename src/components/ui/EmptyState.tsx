@@ -8,8 +8,8 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="empty-state">
-      <div className="empty-state__icon" aria-hidden="true">&#8709;</div>
+    <div className="empty-state card card--dark">
+      <div className="empty-state__icon" aria-hidden="true">&#9671;</div>
       <h3 className="empty-state__title">{title}</h3>
       {description && <p className="empty-state__description">{description}</p>}
       {action && <div className="empty-state__action">{action}</div>}

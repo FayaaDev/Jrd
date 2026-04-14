@@ -52,9 +52,15 @@ export default function Watchlist() {
 
   return (
     <div className="watchlist-page">
-      <div className="page-header">
-        <h1 className="page-title">Watchlist</h1>
-      </div>
+      <section className="page-intro card card--dark">
+        <span className="section-kicker">Trade radar</span>
+        <div className="page-header">
+          <h1 className="page-title">Watchlist</h1>
+        </div>
+        <p className="page-intro__copy page-intro__copy--inverse">
+          Stage symbols before they graduate into the portfolio. Numeric SAR symbols route to Sahmk, everything else defaults to Alpaca.
+        </p>
+      </section>
 
       <form onSubmit={handleAdd} className="watchlist-add-form card">
         <h2 className="form-section-title">Add Symbol</h2>

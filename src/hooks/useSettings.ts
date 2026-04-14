@@ -8,7 +8,7 @@ export function useSettings(): [Settings, (s: Settings) => void] {
   useEffect(() => {
     const theme = settings.theme;
     if (theme === 'system') {
-      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.setAttribute('data-theme', theme);
     }

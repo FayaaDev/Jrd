@@ -87,9 +87,13 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
   return (
     <div className="holdings-table-wrapper">
       <div className="holdings-table__toolbar">
+        <div className="holdings-table__toolbar-copy">
+          <span className="section-kicker">Search the book</span>
+          <p className="text-muted">{sorted.length} visible positions after filters and sorting.</p>
+        </div>
         <input
           type="search"
-          className="form-input"
+          className="form-input holdings-table__search"
           placeholder="Filter by symbol, name, or type..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -116,18 +120,35 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
           <tbody>
             {sorted.map((row) => (
               <tr key={row.id} className="table__row">
-                <td className="table__td table__td--symbol">{row.symbol}</td>
-                <td className="table__td">{row.name ?? '—'}</td>
-                <td className="table__td">{row.assetType ?? '—'}</td>
+                <td className="table__td table__td--symbol">
+                  <div className="holding-cell">
+                    <span className="holding-cell__primary">{row.symbol}</span>
+                    <span className="holding-cell__meta">{row.market ?? '—'}</span>
+                  </div>
+                </td>
+                <td className="table__td">
+                  <div className="holding-cell">
+                    <span className="holding-cell__primary">{row.name ?? '—'}</span>
+                    <span className="holding-cell__meta">{row.notes ?? row.assetType ?? '—'}</span>
+                  </div>
+                </td>
+                <td className="table__td">
+                  <span className="pill-tag">{row.assetType ?? '—'}</span>
+                </td>
                 <td className="table__td">{row.market ?? '—'}</td>
                 <td className="table__td table__td--number">{fmtNumber(row.quantity)}</td>
                 <td className="table__td table__td--number">
                   {fmtCurrency(row.avgCost, row.costCurrency)}
                 </td>
                 <td className="table__td table__td--number">
-                  {row.price != null
-                    ? fmtCurrency(row.price, row.quoteCurrency)
-                    : '—'}
+                  <div className="holding-cell holding-cell--number">
+                    <span className="holding-cell__primary">
+                      {row.price != null
+                        ? fmtCurrency(row.price, row.quoteCurrency)
+                        : '—'}
+                    </span>
+                    <span className="holding-cell__meta">{row.priceProvider ?? 'No source'}</span>
+                  </div>
                 </td>
                 <td className="table__td table__td--number">
                   {row.marketValueBase != null

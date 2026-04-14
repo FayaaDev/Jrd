@@ -6,8 +6,8 @@ interface Props {
 }
 
 const COLORS = [
-  '#2563eb', '#16a34a', '#dc2626', '#d97706', '#7c3aed',
-  '#0891b2', '#db2777', '#65a30d', '#ea580c', '#4f46e5',
+  '#F0B90B', '#F8D12F', '#0ECB81', '#F6465D', '#FFD000',
+  '#848E9C', '#32313A', '#686A6C', '#2B2F36', '#D0980B',
 ];
 
 export default function AllocationPie({ data, title }: Props) {

@@ -38,7 +38,7 @@ function makeSettings(overrides: Partial<Settings> = {}): Settings {
     priceProvider: 'auto',
     fxProvider: 'frankfurter',
     refreshIntervalSec: 60,
-    theme: 'system',
+    theme: 'dark',
     ...overrides,
   };
 }

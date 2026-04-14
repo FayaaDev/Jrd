@@ -47,12 +47,20 @@ export default function Holdings() {
 
   return (
     <div className="holdings-page">
-      <div className="page-header">
-        <h1 className="page-title">Holdings</h1>
-        <Button variant="primary" onClick={handleAdd}>
-          + Add Holding
-        </Button>
-      </div>
+      <section className="page-intro card">
+        <div>
+          <span className="section-kicker">Portfolio inventory</span>
+          <div className="page-header">
+            <h1 className="page-title">Holdings</h1>
+            <Button variant="primary" onClick={handleAdd}>
+              + Add Holding
+            </Button>
+          </div>
+          <p className="page-intro__copy">
+            Every position is grouped into one execution surface so you can inspect live marks, blended valuations, and open P/L without leaving the book.
+          </p>
+        </div>
+      </section>
 
       {rows.length === 0 ? (
         <EmptyState
