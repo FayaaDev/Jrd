@@ -37,7 +37,7 @@ export function scoreHoldings(holdings, verificationMap) {
     const currentPrice = holding.currentPrice;
     const totalMarketValue = holding.totalMarketValue;
 
-    if (typeof totalCost === 'number') {
+    if (typeof qty === 'number' && typeof avgCost === 'number' && typeof totalCost === 'number' && totalCost !== 0) {
       const computed = qty * avgCost;
       if (Math.abs(computed - totalCost) / Math.abs(totalCost) > 0.01) {
         confidence -= 0.20;

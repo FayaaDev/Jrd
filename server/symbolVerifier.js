@@ -85,7 +85,7 @@ async function verifySahmk(pairs, result) {
     const { signal, clearTimer } = makeAbortSignal();
 
     try {
-      const url = `${baseUrl}/quote/${encodeURIComponent(symbol)}/`;
+      const url = `${baseUrl}/quote/${encodeURIComponent(sym)}/`;
       const response = await fetch(url, {
         headers: { 'X-API-Key': apiKey },
         signal,
@@ -140,7 +140,8 @@ async function verifyCoinMarketCap(pairs, result) {
 
     for (const sym of symbols) {
       if (sym in cmcData) {
-        result.set(sym, { verified: true, suggestedName: cmcData[sym].name });
+        const entry = Array.isArray(cmcData[sym]) ? cmcData[sym][0] : cmcData[sym];
+        result.set(sym, { verified: true, suggestedName: entry?.name });
       } else {
         result.set(sym, { verified: false });
       }
