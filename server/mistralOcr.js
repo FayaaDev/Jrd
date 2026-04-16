@@ -38,7 +38,8 @@ export async function runMistralOcr(pdfBuffer) {
 
   if (!response.ok) {
     const text = await response.text();
-    throw { status: 502, message: `Mistral OCR failed: ${response.status} ${text}` };
+    console.error('[mistralOcr] upstream error', response.status, text);
+    throw { status: 502, message: `Mistral OCR failed with status ${response.status}.` };
   }
 
   const json = await response.json();

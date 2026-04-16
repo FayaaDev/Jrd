@@ -113,15 +113,26 @@ export async function runOpenAiExtract(ocrText) {
 
   if (!response.ok) {
     const text = await response.text();
-    throw { status: 502, message: `OpenAI extraction failed: ${response.status} ${text}` };
+    console.error('[openaiExtract] upstream error', response.status, text);
+    throw { status: 502, message: `OpenAI extraction failed with status ${response.status}.` };
   }
 
   const json = await response.json();
   const choice = json.choices?.[0];
 
-  if (choice?.finish_reason !== 'stop') {
-    throw { status: 422, message: 'OpenAI refused to process this document.' };
+  const finishReason = choice?.finish_reason;
+  if (finishReason === 'content_filter') {
+    throw { status: 422, message: 'OpenAI refused to process this document due to content policy.' };
+  }
+  if (finishReason !== 'stop') {
+    throw { status: 422, message: `OpenAI returned an unexpected finish reason: ${finishReason}.` };
   }
 
-  return JSON.parse(choice.message.content);
+  let parsed;
+  try {
+    parsed = JSON.parse(choice.message.content);
+  } catch {
+    throw { status: 502, message: 'OpenAI returned invalid JSON in the response.' };
+  }
+  return parsed;
 }
