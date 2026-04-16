@@ -398,6 +398,12 @@ app.post('/api/portfolio/import/pdf/verify-symbols', requireAdmin, async (req, r
   if (!Array.isArray(symbols) || symbols.length === 0) {
     return sendError(res, 400, 'symbols must be a non-empty array of { symbol, market } pairs.');
   }
+  if (symbols.length > 200) {
+    return sendError(res, 400, 'symbols array must not exceed 200 entries.');
+  }
+  if (symbols.some((s) => typeof s?.symbol !== 'string' || typeof s?.market !== 'string')) {
+    return sendError(res, 400, 'Each entry in symbols must have string symbol and market fields.');
+  }
 
   try {
     const verificationMap = await verifySymbols(symbols);
@@ -452,10 +458,15 @@ app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, nex
         }
 
         if (existing && mergeStrategy === 'update_existing') {
+          // update_existing: update matched holdings in-place AND append unmatched ones as new entries (by design)
           const idx = newHoldings.findIndex((h) => h.id === existing.id);
           if (idx !== -1) {
             newHoldings[idx] = { ...newHoldings[idx], ...incoming, updatedAt: now };
             updated++;
+          } else {
+            // Inconsistent state: map matched but array scan didn't — treat as new
+            newHoldings.push({ ...incoming, id: randomUUID(), createdAt: now, updatedAt: now });
+            added++;
           }
           continue;
         }
