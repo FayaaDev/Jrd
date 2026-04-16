@@ -102,7 +102,7 @@ async function verifySahmk(pairs, result) {
       result.set(sym, { verified: true, suggestedName });
     } catch {
       clearTimer();
-      result.set(sym, { verified: false });
+      result.set(sym, { verified: null });
     }
   }
 }
