@@ -66,3 +66,8 @@ export const FxRateQuerySchema = z.object({
   from: z.string().length(3),
   to: z.string().length(3),
 });
+
+export const PdfImportConfirmSchema = z.object({
+  holdings: z.array(HoldingInputSchema),
+  mergeStrategy: z.enum(['add_new', 'update_existing', 'add_all']),
+});

@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import express from 'express';
+import multer from 'multer';
 import {
   AdminSessionSchema,
   FxRateQuerySchema,
@@ -9,6 +10,7 @@ import {
   PortfolioSnapshotSchema,
   SettingsSchema,
   WatchItemInputSchema,
+  PdfImportConfirmSchema,
 } from './schemas.js';
 import {
   closeStore,
@@ -17,6 +19,8 @@ import {
   resetPortfolioSnapshot,
   updatePortfolioSnapshot,
 } from './store.js';
+import { runPdfImportPipeline } from './pdfImport.js';
+import { verifySymbols } from './symbolVerifier.js';
 
 try {
   process.loadEnvFile?.('.env');
@@ -66,6 +70,18 @@ function requireAdmin(req, res, next) {
 
   next();
 }
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF files are accepted.'));
+    }
+  },
+});
 
 function buildProxyUrl(base, strippedPathWithQuery) {
   const [pathPart, queryPart] = strippedPathWithQuery.split('?');
@@ -360,6 +376,104 @@ app.post('/api/portfolio/reset', requireAdmin, async (_req, res, next) => {
   }
 });
 
+app.post('/api/portfolio/import/pdf', requireAdmin, upload.single('file'), async (req, res, next) => {
+  if (!req.file) {
+    return sendError(res, 400, 'No PDF file was uploaded.');
+  }
+
+  try {
+    const result = await runPdfImportPipeline(req.file.buffer);
+    res.json(result);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'status' in error && 'message' in error) {
+      return sendError(res, error.status, error.message);
+    }
+    next(error);
+  }
+});
+
+app.post('/api/portfolio/import/pdf/verify-symbols', requireAdmin, async (req, res, next) => {
+  const { symbols } = req.body ?? {};
+
+  if (!Array.isArray(symbols) || symbols.length === 0) {
+    return sendError(res, 400, 'symbols must be a non-empty array of { symbol, market } pairs.');
+  }
+
+  try {
+    const verificationMap = await verifySymbols(symbols);
+
+    // Convert Map to array for JSON response
+    const results = symbols.map(({ symbol, market }) => {
+      const key = symbol.toUpperCase();
+      const result = verificationMap.get(key) ?? { verified: null };
+      return { symbol, market, verified: result.verified, suggestedName: result.suggestedName };
+    });
+
+    res.json({ results });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, next) => {
+  const parsed = PdfImportConfirmSchema.safeParse(req.body ?? {});
+
+  if (!parsed.success) {
+    return sendError(res, 400, parsed.error.issues[0]?.message ?? 'Invalid import confirm payload.');
+  }
+
+  const { holdings: incomingHoldings, mergeStrategy } = parsed.data;
+
+  try {
+    let added = 0;
+    let updated = 0;
+    let skipped = 0;
+
+    const snapshot = await updatePortfolioSnapshot((current) => {
+      const now = new Date().toISOString();
+
+      // Build lookup of existing holdings by symbol+market key
+      const existingByKey = new Map(
+        current.holdings.map((h) => [
+          `${h.symbol.toUpperCase()}:${h.market.toUpperCase()}`,
+          h,
+        ])
+      );
+
+      const newHoldings = [...current.holdings];
+
+      for (const incoming of incomingHoldings) {
+        const key = `${incoming.symbol.toUpperCase()}:${incoming.market.toUpperCase()}`;
+        const existing = existingByKey.get(key);
+
+        if (existing && mergeStrategy === 'add_new') {
+          skipped++;
+          continue;
+        }
+
+        if (existing && mergeStrategy === 'update_existing') {
+          const idx = newHoldings.findIndex((h) => h.id === existing.id);
+          if (idx !== -1) {
+            newHoldings[idx] = { ...newHoldings[idx], ...incoming, updatedAt: now };
+            updated++;
+          }
+          continue;
+        }
+
+        // add_all, or add_new with no existing match
+        newHoldings.push({ ...incoming, id: randomUUID(), createdAt: now, updatedAt: now });
+        added++;
+      }
+
+      return { ...current, holdings: newHoldings };
+    });
+
+    res.json({ snapshot, summary: { added, updated, skipped } });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use('/api/alpaca', async (req, res, next) => {
   if (!process.env.ALPACA_KEY_ID || !process.env.ALPACA_SECRET_KEY) {
     return sendError(res, 503, 'Alpaca credentials are not configured on the server.');
@@ -461,6 +575,14 @@ app.get('/api/fx/rate', async (req, res, next) => {
 
 app.use((_req, res) => {
   sendError(res, 404, 'Not found.');
+});
+
+// Multer error handler (file size, wrong type)
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError || (error && error.message === 'Only PDF files are accepted.')) {
+    return sendError(res, 400, error.message);
+  }
+  next(error);
 });
 
 app.use((error, _req, res, _next) => {
