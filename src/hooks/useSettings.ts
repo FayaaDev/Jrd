@@ -1,23 +1,47 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Settings } from '../schemas/settings';
-import { loadSettings, saveSettings } from '../lib/storage';
+import { useCallback } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { SettingsSchema, type Settings } from '../schemas/settings';
+import { getApiErrorMessage, portfolioQueryKey, saveSettings } from '../api/portfolio';
+import { useAdminSession } from './useAdminSession';
+import { usePortfolioSnapshot } from './usePortfolioSnapshot';
 
-export function useSettings(): [Settings, (s: Settings) => void] {
-  const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
+interface UseSettingsMeta {
+  canEdit: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  errorMessage?: string;
+}
 
-  useEffect(() => {
-    const theme = settings.theme;
-    if (theme === 'system') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  }, [settings.theme]);
+export function useSettings(): [Settings, (s: Settings) => void, UseSettingsMeta] {
+  const queryClient = useQueryClient();
+  const { token, isUnlocked } = useAdminSession();
+  const portfolioQuery = usePortfolioSnapshot();
+  const settings = portfolioQuery.data?.settings ?? SettingsSchema.parse({});
+
+  const mutation = useMutation({
+    mutationFn: (next: Settings) => saveSettings(next, token),
+    onSuccess: (snapshot) => {
+      queryClient.setQueryData(portfolioQueryKey, snapshot);
+    },
+    onError: (error) => {
+      window.alert(getApiErrorMessage(error, 'Unable to update settings.'));
+    },
+  });
 
   const setSettings = useCallback((next: Settings) => {
-    saveSettings(next);
-    setSettingsState(next);
-  }, []);
+    mutation.mutate(next);
+  }, [mutation]);
 
-  return [settings, setSettings];
+  return [
+    settings,
+    setSettings,
+    {
+      canEdit: isUnlocked,
+      isLoading: portfolioQuery.isPending,
+      isSaving: mutation.isPending,
+      errorMessage: portfolioQuery.error
+        ? getApiErrorMessage(portfolioQuery.error, 'Unable to load settings.')
+        : undefined,
+    },
+  ];
 }

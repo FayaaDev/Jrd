@@ -7,13 +7,14 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 
 export default function Watchlist() {
-  const { watchlist, addWatchItem, removeWatchItem } = useWatchlist();
+  const { watchlist, addWatchItem, removeWatchItem, canEdit, isLoading, errorMessage, isSaving } = useWatchlist();
   const [settings] = useSettings();
   const symbols = watchlist.map((w) => w.symbol);
   const prices = usePrices(
     symbols,
     watchlist.map((item) => ({
       symbol: item.symbol,
+      assetType: 'stock' as const,
       market:
         item.quoteCurrency === 'SAR' && /^\d+$/.test(item.symbol)
           ? 'XSAU'
@@ -29,6 +30,7 @@ export default function Watchlist() {
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canEdit) return;
     const sym = symInput.trim().toUpperCase();
     if (!sym) {
       setAddError('Symbol is required');
@@ -50,6 +52,27 @@ export default function Watchlist() {
     setAddError('');
   };
 
+  if (isLoading) {
+    return (
+      <section className="page-intro card card--dark">
+        <span className="section-kicker">Trade radar</span>
+        <h1 className="page-title">Loading shared watchlist...</h1>
+      </section>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="watchlist-page">
+        <section className="page-intro card card--dark">
+          <span className="section-kicker">Trade radar</span>
+          <h1 className="page-title">Watchlist unavailable</h1>
+          <p className="page-intro__copy page-intro__copy--inverse">{errorMessage}</p>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="watchlist-page">
       <section className="page-intro card card--dark">
@@ -60,6 +83,11 @@ export default function Watchlist() {
         <p className="page-intro__copy page-intro__copy--inverse">
           Stage symbols before they graduate into the portfolio. Numeric SAR symbols route to Sahmk, everything else defaults to Alpaca.
         </p>
+        {!canEdit && (
+          <p className="readonly-note readonly-note--inverse">
+            Shared watchlist is public read-only. Unlock admin access in Settings to curate symbols.
+          </p>
+        )}
       </section>
 
       <form onSubmit={handleAdd} className="watchlist-add-form card">
@@ -72,6 +100,7 @@ export default function Watchlist() {
               setSymInput(e.target.value);
               setAddError('');
             }}
+            disabled={!canEdit || isSaving}
             placeholder="e.g. MSFT"
             error={addError}
           />
@@ -81,6 +110,7 @@ export default function Watchlist() {
             onChange={(e) =>
               setCurrencyInput(e.target.value.toUpperCase().slice(0, 3))
             }
+            disabled={!canEdit || isSaving}
             placeholder="USD"
             maxLength={3}
           />
@@ -88,10 +118,11 @@ export default function Watchlist() {
             label="Name (optional)"
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
+            disabled={!canEdit || isSaving}
             placeholder="e.g. Microsoft Corp."
           />
         </div>
-        <Button type="submit" variant="primary" size="sm">
+        <Button type="submit" variant="primary" size="sm" disabled={!canEdit || isSaving}>
           Add to Watchlist
         </Button>
       </form>
@@ -133,6 +164,7 @@ export default function Watchlist() {
                       <Button
                         variant="danger"
                         size="sm"
+                        disabled={!canEdit || isSaving}
                         onClick={() => removeWatchItem(item.symbol)}
                       >
                         Remove

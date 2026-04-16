@@ -2,33 +2,41 @@ import { useQueries } from '@tanstack/react-query';
 import type { Settings } from '../schemas/settings';
 import type { PriceQuote } from '../api/types';
 import type { Holding } from '../schemas/holding';
-import { getPriceProvider, getProviderForMarket } from '../api/prices';
+import { getPriceProvider, getProviderForHolding } from '../api/prices';
 
 export function usePrices(
   symbols: string[],
-  holdings: Pick<Holding, 'symbol' | 'market'>[],
+  holdings: Pick<Holding, 'symbol' | 'market' | 'assetType'>[],
   settings: Settings
 ): Record<string, PriceQuote | undefined> {
-  const marketBySymbol = new Map<string, string>(holdings.map((holding) => [holding.symbol, holding.market]));
+  const holdingBySymbol = new Map<string, Pick<Holding, 'assetType' | 'market'>>(
+    holdings.map((holding) => [holding.symbol, { assetType: holding.assetType, market: holding.market }])
+  );
+  const refreshMs = settings.refreshIntervalSec * 1000;
 
   const results = useQueries({
-    queries: symbols.map((symbol) => ({
-      queryKey: ['price', settings.priceProvider, marketBySymbol.get(symbol) ?? 'unknown', symbol] as const,
-      queryFn: async () => {
-        const market = marketBySymbol.get(symbol);
-        if (!market) return null;
+    queries: symbols.map((symbol) => {
+      const holding = holdingBySymbol.get(symbol);
+      const providerName = holding ? getProviderForHolding(holding) : 'snapshot';
+      const enabled = providerName !== 'snapshot';
 
-        const providerName = getProviderForMarket(market);
-        if (providerName === 'snapshot') return null;
+      return {
+        queryKey: ['price', settings.priceProvider, holding?.market ?? 'unknown', symbol] as const,
+        enabled,
+        queryFn: async () => {
+          if (!holding || providerName === 'snapshot') return null;
 
-        const provider = getPriceProvider(providerName);
-        const quotes = await provider.getQuotes([symbol]);
-        return quotes[0] ?? null;
-      },
-      staleTime: settings.refreshIntervalSec * 1000,
-      gcTime: 5 * 60 * 1000,
-      retry: 1,
-    })),
+          const provider = getPriceProvider(providerName);
+          const quotes = await provider.getQuotes([symbol]);
+          return quotes[0] ?? null;
+        },
+        staleTime: refreshMs,
+        refetchInterval: enabled ? refreshMs : false,
+        refetchIntervalInBackground: true,
+        gcTime: 5 * 60 * 1000,
+        retry: 1,
+      };
+    }),
   });
 
   return Object.fromEntries(

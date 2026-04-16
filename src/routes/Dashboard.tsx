@@ -8,20 +8,39 @@ import { Button } from '../components/ui/Button';
 import { fmtAge } from '../lib/format';
 
 export default function Dashboard() {
-  const { rows, summary, settings, isFetching, lastUpdated, refresh } = usePortfolio();
+  const { rows, summary, settings, isFetching, isLoading, errorMessage, lastUpdated, refresh } = usePortfolio();
 
-  const liveCount = rows.filter((row) => row.priceProvider === 'alpaca' || row.priceProvider === 'sahmk').length;
-  const snapshotCount = rows.filter((row) => row.priceProvider && row.priceProvider !== 'alpaca' && row.priceProvider !== 'sahmk').length;
+  const liveCount = rows.filter((row) => row.priceProvider === 'alpaca' || row.priceProvider === 'coinmarketcap' || row.priceProvider === 'sahmk').length;
+  const snapshotCount = rows.filter((row) => row.priceProvider && row.priceProvider !== 'alpaca' && row.priceProvider !== 'coinmarketcap' && row.priceProvider !== 'sahmk').length;
   const unsupportedCount = rows.filter((row) => row.price == null).length;
+
+  if (isLoading) {
+    return (
+      <section className="page-intro card card--hero">
+        <span className="hero-badge">Shared Portfolio</span>
+        <h1 className="page-title">Loading shared portfolio...</h1>
+      </section>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <EmptyState
+        title="Portfolio unavailable"
+        description={errorMessage}
+        action={<Link to="/settings">Open Settings</Link>}
+      />
+    );
+  }
 
   if (rows.length === 0) {
     return (
       <EmptyState
         title="No holdings yet"
-        description="Add your first holding to start tracking your portfolio."
+        description="The shared portfolio is empty. Unlock admin access in Settings to add the first holding."
         action={
-          <Link to="/holdings">
-            <Button variant="primary">Add Holdings</Button>
+          <Link to="/settings">
+            <Button variant="primary">Open Settings</Button>
           </Link>
         }
       />
@@ -36,7 +55,7 @@ export default function Dashboard() {
             <span className="hero-badge">Live Routing Active</span>
             <h1 className="page-title">Trading-floor clarity for a mixed-market portfolio.</h1>
             <p className="hero-panel__lede">
-              US names route through Alpaca, Saudi equities route through Sahmk, and unsupported sleeves hold their last trusted snapshot so the book stays readable.
+              US names route through Alpaca, crypto routes through CoinMarketCap, Saudi equities route through Sahmk, and unsupported sleeves hold their last trusted snapshot so the book stays readable.
             </p>
           </div>
 
@@ -83,6 +102,10 @@ export default function Dashboard() {
             <div className="market-coverage__row">
               <span>US venues</span>
               <strong>Alpaca</strong>
+            </div>
+            <div className="market-coverage__row">
+              <span>Crypto</span>
+              <strong>CoinMarketCap</strong>
             </div>
             <div className="market-coverage__row">
               <span>Saudi market</span>

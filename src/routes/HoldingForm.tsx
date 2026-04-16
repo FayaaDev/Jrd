@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { Holding, AssetTypeValue } from '../schemas/holding';
 import { HoldingSchema } from '../schemas/holding';
 import { useHoldings } from '../hooks/useHoldings';
@@ -11,6 +11,8 @@ interface Props {
   open: boolean;
   onClose: () => void;
   holding?: Holding;
+  onDelete?: (id: string) => void;
+  canEdit?: boolean;
 }
 
 const ASSET_TYPES: Array<{ value: AssetTypeValue; label: string }> = [
@@ -67,17 +69,10 @@ const HoldingInputSchema = HoldingSchema.omit({
   updatedAt: true,
 });
 
-export default function HoldingForm({ open, onClose, holding }: Props) {
-  const { addHolding, updateHolding } = useHoldings();
-  const [form, setForm] = useState<FormState>(emptyForm);
+export default function HoldingForm({ open, onClose, holding, onDelete, canEdit = true }: Props) {
+  const { addHolding, updateHolding, isSaving } = useHoldings();
+  const [form, setForm] = useState<FormState>(() => (holding ? holdingToForm(holding) : emptyForm()));
   const [errors, setErrors] = useState<FormErrors>({});
-
-  useEffect(() => {
-    if (open) {
-      setForm(holding ? holdingToForm(holding) : emptyForm());
-      setErrors({});
-    }
-  }, [holding, open]);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -86,6 +81,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canEdit) return;
 
     const payload = {
       symbol: form.symbol,
@@ -121,6 +117,14 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
     onClose();
   };
 
+  const handleDelete = () => {
+    if (!holding || !onDelete || !canEdit) return;
+    if (window.confirm(`Delete ${holding.symbol}? This cannot be undone.`)) {
+      onDelete(holding.id);
+      onClose();
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -134,6 +138,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             value={form.symbol}
             onChange={(e) => set('symbol', e.target.value.toUpperCase())}
             error={errors.symbol}
+            disabled={!canEdit || isSaving}
             required
             placeholder="e.g. AAPL"
           />
@@ -142,6 +147,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             value={form.name}
             onChange={(e) => set('name', e.target.value)}
             error={errors.name}
+            disabled={!canEdit || isSaving}
             placeholder="e.g. Apple Inc."
           />
         </div>
@@ -153,12 +159,14 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             onChange={(e) => set('assetType', e.target.value as AssetTypeValue)}
             options={ASSET_TYPES}
             error={errors.assetType}
+            disabled={!canEdit || isSaving}
           />
           <Input
             label="Market"
             value={form.market}
             onChange={(e) => set('market', e.target.value.toUpperCase())}
             error={errors.market}
+            disabled={!canEdit || isSaving}
             placeholder="e.g. XNAS"
           />
         </div>
@@ -172,6 +180,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             value={form.quantity}
             onChange={(e) => set('quantity', e.target.value)}
             error={errors.quantity}
+            disabled={!canEdit || isSaving}
           />
           <Input
             label="Avg Cost"
@@ -181,6 +190,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             value={form.avgCost}
             onChange={(e) => set('avgCost', e.target.value)}
             error={errors.avgCost}
+            disabled={!canEdit || isSaving}
           />
         </div>
 
@@ -192,6 +202,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
               set('costCurrency', e.target.value.toUpperCase().slice(0, 3))
             }
             error={errors.costCurrency}
+            disabled={!canEdit || isSaving}
             placeholder="USD"
             maxLength={3}
           />
@@ -202,6 +213,7 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
               set('quoteCurrency', e.target.value.toUpperCase().slice(0, 3))
             }
             error={errors.quoteCurrency}
+            disabled={!canEdit || isSaving}
             placeholder="USD"
             maxLength={3}
           />
@@ -216,16 +228,22 @@ export default function HoldingForm({ open, onClose, holding }: Props) {
             className="form-input form-textarea"
             value={form.notes}
             onChange={(e) => set('notes', e.target.value)}
+            disabled={!canEdit || isSaving}
             rows={3}
             placeholder="Optional notes..."
           />
         </div>
 
         <div className="form-actions">
+          {holding && onDelete && (
+            <Button type="button" variant="danger" onClick={handleDelete} disabled={!canEdit || isSaving}>
+              Delete Holding
+            </Button>
+          )}
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={!canEdit || isSaving}>
             {holding ? 'Save Changes' : 'Add Holding'}
           </Button>
         </div>

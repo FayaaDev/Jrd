@@ -1,20 +1,18 @@
 import { useState, useMemo } from 'react';
 import type { HoldingRow } from '../lib/metrics';
-import { fmtCurrency, fmtPercent, fmtNumber } from '../lib/format';
+import { fmtCompactCurrency, fmtPercent, fmtNumber } from '../lib/format';
 import { Button } from './ui/Button';
 
 interface Props {
   rows: HoldingRow[];
   baseCurrency: string;
-  onEdit: (h: HoldingRow) => void;
-  onDelete: (id: string) => void;
+  onManage: (h: HoldingRow) => void;
+  canManage?: boolean;
 }
 
 type SortKey =
   | 'symbol'
   | 'name'
-  | 'assetType'
-  | 'market'
   | 'quantity'
   | 'avgCost'
   | 'price'
@@ -26,20 +24,26 @@ type SortKey =
 type SortDir = 'asc' | 'desc';
 
 const COLUMNS: Array<{ key: SortKey; label: string; numeric?: boolean }> = [
-  { key: 'symbol', label: 'Symbol' },
+  { key: 'symbol', label: 'Asset' },
   { key: 'name', label: 'Name' },
-  { key: 'assetType', label: 'Type' },
-  { key: 'market', label: 'Market' },
   { key: 'quantity', label: 'Qty', numeric: true },
-  { key: 'avgCost', label: 'Avg Cost', numeric: true },
-  { key: 'price', label: 'Price', numeric: true },
-  { key: 'marketValueBase', label: 'Market Value', numeric: true },
+  { key: 'avgCost', label: 'Cost', numeric: true },
+  { key: 'price', label: 'Last', numeric: true },
+  { key: 'marketValueBase', label: 'Value', numeric: true },
   { key: 'unrealizedPL', label: 'P/L', numeric: true },
-  { key: 'unrealizedPLPct', label: 'P/L %', numeric: true },
-  { key: 'weight', label: 'Weight', numeric: true },
+  { key: 'weight', label: 'Wt', numeric: true },
 ];
 
-export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: Props) {
+function shortenName(name: string | undefined): string {
+  if (!name) return '—';
+  return name.length > 24 ? `${name.slice(0, 24).trimEnd()}...` : name;
+}
+
+function compactMeta(row: HoldingRow): string {
+  return [row.assetType?.toUpperCase(), row.market].filter(Boolean).join(' • ');
+}
+
+export default function HoldingsTable({ rows, baseCurrency, onManage, canManage = true }: Props) {
   const [filter, setFilter] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('symbol');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
@@ -78,12 +82,6 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
     });
   }, [filtered, sortKey, sortDir]);
 
-  const handleDelete = (row: HoldingRow) => {
-    if (window.confirm(`Delete ${row.symbol}? This cannot be undone.`)) {
-      onDelete(row.id);
-    }
-  };
-
   return (
     <div className="holdings-table-wrapper">
       <div className="holdings-table__toolbar">
@@ -101,7 +99,7 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
         />
       </div>
       <div className="table-scroll">
-        <table className="table">
+        <table className="table table--holdings-compact">
           <thead>
             <tr>
               {COLUMNS.map(({ key, label, numeric }) => (
@@ -114,37 +112,33 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
                   {sortKey === key ? (sortDir === 'asc' ? ' \u25b2' : ' \u25bc') : ''}
                 </th>
               ))}
-              <th className="table__th">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+               {canManage && <th className="table__th">Actions</th>}
+             </tr>
+           </thead>
+           <tbody>
             {sorted.map((row) => (
               <tr key={row.id} className="table__row">
                 <td className="table__td table__td--symbol">
                   <div className="holding-cell">
                     <span className="holding-cell__primary">{row.symbol}</span>
-                    <span className="holding-cell__meta">{row.market ?? '—'}</span>
+                    <span className="holding-cell__meta">{compactMeta(row) || '—'}</span>
                   </div>
                 </td>
-                <td className="table__td">
+                <td className="table__td table__td--name" title={row.name ?? undefined}>
                   <div className="holding-cell">
-                    <span className="holding-cell__primary">{row.name ?? '—'}</span>
-                    <span className="holding-cell__meta">{row.notes ?? row.assetType ?? '—'}</span>
+                    <span className="holding-cell__primary holding-cell__primary--truncate">{shortenName(row.name)}</span>
+                    <span className="holding-cell__meta holding-cell__meta--truncate">{row.notes ?? row.priceProvider ?? 'Tracked position'}</span>
                   </div>
                 </td>
-                <td className="table__td">
-                  <span className="pill-tag">{row.assetType ?? '—'}</span>
-                </td>
-                <td className="table__td">{row.market ?? '—'}</td>
-                <td className="table__td table__td--number">{fmtNumber(row.quantity)}</td>
+                <td className="table__td table__td--number" title={fmtNumber(row.quantity)}>{fmtNumber(row.quantity, row.quantity >= 100 ? 0 : 2)}</td>
                 <td className="table__td table__td--number">
-                  {fmtCurrency(row.avgCost, row.costCurrency)}
+                  {fmtCompactCurrency(row.avgCost, row.costCurrency)}
                 </td>
                 <td className="table__td table__td--number">
                   <div className="holding-cell holding-cell--number">
                     <span className="holding-cell__primary">
                       {row.price != null
-                        ? fmtCurrency(row.price, row.quoteCurrency)
+                        ? fmtCompactCurrency(row.price, row.quoteCurrency)
                         : '—'}
                     </span>
                     <span className="holding-cell__meta">{row.priceProvider ?? 'No source'}</span>
@@ -152,7 +146,7 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
                 </td>
                 <td className="table__td table__td--number">
                   {row.marketValueBase != null
-                    ? fmtCurrency(row.marketValueBase, baseCurrency)
+                    ? fmtCompactCurrency(row.marketValueBase, baseCurrency)
                     : '—'}
                 </td>
                 <td
@@ -160,38 +154,33 @@ export default function HoldingsTable({ rows, baseCurrency, onEdit, onDelete }: 
                     (row.unrealizedPL ?? 0) >= 0 ? 'text-positive' : 'text-negative'
                   }`}
                 >
-                  {row.unrealizedPL != null
-                    ? fmtCurrency(row.unrealizedPL, baseCurrency)
-                    : '—'}
-                </td>
-                <td
-                  className={`table__td table__td--number ${
-                    (row.unrealizedPLPct ?? 0) >= 0 ? 'text-positive' : 'text-negative'
-                  }`}
-                >
-                  {row.unrealizedPLPct != null
-                    ? fmtPercent(row.unrealizedPLPct)
-                    : '—'}
+                  <div className="holding-cell holding-cell--number">
+                    <span className="holding-cell__primary">
+                      {row.unrealizedPL != null
+                        ? fmtCompactCurrency(row.unrealizedPL, baseCurrency)
+                        : '—'}
+                    </span>
+                    <span className="holding-cell__meta">
+                      {row.unrealizedPLPct != null ? fmtPercent(row.unrealizedPLPct) : '—'}
+                    </span>
+                  </div>
                 </td>
                 <td className="table__td table__td--number">
                   {row.weight != null ? fmtPercent(row.weight) : '—'}
                 </td>
-                <td className="table__td table__td--actions">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => onEdit(row)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(row)}
-                  >
-                    Delete
-                  </Button>
-                </td>
+                {canManage && (
+                  <td className="table__td table__td--actions">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="btn--icon"
+                      aria-label={`Open actions for ${row.symbol}`}
+                      onClick={() => onManage(row)}
+                    >
+                      ⋯
+                    </Button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

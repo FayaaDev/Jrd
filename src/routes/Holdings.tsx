@@ -10,8 +10,8 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
 
 export default function Holdings() {
-  const { rows, settings } = usePortfolio();
-  const { deleteHolding } = useHoldings();
+  const { rows, settings, isLoading, errorMessage } = usePortfolio();
+  const { deleteHolding, canEdit } = useHoldings();
   const [formOpen, setFormOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Holding | undefined>(undefined);
 
@@ -36,6 +36,7 @@ export default function Holdings() {
   };
 
   const handleAdd = () => {
+    if (!canEdit) return;
     setEditTarget(undefined);
     setFormOpen(true);
   };
@@ -45,6 +46,25 @@ export default function Holdings() {
     setEditTarget(undefined);
   };
 
+  if (isLoading) {
+    return (
+      <section className="page-intro card">
+        <span className="section-kicker">Portfolio inventory</span>
+        <h1 className="page-title">Loading shared holdings...</h1>
+      </section>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <EmptyState
+        title="Unable to load holdings"
+        description={errorMessage}
+        action={<Link to="/settings">Open Settings</Link>}
+      />
+    );
+  }
+
   return (
     <div className="holdings-page">
       <section className="page-intro card">
@@ -52,25 +72,38 @@ export default function Holdings() {
           <span className="section-kicker">Portfolio inventory</span>
           <div className="page-header">
             <h1 className="page-title">Holdings</h1>
-            <Button variant="primary" onClick={handleAdd}>
+            <Button variant="primary" onClick={handleAdd} disabled={!canEdit}>
               + Add Holding
             </Button>
           </div>
           <p className="page-intro__copy">
             Every position is grouped into one execution surface so you can inspect live marks, blended valuations, and open P/L without leaving the book.
           </p>
+          {!canEdit && (
+            <p className="readonly-note">
+              Shared portfolio is public read-only. Unlock admin access in Settings to add, edit, or delete positions.
+            </p>
+          )}
         </div>
       </section>
 
       {rows.length === 0 ? (
         <EmptyState
           title="No holdings yet"
-          description="Start building your portfolio by adding your first holding."
+          description={
+            canEdit
+              ? 'Start building your portfolio by adding your first holding.'
+              : 'The shared portfolio is empty. Unlock admin access in Settings to add the first holding.'
+          }
           action={
             <>
-              <Button variant="primary" onClick={handleAdd}>
-                Add Holding
-              </Button>
+              {canEdit ? (
+                <Button variant="primary" onClick={handleAdd}>
+                  Add Holding
+                </Button>
+              ) : (
+                <Link to="/settings">Open Settings</Link>
+              )}
               <Link to="/">Back to Dashboard</Link>
             </>
           }
@@ -79,12 +112,19 @@ export default function Holdings() {
         <HoldingsTable
           rows={rows}
           baseCurrency={settings.baseCurrency}
-          onEdit={handleEdit}
-          onDelete={deleteHolding}
+          onManage={handleEdit}
+          canManage={canEdit}
         />
       )}
 
-      <HoldingForm open={formOpen} onClose={handleClose} holding={editTarget} />
+      <HoldingForm
+        key={editTarget?.id ?? (formOpen ? 'new' : 'closed')}
+        open={formOpen}
+        onClose={handleClose}
+        holding={editTarget}
+        onDelete={editTarget ? deleteHolding : undefined}
+        canEdit={canEdit}
+      />
     </div>
   );
 }

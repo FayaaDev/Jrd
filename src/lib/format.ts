@@ -10,6 +10,16 @@ export function fmtCurrency(value: number | undefined, currency: string, locale?
   }).format(value);
 }
 
+export function fmtCompactCurrency(value: number | undefined, currency: string, locale?: string): string {
+  if (value === undefined || isNaN(value)) return '—';
+  return new Intl.NumberFormat(locale ?? 'en-US', {
+    style: 'currency',
+    currency,
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
 export function fmtPercent(value: number | undefined, decimals = 2): string {
   if (value === undefined || isNaN(value)) return '—';
   return `${(value * 100).toFixed(decimals)}%`;

@@ -1,27 +1,29 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useHoldings } from './useHoldings';
-import { useSettings } from './useSettings';
 import { usePrices } from './usePrices';
 import { useFxRates } from './useFxRates';
 import { deriveRow, derivePortfolio } from '../lib/metrics';
 import type { HoldingRow, PortfolioSummary } from '../lib/metrics';
-import type { Settings } from '../schemas/settings';
+import { SettingsSchema, type Settings } from '../schemas/settings';
+import { getApiErrorMessage } from '../api/portfolio';
+import { usePortfolioSnapshot } from './usePortfolioSnapshot';
 
 export function usePortfolio(): {
   rows: HoldingRow[];
   summary: PortfolioSummary;
   settings: Settings;
   isFetching: boolean;
+  isLoading: boolean;
   lastUpdated: string | undefined;
+  errorMessage?: string;
   refresh: () => void;
 } {
-  const [settings] = useSettings();
-  const { holdings } = useHoldings();
+  const portfolioQuery = usePortfolioSnapshot();
+  const settings = portfolioQuery.data?.settings ?? SettingsSchema.parse({});
+  const holdings = portfolioQuery.data?.holdings ?? [];
   const queryClient = useQueryClient();
 
   const symbols = [...new Set(holdings.map((h) => h.symbol))];
 
-  // Build FX pairs needed: costCurrency -> base and quoteCurrency -> base
   const fxPairsMap = new Map<string, [string, string]>();
   for (const h of holdings) {
     const base = settings.baseCurrency;
@@ -37,8 +39,8 @@ export function usePortfolio(): {
   const prices = usePrices(symbols, holdings, settings);
   const fxLookup = useFxRates(fxPairs, settings);
 
-  // Determine if any price query is currently fetching
   const cache = queryClient.getQueryCache();
+  const trackedSymbols = new Set(symbols);
   const isFetching = cache
     .getAll()
     .some(
@@ -48,19 +50,23 @@ export function usePortfolio(): {
         q.state.fetchStatus === 'fetching'
     );
 
-  // Find most recent price update timestamp
   let lastTimestamp: number | undefined;
-  for (const symbol of symbols) {
-    const q = cache.find({ queryKey: ['price', settings.priceProvider, symbol] });
-    if (q?.state.dataUpdatedAt) {
-      const t = q.state.dataUpdatedAt;
-      if (lastTimestamp === undefined || t > lastTimestamp) {
-        lastTimestamp = t;
-      }
+  for (const query of cache.getAll()) {
+    if (!Array.isArray(query.queryKey) || query.queryKey[0] !== 'price') {
+      continue;
+    }
+
+    const symbol = typeof query.queryKey[3] === 'string' ? query.queryKey[3] : undefined;
+    if (!symbol || !trackedSymbols.has(symbol) || !query.state.dataUpdatedAt) {
+      continue;
+    }
+
+    const timestamp = query.state.dataUpdatedAt;
+    if (lastTimestamp === undefined || timestamp > lastTimestamp) {
+      lastTimestamp = timestamp;
     }
   }
 
-  // Format as ISO string for fmtAge
   const lastUpdated =
     lastTimestamp != null ? new Date(lastTimestamp).toISOString() : undefined;
 
@@ -74,5 +80,16 @@ export function usePortfolio(): {
     void queryClient.invalidateQueries({ queryKey: ['price'] });
   };
 
-  return { rows, summary, settings, isFetching, lastUpdated, refresh };
+  return {
+    rows,
+    summary,
+    settings,
+    isFetching,
+    isLoading: portfolioQuery.isPending,
+    lastUpdated,
+    errorMessage: portfolioQuery.error
+      ? getApiErrorMessage(portfolioQuery.error, 'Unable to load the shared portfolio.')
+      : undefined,
+    refresh,
+  };
 }

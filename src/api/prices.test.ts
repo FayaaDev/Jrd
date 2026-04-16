@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getProviderForMarket, routeBySymbol } from './prices';
+import { getProviderForHolding, getProviderForMarket, routeBySymbol } from './prices';
 
 describe('getProviderForMarket', () => {
   it('routes supported US markets to Alpaca', () => {
@@ -12,24 +12,37 @@ describe('getProviderForMarket', () => {
     expect(getProviderForMarket('XSAU')).toBe('sahmk');
   });
 
+  it('routes crypto market aliases to CoinMarketCap', () => {
+    expect(getProviderForMarket('CRYPTO')).toBe('coinmarketcap');
+    expect(getProviderForMarket('cryptocurrency')).toBe('coinmarketcap');
+  });
+
   it('falls back to snapshot pricing for unsupported markets', () => {
     expect(getProviderForMarket('XLON')).toBe('snapshot');
     expect(getProviderForMarket('MONEYMARKET')).toBe('snapshot');
   });
 });
 
+describe('getProviderForHolding', () => {
+  it('routes crypto assets to CoinMarketCap regardless of market label', () => {
+    expect(getProviderForHolding({ assetType: 'crypto', market: 'CUSTOM' })).toBe('coinmarketcap');
+  });
+});
+
 describe('routeBySymbol', () => {
   it('groups symbols by market provider', () => {
     const result = routeBySymbol(
-      ['NVDA', '2010', 'ISDW.L'],
+      ['NVDA', 'BTC', '2010', 'ISDW.L'],
       [
-        { symbol: 'NVDA', market: 'XNAS' },
-        { symbol: '2010', market: 'XSAU' },
-        { symbol: 'ISDW.L', market: 'XLON' },
+        { symbol: 'NVDA', assetType: 'stock', market: 'XNAS' },
+        { symbol: 'BTC', assetType: 'crypto', market: 'CRYPTO' },
+        { symbol: '2010', assetType: 'stock', market: 'XSAU' },
+        { symbol: 'ISDW.L', assetType: 'etf', market: 'XLON' },
       ],
     );
 
     expect(result.alpaca).toEqual(['NVDA']);
+    expect(result.coinmarketcap).toEqual(['BTC']);
     expect(result.sahmk).toEqual(['2010']);
     expect(result.snapshot).toEqual(['ISDW.L']);
   });

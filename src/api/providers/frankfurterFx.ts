@@ -4,8 +4,7 @@ import type { FxProvider } from '../types';
 const SAR_USD_PEG = 3.75;
 
 const ResponseSchema = z.object({
-  base: z.string(),
-  rates: z.record(z.string(), z.number()),
+  rate: z.number(),
 });
 
 export const frankfurterFxProvider: FxProvider = {
@@ -18,7 +17,7 @@ export const frankfurterFxProvider: FxProvider = {
     if (from === 'USD' && to === 'SAR') return SAR_USD_PEG;
     if (from === 'SAR' && to === 'USD') return 1 / SAR_USD_PEG;
 
-    const url = `https://api.frankfurter.app/latest?from=${from}&to=${to}`;
+    const url = `/api/fx/rate?from=${from}&to=${to}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -32,11 +31,6 @@ export const frankfurterFxProvider: FxProvider = {
       throw new Error(`[frankfurter] Unexpected response: ${parsed.error.message}`);
     }
 
-    const rate = parsed.data.rates[to];
-    if (rate === undefined) {
-      throw new Error(`[frankfurter] Rate for ${to} not found in response`);
-    }
-
-    return rate;
+    return parsed.data.rate;
   },
 };

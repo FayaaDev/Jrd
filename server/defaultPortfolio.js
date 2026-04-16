@@ -1,13 +1,15 @@
-import type { Holding } from '../schemas/holding';
-import { getSeedVersion, loadHoldings, saveHoldings, setSeedVersion } from './storage';
+export const DEFAULT_SETTINGS = {
+  baseCurrency: 'SAR',
+  priceProvider: 'auto',
+  fxProvider: 'frankfurter',
+  refreshIntervalSec: 60,
+  theme: 'dark',
+};
 
-const SEED_VERSION = 'portfolio-positions-draft-v2';
 const SNAPSHOT_AS_OF = '2026-04-14T00:00:00.000Z';
 const SNAPSHOT_PROVIDER = 'assets.md';
 
-type SeedHolding = Omit<Holding, 'id' | 'createdAt' | 'updatedAt'>;
-
-const seedHoldings: SeedHolding[] = [
+const SEED_HOLDINGS = [
   {
     symbol: 'SPUS',
     name: 'SP Funds S&P 500 Sharia Industry Exclusions ETF',
@@ -219,6 +221,17 @@ const seedHoldings: SeedHolding[] = [
     notes: 'Imported from assets.md US/global stock snapshot using user-confirmed quantity and average cost.',
   },
   {
+    symbol: 'BTC',
+    name: 'Bitcoin',
+    assetType: 'crypto',
+    market: 'CRYPTO',
+    quantity: 0.53780185,
+    avgCost: 261985.47,
+    costCurrency: 'SAR',
+    quoteCurrency: 'USD',
+    notes: 'User-added Bitcoin position with CoinMarketCap live pricing.',
+  },
+  {
     symbol: 'ITFS',
     name: 'Sunbullah Fund SAR (ITFS)',
     assetType: 'fund',
@@ -234,31 +247,17 @@ const seedHoldings: SeedHolding[] = [
   },
 ];
 
-export function ensureSeedPortfolio(): void {
-  if (getSeedVersion() === SEED_VERSION) return;
-
-  const holdings = loadHoldings();
-
+export function buildDefaultPortfolioSnapshot() {
   const now = new Date().toISOString();
-  const seeded: Holding[] = seedHoldings.map((holding, index) => ({
-    ...holding,
-    id: `seed-${index + 1}`,
-    createdAt: now,
-    updatedAt: now,
-  }));
 
-  if (holdings.length === 0) {
-    saveHoldings(seeded);
-    setSeedVersion(SEED_VERSION);
-    return;
-  }
-
-  const onlySeededHoldings = holdings.every((holding) => holding.id.startsWith('seed-'));
-  if (onlySeededHoldings) {
-    saveHoldings(seeded);
-    setSeedVersion(SEED_VERSION);
-    return;
-  }
-
-  setSeedVersion(SEED_VERSION);
+  return {
+    holdings: SEED_HOLDINGS.map((holding, index) => ({
+      ...holding,
+      id: `seed-${index + 1}`,
+      createdAt: now,
+      updatedAt: now,
+    })),
+    settings: { ...DEFAULT_SETTINGS },
+    watchlist: [],
+  };
 }

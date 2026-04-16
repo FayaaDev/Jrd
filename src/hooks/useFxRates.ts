@@ -12,6 +12,7 @@ export function useFxRates(
   const uniquePairs = Array.from(
     new Map(pairs.map((p) => [`${p[0]}:${p[1]}`, p])).values()
   );
+  const refreshMs = settings.refreshIntervalSec * 1000;
 
   const provider = getFxProvider(settings.fxProvider);
 
@@ -22,7 +23,9 @@ export function useFxRates(
         const rate = await provider.getRate(from, to);
         return rate;
       },
-      staleTime: 10 * 60 * 1000,
+      staleTime: refreshMs,
+      refetchInterval: refreshMs,
+      refetchIntervalInBackground: true,
       gcTime: 60 * 60 * 1000,
     })),
   });

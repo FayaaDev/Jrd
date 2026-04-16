@@ -1,6 +1,9 @@
 import { NavLink, Link } from 'react-router-dom';
+import { useAdminSession } from '../hooks/useAdminSession';
 
 export default function NavBar() {
+  const { isUnlocked, isChecking } = useAdminSession();
+
   return (
     <header className="site-header">
       <div className="market-strip" aria-label="Market coverage">
@@ -56,8 +59,11 @@ export default function NavBar() {
         </ul>
 
         <div className="navbar__actions">
-          <Link to="/holdings" className="btn btn--primary btn--md navbar__cta">
-            Add Position
+          <span className={`status-pill ${isUnlocked ? 'status-pill--positive' : 'status-pill--muted'}`}>
+            {isChecking ? 'Checking access...' : isUnlocked ? 'Admin unlocked' : 'Read-only'}
+          </span>
+          <Link to={isUnlocked ? '/holdings' : '/settings'} className="btn btn--primary btn--md navbar__cta">
+            {isUnlocked ? 'Add Position' : 'Unlock Editing'}
           </Link>
         </div>
       </nav>

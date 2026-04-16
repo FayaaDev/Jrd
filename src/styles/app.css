@@ -370,6 +370,13 @@ textarea {
   background: var(--color-danger-hover);
 }
 
+.btn--icon {
+  min-width: 32px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
 .card {
   position: relative;
   overflow: hidden;
@@ -745,6 +752,46 @@ textarea {
   font-size: 14px;
 }
 
+.table--holdings-compact {
+  table-layout: fixed;
+}
+
+.table--holdings-compact .table__th:nth-child(1),
+.table--holdings-compact .table__td:nth-child(1) {
+  width: 13%;
+}
+
+.table--holdings-compact .table__th:nth-child(2),
+.table--holdings-compact .table__td:nth-child(2) {
+  width: 18%;
+}
+
+.table--holdings-compact .table__th:nth-child(3),
+.table--holdings-compact .table__td:nth-child(3) {
+  width: 9%;
+}
+
+.table--holdings-compact .table__th:nth-child(4),
+.table--holdings-compact .table__td:nth-child(4),
+.table--holdings-compact .table__th:nth-child(5),
+.table--holdings-compact .table__td:nth-child(5),
+.table--holdings-compact .table__th:nth-child(6),
+.table--holdings-compact .table__td:nth-child(6),
+.table--holdings-compact .table__th:nth-child(7),
+.table--holdings-compact .table__td:nth-child(7) {
+  width: 11%;
+}
+
+.table--holdings-compact .table__th:nth-child(8),
+.table--holdings-compact .table__td:nth-child(8) {
+  width: 6%;
+}
+
+.table--holdings-compact .table__th:nth-child(9),
+.table--holdings-compact .table__td:nth-child(9) {
+  width: 10%;
+}
+
 .table__th {
   position: sticky;
   top: 0;
@@ -783,11 +830,12 @@ textarea {
 }
 
 .table__td {
-  padding: 16px 14px;
+  padding: 14px 10px;
   border-bottom: 1px solid var(--color-border);
   color: var(--color-text);
   vertical-align: top;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .table__row:last-child .table__td {
@@ -804,7 +852,12 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.table--holdings-compact .table__td--name {
+  white-space: normal;
 }
 
 .holding-cell {
@@ -823,12 +876,23 @@ textarea {
   font-weight: 600;
 }
 
+.holding-cell__primary--truncate,
+.holding-cell__meta--truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .holding-cell__meta {
-  max-width: 240px;
   color: var(--color-text-muted);
   font-size: 11px;
-  white-space: normal;
+  white-space: nowrap;
   line-height: 1.35;
+}
+
+.table--holdings-compact .btn--sm {
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
 }
 
 .pill-tag {
@@ -917,6 +981,13 @@ textarea {
   color: var(--color-text-muted);
 }
 
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
 .form-input--error,
 .form-select--error {
   border-color: var(--crypto-red);
@@ -931,6 +1002,43 @@ textarea {
 .form-error {
   color: var(--crypto-red);
   font-size: 12px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-pill--positive {
+  background: rgba(14, 203, 129, 0.12);
+  color: var(--color-positive);
+  border: 1px solid rgba(14, 203, 129, 0.24);
+}
+
+.status-pill--muted {
+  background: rgba(240, 185, 11, 0.12);
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(240, 185, 11, 0.24);
+}
+
+.readonly-note {
+  margin: 12px 0 0;
+  color: var(--color-text-muted);
+}
+
+.readonly-note--inverse {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.admin-panel {
+  display: grid;
+  gap: 16px;
 }
 
 .form-actions {
@@ -1155,6 +1263,10 @@ textarea {
   }
 
   .table {
+    min-width: 980px;
+  }
+
+  .table--holdings-compact {
     min-width: 980px;
   }
 

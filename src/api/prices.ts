@@ -1,9 +1,10 @@
 import type { PriceProvider } from './types';
 import type { Holding } from '../schemas/holding';
 import { alpacaPricesProvider } from './providers/alpacaPrices';
+import { coinMarketCapPricesProvider } from './providers/coinMarketCapPrices';
 import { sahmkPricesProvider } from './providers/sahmkPrices';
 
-export type MarketPriceProvider = 'alpaca' | 'sahmk' | 'snapshot';
+export type MarketPriceProvider = 'alpaca' | 'coinmarketcap' | 'sahmk' | 'snapshot';
 
 /**
  * US exchanges supported by Alpaca IEX feed.
@@ -22,39 +23,63 @@ const SAHMK_MARKETS = new Set([
   'XSAU',
 ]);
 
+const CRYPTO_MARKETS = new Set([
+  'CRYPTO',
+  'CRYPTOCURRENCY',
+]);
+
 export function getPriceProvider(name: Exclude<MarketPriceProvider, 'snapshot'>): PriceProvider {
   switch (name) {
     case 'alpaca':
       return alpacaPricesProvider;
+    case 'coinmarketcap':
+      return coinMarketCapPricesProvider;
     case 'sahmk':
       return sahmkPricesProvider;
   }
 }
 
 export function getProviderForMarket(market: string): MarketPriceProvider {
-  if (ALPACA_MARKETS.has(market)) return 'alpaca';
-  if (SAHMK_MARKETS.has(market)) return 'sahmk';
+  const normalizedMarket = market.toUpperCase();
+
+  if (ALPACA_MARKETS.has(normalizedMarket)) return 'alpaca';
+  if (CRYPTO_MARKETS.has(normalizedMarket)) return 'coinmarketcap';
+  if (SAHMK_MARKETS.has(normalizedMarket)) return 'sahmk';
   return 'snapshot';
+}
+
+export function getProviderForHolding(holding: Pick<Holding, 'assetType' | 'market'>): MarketPriceProvider {
+  if (holding.assetType === 'crypto') {
+    return 'coinmarketcap';
+  }
+
+  return getProviderForMarket(holding.market);
 }
 
 export function routeBySymbol(
   symbols: string[],
-  holdings: Pick<Holding, 'symbol' | 'market'>[],
-): { alpaca: string[]; sahmk: string[]; snapshot: string[] } {
-  const marketBySymbol = new Map<string, string>(
-    holdings.map((h) => [h.symbol, h.market]),
+  holdings: Pick<Holding, 'symbol' | 'market' | 'assetType'>[],
+): { alpaca: string[]; coinmarketcap: string[]; sahmk: string[]; snapshot: string[] } {
+  const holdingBySymbol = new Map<string, Pick<Holding, 'assetType' | 'market'>>(
+    holdings.map((h) => [h.symbol, { assetType: h.assetType, market: h.market }]),
   );
 
   const alpaca: string[] = [];
+  const coinmarketcap: string[] = [];
   const sahmk: string[] = [];
   const snapshot: string[] = [];
 
   for (const sym of symbols) {
-    const market = marketBySymbol.get(sym);
-    const provider = market !== undefined ? getProviderForMarket(market) : 'snapshot';
+    const holding = holdingBySymbol.get(sym);
+    const provider = holding ? getProviderForHolding(holding) : 'snapshot';
 
     if (provider === 'alpaca') {
       alpaca.push(sym);
+      continue;
+    }
+
+    if (provider === 'coinmarketcap') {
+      coinmarketcap.push(sym);
       continue;
     }
 
@@ -66,5 +91,5 @@ export function routeBySymbol(
     snapshot.push(sym);
   }
 
-  return { alpaca, sahmk, snapshot };
+  return { alpaca, coinmarketcap, sahmk, snapshot };
 }
