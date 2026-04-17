@@ -10,6 +10,7 @@ import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { PdfImportWizard } from '../components/PdfImportWizard';
 import type { Settings as SettingsType } from '../schemas/settings';
 import { useAdminSession } from '../hooks/useAdminSession';
 
@@ -20,6 +21,7 @@ export default function Settings() {
   const [adminToken, setAdminToken] = useState('');
   const [adminStatus, setAdminStatus] = useState('');
   const [isUnlocking, setIsUnlocking] = useState(false);
+  const [pdfImportOpen, setPdfImportOpen] = useState(false);
 
   const canEdit = settingsMeta.canEdit && !isChecking;
   const disableWrites = !canEdit || settingsMeta.isSaving;
@@ -239,6 +241,13 @@ export default function Settings() {
             )}
           </div>
           <div className="settings-action-group">
+            <Button variant="secondary" onClick={() => setPdfImportOpen(true)} disabled={disableWrites}>
+              Import from PDF
+            </Button>
+            <p className="text-muted">Import holdings from a brokerage statement PDF.</p>
+            {!canEdit && <p className="text-muted">Admin unlock required for PDF import.</p>}
+          </div>
+          <div className="settings-action-group">
             <Button variant="danger" onClick={handleReset} disabled={disableWrites}>
               Reset All Data
             </Button>
@@ -248,6 +257,10 @@ export default function Settings() {
           </div>
         </div>
       </Card>
+      <PdfImportWizard
+        open={pdfImportOpen}
+        onClose={() => setPdfImportOpen(false)}
+      />
     </div>
   );
 }
