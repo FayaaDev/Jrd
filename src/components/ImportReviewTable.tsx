@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import type { ExtractedHolding } from '../schemas/pdfImport';
 
 interface ImportReviewTableProps {
@@ -48,10 +48,11 @@ export function ImportReviewTable({
   const allSelected = holdings.length > 0 && selectedIds.size === holdings.length;
   const someSelected = selectedIds.size > 0 && selectedIds.size < holdings.length;
 
-  // Set indeterminate state via ref
-  if (headerCheckboxRef.current) {
-    headerCheckboxRef.current.indeterminate = someSelected;
-  }
+  useEffect(() => {
+    if (headerCheckboxRef.current) {
+      headerCheckboxRef.current.indeterminate = someSelected;
+    }
+  }, [someSelected]);
 
   function handleHeaderCheckbox() {
     if (allSelected || someSelected) {
@@ -59,6 +60,14 @@ export function ImportReviewTable({
     } else {
       onSelectAll();
     }
+  }
+
+  if (holdings.length === 0) {
+    return (
+      <div className="review-table__empty">
+        No holdings could be extracted from the PDF.
+      </div>
+    );
   }
 
   return (

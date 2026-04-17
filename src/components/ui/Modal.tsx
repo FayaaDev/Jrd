@@ -25,8 +25,13 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
     const dialog = dialogRef.current;
     if (!dialog) return;
     const handleClose = () => onClose();
+    const handleCancel = (e: Event) => e.preventDefault();
     dialog.addEventListener('close', handleClose);
-    return () => dialog.removeEventListener('close', handleClose);
+    dialog.addEventListener('cancel', handleCancel);
+    return () => {
+      dialog.removeEventListener('close', handleClose);
+      dialog.removeEventListener('cancel', handleCancel);
+    };
   }, [onClose]);
 
   if (!open) return null;

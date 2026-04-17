@@ -188,6 +188,10 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
     onClose();
   }, [reset, onClose]);
 
+  const reverifySelected = useCallback(() => {
+    reverify([...selectedIds]);
+  }, [reverify, selectedIds]);
+
   // Determine modal title
   const titleMap: Record<string, string> = {
     idle: 'Import from PDF',
@@ -255,7 +259,7 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => reverify()}
+                onClick={reverify}
                 disabled={isVerifying}
               >
                 Re-verify All
@@ -263,7 +267,7 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => reverify([...selectedIds])}
+                onClick={reverifySelected}
                 disabled={selectedIds.size === 0 || isVerifying}
               >
                 Re-verify Selected
