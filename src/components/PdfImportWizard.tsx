@@ -188,6 +188,8 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
     onClose();
   }, [reset, onClose]);
 
+  const reverifyAll = useCallback(() => reverify(), [reverify]);
+
   const reverifySelected = useCallback(() => {
     reverify([...selectedIds]);
   }, [reverify, selectedIds]);
@@ -259,7 +261,7 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={reverify}
+                onClick={reverifyAll}
                 disabled={isVerifying}
               >
                 Re-verify All
