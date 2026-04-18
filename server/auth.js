@@ -29,6 +29,7 @@ export const auth = betterAuth({
     'fayafolio://',
     'http://localhost:8081',
     'http://192.168.0.235:8081',
+    'http://localhost:5173',
   ],
   plugins: [expo()],
   database: pool,
