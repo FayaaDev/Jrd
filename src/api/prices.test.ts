@@ -1,5 +1,16 @@
-import { describe, expect, it } from 'vitest';
-import { buildPriceLookupKey, getProviderForHolding, getProviderForMarket, routeBySymbol } from './prices';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  buildPriceLookupKey,
+  fetchPriceSnapshot,
+  getProviderForHolding,
+  getProviderForMarket,
+  refreshPriceSnapshot,
+  routeBySymbol,
+} from './prices';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe('getProviderForMarket', () => {
   it('routes supported US markets to Alpaca', () => {
@@ -51,5 +62,71 @@ describe('routeBySymbol', () => {
 describe('buildPriceLookupKey', () => {
   it('normalizes symbol and market casing', () => {
     expect(buildPriceLookupKey({ symbol: 'msft', market: 'xnas', assetType: 'stock' })).toBe('MSFT|XNAS|stock');
+  });
+});
+
+describe('price snapshot requests', () => {
+  it('posts to the authenticated refresh endpoint', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          updatedAt: '2026-04-18T06:00:00.000Z',
+          lastSuccessfulAt: '2026-04-18T06:00:00.000Z',
+          lastAttemptedAt: '2026-04-18T06:00:00.000Z',
+          isRefreshing: false,
+          refreshIntervalSec: 60,
+          errors: {},
+          quotes: {},
+        }),
+        {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+    );
+
+    await refreshPriceSnapshot();
+
+    const [input, init] = fetchMock.mock.calls[0] ?? [];
+    expect(input).toBe('/api/me/prices/refresh');
+    expect(init?.method).toBe('POST');
+    expect(init?.credentials).toBe('include');
+  });
+
+  it('surfaces API error messages from manual refresh requests', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ message: 'Admin access is required for this action.' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
+
+    await expect(refreshPriceSnapshot()).rejects.toThrow('Admin access is required for this action.');
+  });
+
+  it('parses the expanded snapshot metadata contract', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          updatedAt: '2026-04-18T06:00:00.000Z',
+          lastSuccessfulAt: '2026-04-18T06:00:00.000Z',
+          lastAttemptedAt: '2026-04-18T06:01:00.000Z',
+          isRefreshing: false,
+          refreshIntervalSec: 60,
+          errors: { alpaca: 'provider unavailable' },
+          quotes: {},
+        }),
+        {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+    );
+
+    await expect(fetchPriceSnapshot()).resolves.toMatchObject({
+      lastSuccessfulAt: '2026-04-18T06:00:00.000Z',
+      lastAttemptedAt: '2026-04-18T06:01:00.000Z',
+      errors: { alpaca: 'provider unavailable' },
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { getPortfolioSnapshot } from './store.js';
+import { getLedgerByUserId } from './store.js';
 
 const ALPACA_MARKETS = new Set(['XNAS', 'XNYS', 'XASX', 'ARCX', 'BATS', 'IEXG']);
 const SAHMK_MARKETS = new Set(['XSAU']);
@@ -6,17 +6,57 @@ const CRYPTO_MARKETS = new Set(['CRYPTO', 'CRYPTOCURRENCY']);
 const FETCH_TIMEOUT_MS = 10_000;
 const MIN_FORCE_REFRESH_GAP_MS = 5_000;
 
-const quoteCache = new Map();
+const quoteStateByUserId = new Map();
 
-let lastRefreshStartedAt = 0;
-let lastUpdatedAt = 0;
-let lastRefreshIntervalMs = 60_000;
-let lastErrors = {};
-let lastTrackedKeys = [];
-let refreshPromise = null;
+function createQuoteState() {
+  return {
+    quoteCache: new Map(),
+    lastRefreshStartedAt: 0,
+    lastAttemptedAt: 0,
+    lastSuccessfulAt: 0,
+    lastRefreshIntervalMs: 60_000,
+    lastErrors: {},
+    lastTrackedKeys: [],
+    refreshPromise: null,
+  };
+}
 
-export function invalidatePriceSnapshot() {
-  lastUpdatedAt = 0;
+function getQuoteState(userId) {
+  let state = quoteStateByUserId.get(userId);
+
+  if (!state) {
+    state = createQuoteState();
+    quoteStateByUserId.set(userId, state);
+  }
+
+  return state;
+}
+
+export function invalidatePriceSnapshot(userId) {
+  if (!userId) {
+    for (const state of quoteStateByUserId.values()) {
+      state.lastAttemptedAt = 0;
+      state.lastSuccessfulAt = 0;
+    }
+    return;
+  }
+
+  const state = getQuoteState(userId);
+  state.lastAttemptedAt = 0;
+  state.lastSuccessfulAt = 0;
+}
+
+export function clearPriceSnapshot(userId) {
+  if (!userId) {
+    quoteStateByUserId.clear();
+    return;
+  }
+
+  quoteStateByUserId.delete(userId);
+}
+
+export function __resetQuoteHubStateForTests() {
+  quoteStateByUserId.clear();
 }
 
 function buildInstrumentKey({ symbol, market, assetType }) {
@@ -258,29 +298,34 @@ async function fetchSahmkQuotes(instruments) {
   return { quotes, error };
 }
 
-function buildSnapshot() {
+function buildSnapshot(state) {
   return {
-    updatedAt: lastUpdatedAt ? new Date(lastUpdatedAt).toISOString() : undefined,
-    refreshIntervalSec: Math.floor(lastRefreshIntervalMs / 1000),
-    errors: lastErrors,
+    updatedAt: state.lastSuccessfulAt ? new Date(state.lastSuccessfulAt).toISOString() : undefined,
+    lastSuccessfulAt: state.lastSuccessfulAt ? new Date(state.lastSuccessfulAt).toISOString() : undefined,
+    lastAttemptedAt: state.lastAttemptedAt ? new Date(state.lastAttemptedAt).toISOString() : undefined,
+    isRefreshing: Boolean(state.refreshPromise),
+    refreshIntervalSec: Math.floor(state.lastRefreshIntervalMs / 1000),
+    errors: state.lastErrors,
     quotes: Object.fromEntries(
-      lastTrackedKeys.flatMap((key) => {
-        const quote = quoteCache.get(key);
+      state.lastTrackedKeys.flatMap((key) => {
+        const quote = state.quoteCache.get(key);
         return quote ? [[key, quote]] : [];
       })
     ),
   };
 }
 
-async function refreshQuotes() {
-  const snapshot = await getPortfolioSnapshot();
-  const refreshIntervalSec = snapshot.settings.refreshIntervalSec;
+async function refreshQuotes(userId, state) {
+  const ledger = await getLedgerByUserId(userId);
+  const refreshIntervalSec = ledger.settings.refreshIntervalSec;
   const refreshIntervalMs = refreshIntervalSec * 1000;
-  const instruments = buildTrackedInstruments(snapshot);
+  const instruments = buildTrackedInstruments(ledger);
   const trackedKeys = instruments.map((instrument) => buildInstrumentKey(instrument));
+  const refreshStartedAt = Date.now();
 
-  lastRefreshIntervalMs = refreshIntervalMs;
-  lastTrackedKeys = trackedKeys;
+  state.lastAttemptedAt = refreshStartedAt;
+  state.lastRefreshIntervalMs = refreshIntervalMs;
+  state.lastTrackedKeys = trackedKeys;
 
   const providerGroups = {
     alpaca: [],
@@ -316,6 +361,7 @@ async function refreshQuotes() {
   );
 
   const nextErrors = {};
+  let receivedLiveQuotes = 0;
 
   for (const result of settled) {
     if (result.status !== 'fulfilled') {
@@ -328,38 +374,48 @@ async function refreshQuotes() {
     }
 
     for (const [key, quote] of payload.quotes.entries()) {
-      quoteCache.set(key, quote);
+      state.quoteCache.set(key, quote);
+      receivedLiveQuotes += 1;
     }
   }
 
-  for (const key of [...quoteCache.keys()]) {
+  for (const key of [...state.quoteCache.keys()]) {
     if (!trackedKeys.includes(key)) {
-      quoteCache.delete(key);
+      state.quoteCache.delete(key);
     }
   }
 
-  lastErrors = nextErrors;
-  lastUpdatedAt = Date.now();
+  state.lastErrors = nextErrors;
 
-  return buildSnapshot();
+  if (trackedKeys.length === 0 || receivedLiveQuotes > 0) {
+    state.lastSuccessfulAt = Date.now();
+  }
+
+  return buildSnapshot(state);
 }
 
-export async function getPriceSnapshot({ force = false } = {}) {
-  const now = Date.now();
-  const isStale = !lastUpdatedAt || now - lastUpdatedAt >= lastRefreshIntervalMs;
-  const shouldForceRefresh =
-    force && (!lastRefreshStartedAt || now - lastRefreshStartedAt >= MIN_FORCE_REFRESH_GAP_MS);
-
-  if (!isStale && !shouldForceRefresh) {
-    return buildSnapshot();
+export async function getPriceSnapshot({ userId, force = false } = {}) {
+  if (!userId) {
+    throw new Error('userId is required to resolve price snapshots.');
   }
 
-  if (!refreshPromise) {
-    lastRefreshStartedAt = now;
-    refreshPromise = refreshQuotes().finally(() => {
-      refreshPromise = null;
+  const state = getQuoteState(userId);
+  const now = Date.now();
+  const lastRefreshAt = Math.max(state.lastSuccessfulAt, state.lastAttemptedAt);
+  const isStale = !lastRefreshAt || now - lastRefreshAt >= state.lastRefreshIntervalMs;
+  const shouldForceRefresh =
+    force && (!state.lastRefreshStartedAt || now - state.lastRefreshStartedAt >= MIN_FORCE_REFRESH_GAP_MS);
+
+  if (!isStale && !shouldForceRefresh) {
+    return buildSnapshot(state);
+  }
+
+  if (!state.refreshPromise) {
+    state.lastRefreshStartedAt = now;
+    state.refreshPromise = refreshQuotes(userId, state).finally(() => {
+      state.refreshPromise = null;
     });
   }
 
-  return refreshPromise;
+  return state.refreshPromise;
 }

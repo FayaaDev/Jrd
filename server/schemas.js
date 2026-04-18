@@ -1,10 +1,11 @@
 import { z } from 'zod';
+import { PRICE_REFRESH_INTERVAL_SEC } from './config.js';
 
 export const SettingsSchema = z.object({
   baseCurrency: z.string().length(3).default('SAR'),
   priceProvider: z.literal('auto').default('auto'),
   fxProvider: z.literal('frankfurter').default('frankfurter'),
-  refreshIntervalSec: z.number().int().positive().default(60),
+  refreshIntervalSec: z.number().int().positive().default(PRICE_REFRESH_INTERVAL_SEC),
   theme: z.enum(['system', 'light', 'dark']).default('dark'),
 });
 
@@ -38,6 +39,18 @@ export const PortfolioSnapshotSchema = z.object({
   holdings: z.array(HoldingSchema),
   settings: SettingsSchema,
   watchlist: z.array(WatchItemSchema),
+});
+
+export const PortfolioStatusSchema = z.enum(['active', 'archived']);
+
+export const PortfolioLedgerSchema = PortfolioSnapshotSchema.extend({
+  id: z.string().uuid(),
+  ownerUserId: z.string(),
+  status: PortfolioStatusSchema,
+  archivedAt: z.string().nullable().optional(),
+  archivedByUserId: z.string().nullable().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export const HoldingInputSchema = HoldingSchema.omit({

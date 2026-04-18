@@ -1,12 +1,17 @@
-import type { PriceProvider } from './types';
+import { z } from 'zod';
 import type { Holding } from '../schemas/holding';
+import type { PriceProvider } from './types';
+import { apiPath } from './base';
+import { type PortfolioScope, ME_PORTFOLIO_SCOPE } from './portfolio';
 import { alpacaPricesProvider } from './providers/alpacaPrices';
 import { coinMarketCapPricesProvider } from './providers/coinMarketCapPrices';
 import { sahmkPricesProvider } from './providers/sahmkPrices';
-import { apiPath } from './base';
-import { z } from 'zod';
 
 export type MarketPriceProvider = 'alpaca' | 'coinmarketcap' | 'sahmk' | 'snapshot';
+
+const MessageSchema = z.object({
+  message: z.string(),
+});
 
 const PriceQuoteSchema = z.object({
   symbol: z.string(),
@@ -18,6 +23,9 @@ const PriceQuoteSchema = z.object({
 
 const PriceSnapshotSchema = z.object({
   updatedAt: z.string().optional(),
+  lastSuccessfulAt: z.string().optional(),
+  lastAttemptedAt: z.string().optional(),
+  isRefreshing: z.boolean(),
   refreshIntervalSec: z.number().int().positive(),
   errors: z.record(z.string(), z.string()),
   quotes: z.record(z.string(), PriceQuoteSchema),
@@ -25,27 +33,21 @@ const PriceSnapshotSchema = z.object({
 
 export type PriceSnapshot = z.infer<typeof PriceSnapshotSchema>;
 
-/**
- * US exchanges supported by Alpaca IEX feed.
- * Holdings with these markets route to Alpaca.
- */
-const ALPACA_MARKETS = new Set([
-  'XNAS', // NASDAQ
-  'XNYS', // NYSE
-  'XASX', // ASX (US-listed)
-  'ARCX', // NYSE Arca
-  'BATS', // CBOE BZX
-  'IEXG', // IEX
-]);
+const ALPACA_MARKETS = new Set(['XNAS', 'XNYS', 'XASX', 'ARCX', 'BATS', 'IEXG']);
+const SAHMK_MARKETS = new Set(['XSAU']);
+const CRYPTO_MARKETS = new Set(['CRYPTO', 'CRYPTOCURRENCY']);
 
-const SAHMK_MARKETS = new Set([
-  'XSAU',
-]);
+function buildPricePath(scope: PortfolioScope, action: 'snapshot' | 'refresh') {
+  return scope.kind === 'me'
+    ? `/me/prices/${action}`
+    : `/admin/portfolios/${scope.userId}/prices/${action}`;
+}
 
-const CRYPTO_MARKETS = new Set([
-  'CRYPTO',
-  'CRYPTOCURRENCY',
-]);
+export function priceSnapshotQueryKey(scope: PortfolioScope = ME_PORTFOLIO_SCOPE) {
+  return scope.kind === 'me'
+    ? (['prices', 'snapshot', 'me'] as const)
+    : (['prices', 'snapshot', 'admin', scope.userId] as const);
+}
 
 export function getPriceProvider(name: Exclude<MarketPriceProvider, 'snapshot'>): PriceProvider {
   switch (name) {
@@ -80,7 +82,7 @@ export function routeBySymbol(
   holdings: Pick<Holding, 'symbol' | 'market' | 'assetType'>[],
 ): { alpaca: string[]; coinmarketcap: string[]; sahmk: string[]; snapshot: string[] } {
   const holdingBySymbol = new Map<string, Pick<Holding, 'assetType' | 'market'>>(
-    holdings.map((h) => [h.symbol, { assetType: h.assetType, market: h.market }]),
+    holdings.map((holding) => [holding.symbol, { assetType: holding.assetType, market: holding.market }]),
   );
 
   const alpaca: string[] = [];
@@ -88,26 +90,26 @@ export function routeBySymbol(
   const sahmk: string[] = [];
   const snapshot: string[] = [];
 
-  for (const sym of symbols) {
-    const holding = holdingBySymbol.get(sym);
+  for (const symbol of symbols) {
+    const holding = holdingBySymbol.get(symbol);
     const provider = holding ? getProviderForHolding(holding) : 'snapshot';
 
     if (provider === 'alpaca') {
-      alpaca.push(sym);
+      alpaca.push(symbol);
       continue;
     }
 
     if (provider === 'coinmarketcap') {
-      coinmarketcap.push(sym);
+      coinmarketcap.push(symbol);
       continue;
     }
 
     if (provider === 'sahmk') {
-      sahmk.push(sym);
+      sahmk.push(symbol);
       continue;
     }
 
-    snapshot.push(sym);
+    snapshot.push(symbol);
   }
 
   return { alpaca, coinmarketcap, sahmk, snapshot };
@@ -120,8 +122,9 @@ export function buildPriceLookupKey(holding: Pick<Holding, 'symbol' | 'market' |
 async function parseResponseError(response: Response): Promise<Error> {
   try {
     const json = await response.json();
-    if (typeof json?.message === 'string' && json.message) {
-      return new Error(json.message);
+    const parsed = MessageSchema.safeParse(json);
+    if (parsed.success) {
+      return new Error(parsed.data.message);
     }
   } catch {
     // Ignore malformed error bodies and fall back to status text.
@@ -130,8 +133,10 @@ async function parseResponseError(response: Response): Promise<Error> {
   return new Error(response.statusText || `HTTP ${response.status}`);
 }
 
-export async function fetchPriceSnapshot(): Promise<PriceSnapshot> {
-  const response = await fetch(apiPath('/prices/snapshot'));
+export async function fetchPriceSnapshot(scope: PortfolioScope = ME_PORTFOLIO_SCOPE): Promise<PriceSnapshot> {
+  const response = await fetch(apiPath(buildPricePath(scope, 'snapshot')), {
+    credentials: 'include',
+  });
   if (!response.ok) {
     throw await parseResponseError(response);
   }
@@ -139,8 +144,11 @@ export async function fetchPriceSnapshot(): Promise<PriceSnapshot> {
   return PriceSnapshotSchema.parse(await response.json());
 }
 
-export async function refreshPriceSnapshot(): Promise<PriceSnapshot> {
-  const response = await fetch(apiPath('/prices/refresh'), { method: 'POST' });
+export async function refreshPriceSnapshot(scope: PortfolioScope = ME_PORTFOLIO_SCOPE): Promise<PriceSnapshot> {
+  const response = await fetch(apiPath(buildPricePath(scope, 'refresh')), {
+    method: 'POST',
+    credentials: 'include',
+  });
   if (!response.ok) {
     throw await parseResponseError(response);
   }

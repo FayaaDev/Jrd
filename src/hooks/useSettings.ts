@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SettingsSchema, type Settings } from '../schemas/settings';
-import { getApiErrorMessage, portfolioQueryKey, saveSettings } from '../api/portfolio';
-import { useAdminSession } from './useAdminSession';
+import { getApiErrorMessage, type PortfolioScope, ME_PORTFOLIO_SCOPE, portfolioQueryKey, saveSettings } from '../api/portfolio';
+import { priceSnapshotQueryKey } from '../api/prices';
 import { usePortfolioSnapshot } from './usePortfolioSnapshot';
 
 interface UseSettingsMeta {
@@ -12,20 +12,24 @@ interface UseSettingsMeta {
   errorMessage?: string;
 }
 
-export function useSettings(): [Settings, (s: Settings) => void, UseSettingsMeta] {
+export function useSettings(scope: PortfolioScope = ME_PORTFOLIO_SCOPE): [Settings, (settings: Settings) => void, UseSettingsMeta] {
   const queryClient = useQueryClient();
-  const { token, isUnlocked } = useAdminSession();
-  const portfolioQuery = usePortfolioSnapshot();
+  const portfolioQuery = usePortfolioSnapshot(scope);
   const settings = portfolioQuery.data?.settings ?? SettingsSchema.parse({});
 
   const mutation = useMutation({
-    mutationFn: (next: Settings) => saveSettings(next, token),
-    onSuccess: (snapshot) => {
-      queryClient.setQueryData(portfolioQueryKey, snapshot);
-      void queryClient.invalidateQueries({ queryKey: ['price'] });
+    mutationFn: (next: Settings) => saveSettings(next, scope),
+    onSuccess: (ledger) => {
+      queryClient.setQueryData(portfolioQueryKey(scope), ledger);
+      void queryClient.invalidateQueries({ queryKey: priceSnapshotQueryKey(scope) });
     },
     onError: (error) => {
-      window.alert(getApiErrorMessage(error, 'Unable to update settings.'));
+      window.alert(
+        getApiErrorMessage(
+          error,
+          scope.kind === 'me' ? 'Unable to update settings.' : 'Unable to update settings for this portfolio.',
+        ),
+      );
     },
   });
 
@@ -37,11 +41,14 @@ export function useSettings(): [Settings, (s: Settings) => void, UseSettingsMeta
     settings,
     setSettings,
     {
-      canEdit: isUnlocked,
+      canEdit: scope.kind === 'admin' || portfolioQuery.data?.status === 'active',
       isLoading: portfolioQuery.isPending,
       isSaving: mutation.isPending,
       errorMessage: portfolioQuery.error
-        ? getApiErrorMessage(portfolioQuery.error, 'Unable to load settings.')
+        ? getApiErrorMessage(
+            portfolioQuery.error,
+            scope.kind === 'me' ? 'Unable to load settings.' : 'Unable to load settings for this portfolio.',
+          )
         : undefined,
     },
   ];

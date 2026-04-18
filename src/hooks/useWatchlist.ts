@@ -4,37 +4,46 @@ import type { WatchItem } from '../schemas/watchlist';
 import {
   createWatchItem,
   getApiErrorMessage,
-  type PortfolioSnapshot,
+  type PortfolioLedger,
+  type PortfolioScope,
+  ME_PORTFOLIO_SCOPE,
   portfolioQueryKey,
   removeWatchItem as removeWatchItemRequest,
 } from '../api/portfolio';
-import { useAdminSession } from './useAdminSession';
+import { priceSnapshotQueryKey } from '../api/prices';
 import { usePortfolioSnapshot } from './usePortfolioSnapshot';
 
 type AddWatchItemInput = Pick<WatchItem, 'symbol' | 'quoteCurrency'> & { name?: string };
 
-export function useWatchlist() {
+export function useWatchlist(scope: PortfolioScope = ME_PORTFOLIO_SCOPE) {
   const queryClient = useQueryClient();
-  const { token, isUnlocked } = useAdminSession();
-  const portfolioQuery = usePortfolioSnapshot();
+  const portfolioQuery = usePortfolioSnapshot(scope);
 
-  const syncWatchlist = useCallback((snapshot: PortfolioSnapshot) => {
-    queryClient.setQueryData(portfolioQueryKey, snapshot);
-    void queryClient.invalidateQueries({ queryKey: ['price'] });
-  }, [queryClient]);
+  const syncWatchlist = useCallback(
+    (ledger: PortfolioLedger) => {
+      queryClient.setQueryData(portfolioQueryKey(scope), ledger);
+      void queryClient.invalidateQueries({ queryKey: priceSnapshotQueryKey(scope) });
+    },
+    [queryClient, scope],
+  );
 
   const reportMutationError = useCallback((error: unknown) => {
-    window.alert(getApiErrorMessage(error, 'Unable to update the watchlist.'));
-  }, []);
+    window.alert(
+      getApiErrorMessage(
+        error,
+        scope.kind === 'me' ? 'Unable to update your watchlist.' : 'Unable to update this watchlist.',
+      ),
+    );
+  }, [scope.kind]);
 
   const addMutation = useMutation({
-    mutationFn: (input: AddWatchItemInput) => createWatchItem(input, token),
+    mutationFn: (input: AddWatchItemInput) => createWatchItem(input, scope),
     onSuccess: syncWatchlist,
     onError: reportMutationError,
   });
 
   const removeMutation = useMutation({
-    mutationFn: (id: string) => removeWatchItemRequest(id, token),
+    mutationFn: (id: string) => removeWatchItemRequest(id, scope),
     onSuccess: syncWatchlist,
     onError: reportMutationError,
   });
@@ -45,7 +54,10 @@ export function useWatchlist() {
 
   const removeWatchItem = useCallback((symbol: string) => {
     const item = portfolioQuery.data?.watchlist.find((entry) => entry.symbol === symbol);
-    if (!item) return;
+    if (!item) {
+      return;
+    }
+
     removeMutation.mutate(item.id);
   }, [portfolioQuery.data?.watchlist, removeMutation]);
 
@@ -53,10 +65,13 @@ export function useWatchlist() {
     watchlist: portfolioQuery.data?.watchlist ?? [],
     addWatchItem,
     removeWatchItem,
-    canEdit: isUnlocked,
+    canEdit: scope.kind === 'admin' || portfolioQuery.data?.status === 'active',
     isLoading: portfolioQuery.isPending,
     errorMessage: portfolioQuery.error
-      ? getApiErrorMessage(portfolioQuery.error, 'Unable to load the watchlist.')
+      ? getApiErrorMessage(
+          portfolioQuery.error,
+          scope.kind === 'me' ? 'Unable to load your watchlist.' : 'Unable to load this watchlist.',
+        )
       : undefined,
     isSaving: addMutation.isPending || removeMutation.isPending,
   };

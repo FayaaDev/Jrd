@@ -138,7 +138,7 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
                   <div className="holding-cell holding-cell--number">
                     <span className="holding-cell__primary">
                       {row.price != null
-                        ? fmtCompactCurrency(row.price, row.quoteCurrency)
+                        ? fmtCompactCurrency(row.price, row.priceCurrency ?? row.quoteCurrency)
                         : '—'}
                     </span>
                     <span className="holding-cell__meta">{row.priceProvider ?? 'No source'}</span>

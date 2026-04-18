@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Holding, AssetTypeValue } from '../schemas/holding';
 import { HoldingSchema } from '../schemas/holding';
 import { useHoldings } from '../hooks/useHoldings';
+import { type PortfolioScope, ME_PORTFOLIO_SCOPE } from '../api/portfolio';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
@@ -13,6 +14,7 @@ interface Props {
   holding?: Holding;
   onDelete?: (id: string) => void;
   canEdit?: boolean;
+  scope?: PortfolioScope;
 }
 
 const ASSET_TYPES: Array<{ value: AssetTypeValue; label: string }> = [
@@ -69,8 +71,8 @@ const HoldingInputSchema = HoldingSchema.omit({
   updatedAt: true,
 });
 
-export default function HoldingForm({ open, onClose, holding, onDelete, canEdit = true }: Props) {
-  const { addHolding, updateHolding, isSaving } = useHoldings();
+export default function HoldingForm({ open, onClose, holding, onDelete, canEdit = true, scope = ME_PORTFOLIO_SCOPE }: Props) {
+  const { addHolding, updateHolding, isSaving } = useHoldings(scope);
   const [form, setForm] = useState<FormState>(() => (holding ? holdingToForm(holding) : emptyForm()));
   const [errors, setErrors] = useState<FormErrors>({});
 

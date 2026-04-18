@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { authClient, getSessionRole, isAdminSession } from '../lib/auth-client';
 import { useSettings } from '../hooks/useSettings';
 import {
   exportPortfolio,
@@ -12,18 +14,17 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { PdfImportWizard } from '../components/PdfImportWizard';
 import type { Settings as SettingsType } from '../schemas/settings';
-import { useAdminSession } from '../hooks/useAdminSession';
 
 export default function Settings() {
-  const { token, isUnlocked, isChecking, unlock, lock } = useAdminSession();
+  const sessionQuery = authClient.useSession();
   const [settings, setSettings, settingsMeta] = useSettings();
   const [importStatus, setImportStatus] = useState<string>('');
-  const [adminToken, setAdminToken] = useState('');
-  const [adminStatus, setAdminStatus] = useState('');
-  const [isUnlocking, setIsUnlocking] = useState(false);
   const [pdfImportOpen, setPdfImportOpen] = useState(false);
 
-  const canEdit = settingsMeta.canEdit && !isChecking;
+  const session = sessionQuery.data;
+  const isAdmin = isAdminSession(session);
+  const role = getSessionRole(session);
+  const canEdit = settingsMeta.canEdit && !sessionQuery.isPending;
   const disableWrites = !canEdit || settingsMeta.isSaving;
 
   const update = <K extends keyof SettingsType>(key: K, value: SettingsType[K]) => {
@@ -54,8 +55,8 @@ export default function Settings() {
     const reader = new FileReader();
     reader.onload = async () => {
       try {
-        await importPortfolio(reader.result as string, token);
-        setImportStatus('Import successful. Shared portfolio updated.');
+        await importPortfolio(reader.result as string);
+        setImportStatus('Import successful. Your private ledger was updated.');
       } catch (error) {
         setImportStatus(getApiErrorMessage(error, 'Import failed: invalid or malformed file.'));
       }
@@ -69,12 +70,12 @@ export default function Settings() {
     if (!canEdit) return;
     if (
       window.confirm(
-        'Reset the shared portfolio back to the default seeded dataset? This will replace holdings, watchlist, and settings for everyone.'
+        'Reset your ledger back to a blank portfolio? This will replace your holdings, watchlist, and settings.'
       )
     ) {
-      void resetPortfolio(token)
+      void resetPortfolio()
         .then(() => {
-          setImportStatus('Shared portfolio reset to the default seeded state.');
+          setImportStatus('Your ledger was reset to a blank state.');
         })
         .catch((error) => {
           setImportStatus(getApiErrorMessage(error, 'Reset failed.'));
@@ -82,29 +83,14 @@ export default function Settings() {
     }
   };
 
-  const handleUnlock = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!adminToken.trim()) {
-      setAdminStatus('Enter the admin token to unlock editing.');
-      return;
-    }
-
-    setIsUnlocking(true);
-    try {
-      await unlock(adminToken.trim());
-      setAdminStatus('Admin access unlocked for this browser session.');
-      setAdminToken('');
-    } catch (error) {
-      setAdminStatus(getApiErrorMessage(error, 'Unable to unlock admin access.'));
-    } finally {
-      setIsUnlocking(false);
-    }
-  };
-
-  const handleLock = () => {
-    lock();
-    setAdminStatus('Admin access cleared. The app is back in read-only mode.');
+  const handleSignOut = () => {
+    void authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.assign('/');
+        },
+      },
+    });
   };
 
   return (
@@ -113,45 +99,23 @@ export default function Settings() {
         <span className="section-kicker">System controls</span>
         <h1 className="page-title">Settings</h1>
         <p className="page-intro__copy">
-          Public visitors can inspect the shared portfolio. Only an unlocked admin session can change holdings, watchlist entries, or shared settings.
+          Manage the base settings for your private ledger, export or import your own data, and keep your account session under control.
         </p>
         <p className="readonly-note">
-          {isChecking
-            ? 'Checking this browser session for admin access...'
-            : isUnlocked
-            ? 'Admin access is active for this browser session.'
-            : 'This browser is in read-only mode until you unlock admin access.'}
+          Signed in as {session?.user?.email ?? 'your account'}{isAdmin ? ' with admin access.' : '.'}
         </p>
       </section>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Admin Access</h2>
-        <form className="admin-panel" onSubmit={handleUnlock}>
-          <Input
-            label="Admin Token"
-            type="password"
-            value={adminToken}
-            onChange={(e) => {
-              setAdminToken(e.target.value);
-              setAdminStatus('');
-            }}
-            disabled={isChecking || isUnlocking || isUnlocked}
-            placeholder="Enter admin token"
-          />
-          <div className="settings-actions">
-            <Button type="submit" variant="primary" disabled={isChecking || isUnlocking || isUnlocked}>
-              {isUnlocking ? 'Unlocking...' : isUnlocked ? 'Admin Unlocked' : 'Unlock Editing'}
-            </Button>
-            <Button type="button" variant="secondary" onClick={handleLock} disabled={!isUnlocked}>
-              Lock Session
-            </Button>
-          </div>
-        </form>
-        {(adminStatus || settingsMeta.errorMessage) && (
-          <p className={adminStatus.toLowerCase().includes('unlock') && !adminStatus.toLowerCase().includes('unable') ? 'text-positive' : adminStatus ? 'text-muted' : 'text-negative'}>
-            {adminStatus || settingsMeta.errorMessage}
-          </p>
-        )}
+        <h2 className="settings-section__title">Account</h2>
+        <Input label="Name" value={session?.user?.name ?? '—'} readOnly />
+        <Input label="Email" value={session?.user?.email ?? '—'} readOnly />
+        <Input label="Role" value={role} readOnly />
+        <div className="settings-actions">
+          {isAdmin && <Link to="/admin" className="btn btn--secondary btn--md">Open Admin Console</Link>}
+          <Button type="button" variant="secondary" onClick={handleSignOut}>Sign Out</Button>
+        </div>
+        {settingsMeta.errorMessage && <p className="text-negative">{settingsMeta.errorMessage}</p>}
       </Card>
 
       <Card className="settings-section">
@@ -172,17 +136,7 @@ export default function Settings() {
         <h2 className="settings-section__title">Data Providers</h2>
         <Input label="Price Provider" value="Auto by market (Alpaca + CoinMarketCap + Sahmk + snapshot fallback)" readOnly />
         <Input label="FX Provider" value="Frankfurter (ECB rates)" readOnly />
-        <Input
-          label="Refresh Interval (seconds)"
-          type="number"
-          min="10"
-          max="3600"
-          value={settings.refreshIntervalSec}
-          disabled={disableWrites}
-          onChange={(e) =>
-            update('refreshIntervalSec', parseInt(e.target.value) || 60)
-          }
-        />
+        <Input label="Refresh Interval" value={`${settings.refreshIntervalSec} seconds (server-managed)`} readOnly />
       </Card>
 
       <Card className="settings-section">
@@ -209,7 +163,7 @@ export default function Settings() {
             <Button variant="secondary" onClick={() => void handleExport()}>
               Export Data
             </Button>
-            <p className="text-muted">Download the shared portfolio as a JSON snapshot.</p>
+            <p className="text-muted">Download your private ledger as a JSON snapshot.</p>
           </div>
           <div className="settings-action-group">
             <label
@@ -229,7 +183,6 @@ export default function Settings() {
                 style={{ display: 'none' }}
               />
             </label>
-            {!canEdit && <p className="text-muted">Admin unlock required for import.</p>}
             {importStatus && (
               <p
                 className={
@@ -245,14 +198,13 @@ export default function Settings() {
               Import from PDF
             </Button>
             <p className="text-muted">Import holdings from a brokerage statement PDF.</p>
-            {!canEdit && <p className="text-muted">Admin unlock required for PDF import.</p>}
           </div>
           <div className="settings-action-group">
             <Button variant="danger" onClick={handleReset} disabled={disableWrites}>
               Reset All Data
             </Button>
             <p className="text-muted">
-              Replace the shared portfolio with the default seeded dataset.
+              Replace your ledger with a blank portfolio.
             </p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ME_PORTFOLIO_SCOPE } from '../api/portfolio';
 import type { Holding } from '../schemas/holding';
 import type { HoldingRow } from '../lib/metrics';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -52,19 +53,19 @@ export default function Holdings() {
     return (
       <section className="page-intro card">
         <span className="section-kicker">Portfolio inventory</span>
-        <h1 className="page-title">Loading shared holdings...</h1>
+        <h1 className="page-title">Loading your holdings...</h1>
       </section>
     );
   }
 
   if (errorMessage) {
     return (
-      <EmptyState
-        title="Unable to load holdings"
-        description={errorMessage}
-        action={<Link to="/settings">Open Settings</Link>}
-      />
-    );
+        <EmptyState
+          title="Unable to load holdings"
+          description={errorMessage}
+          action={<Link to="/app/settings">Open Settings</Link>}
+        />
+      );
   }
 
   return (
@@ -82,13 +83,8 @@ export default function Holdings() {
             </Button>
           </div>
           <p className="page-intro__copy">
-            Every position is grouped into one execution surface so you can inspect live marks, blended valuations, and open P/L without leaving the book.
+            Every position in your private ledger stays in one execution surface so you can inspect live marks, blended valuations, and open P/L without leaving the book.
           </p>
-          {!canEdit && (
-            <p className="readonly-note">
-              Shared portfolio is public read-only. Unlock admin access in Settings to add, edit, or delete positions.
-            </p>
-          )}
         </div>
       </section>
 
@@ -98,7 +94,7 @@ export default function Holdings() {
           description={
             canEdit
               ? 'Start building your portfolio by adding your first holding.'
-              : 'The shared portfolio is empty. Unlock admin access in Settings to add the first holding.'
+              : 'This ledger is not editable right now.'
           }
           action={
             <>
@@ -107,9 +103,9 @@ export default function Holdings() {
                   Add Holding
                 </Button>
               ) : (
-                <Link to="/settings">Open Settings</Link>
+                <Link to="/app/settings">Open Settings</Link>
               )}
-              <Link to="/">Back to Dashboard</Link>
+              <Link to="/app">Back to Dashboard</Link>
             </>
           }
         />
@@ -129,6 +125,7 @@ export default function Holdings() {
         holding={editTarget}
         onDelete={editTarget ? deleteHolding : undefined}
         canEdit={canEdit}
+        scope={ME_PORTFOLIO_SCOPE}
       />
 
       <PdfImportWizard

@@ -5,6 +5,7 @@ export type FxLookup = (from: string, to: string) => number | undefined;
 
 export interface HoldingRow extends Holding {
   price?: number;
+  priceCurrency?: string;
   priceAsOf?: string;
   priceProvider?: string;
   costBasisBase: number;
@@ -38,6 +39,7 @@ export function deriveRow(
   const costBasisBase = h.quantity * h.avgCost * costFx;
 
   let price: number | undefined;
+  let priceCurrency: string | undefined;
   let priceAsOf: string | undefined;
   let priceProvider: string | undefined;
   let marketValueBase: number | undefined;
@@ -51,6 +53,7 @@ export function deriveRow(
 
   if (resolvedPrice !== undefined) {
     price = resolvedPrice;
+    priceCurrency = resolvedCurrency;
     priceAsOf = resolvedAsOf;
     priceProvider = resolvedProvider;
 
@@ -72,6 +75,7 @@ export function deriveRow(
   return {
     ...h,
     price,
+    priceCurrency,
     priceAsOf,
     priceProvider,
     costBasisBase,

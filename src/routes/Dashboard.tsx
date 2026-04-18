@@ -8,7 +8,19 @@ import { Button } from '../components/ui/Button';
 import { fmtAge } from '../lib/format';
 
 export default function Dashboard() {
-  const { rows, summary, settings, isFetching, isLoading, errorMessage, lastUpdated, refresh } = usePortfolio();
+  const {
+    rows,
+    summary,
+    settings,
+    isFetching,
+    isLoading,
+    errorMessage,
+    priceErrorMessage,
+    quoteErrors,
+    lastUpdated,
+    canRefreshMarkets,
+    refresh,
+  } = usePortfolio();
 
   const liveCount = rows.filter((row) => row.priceProvider === 'alpaca' || row.priceProvider === 'coinmarketcap' || row.priceProvider === 'sahmk').length;
   const snapshotCount = rows.filter((row) => row.priceProvider && row.priceProvider !== 'alpaca' && row.priceProvider !== 'coinmarketcap' && row.priceProvider !== 'sahmk').length;
@@ -17,8 +29,8 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <section className="page-intro card card--hero">
-        <span className="hero-badge">Shared Portfolio</span>
-        <h1 className="page-title">Loading shared portfolio...</h1>
+        <span className="hero-badge">Private ledger</span>
+        <h1 className="page-title">Loading your portfolio...</h1>
       </section>
     );
   }
@@ -28,7 +40,7 @@ export default function Dashboard() {
       <EmptyState
         title="Portfolio unavailable"
         description={errorMessage}
-        action={<Link to="/settings">Open Settings</Link>}
+        action={<Link to="/app/settings">Open Settings</Link>}
       />
     );
   }
@@ -37,10 +49,10 @@ export default function Dashboard() {
     return (
       <EmptyState
         title="No holdings yet"
-        description="The shared portfolio is empty. Unlock admin access in Settings to add the first holding."
+        description="Your ledger is ready. Add your first holding to start tracking the portfolio."
         action={
-          <Link to="/settings">
-            <Button variant="primary">Open Settings</Button>
+          <Link to="/app/holdings">
+            <Button variant="primary">Add Holding</Button>
           </Link>
         }
       />
@@ -50,12 +62,12 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <section className="hero-panel card card--hero">
-        <div className="hero-panel__content">
-          <div className="hero-panel__headline">
-            <span className="hero-badge">Live Routing Active</span>
-            <h1 className="page-title">Trading-floor clarity for a mixed-market portfolio.</h1>
+          <div className="hero-panel__content">
+            <div className="hero-panel__headline">
+            <span className="hero-badge">Live routing active</span>
+            <h1 className="page-title">Track your private ledger with live, market-aware pricing.</h1>
             <p className="hero-panel__lede">
-              US names route through Alpaca, crypto routes through CoinMarketCap, Saudi equities route through Sahmk, and unsupported sleeves hold their last trusted snapshot so the book stays readable.
+              US names route through Alpaca, crypto routes through CoinMarketCap, Saudi equities route through Sahmk, and unsupported sleeves keep their last trusted snapshot so your book stays readable.
             </p>
           </div>
 
@@ -88,10 +100,16 @@ export default function Dashboard() {
               variant="secondary"
               size="sm"
               onClick={refresh}
-              disabled={isFetching}
+              disabled={!canRefreshMarkets || isFetching}
             >
               {isFetching ? 'Refreshing...' : 'Refresh markets'}
             </Button>
+            {priceErrorMessage && (
+              <span className="text-negative">{priceErrorMessage}</span>
+            )}
+            {Object.keys(quoteErrors).length > 0 && !priceErrorMessage && (
+              <span className="text-muted">Live quote warnings: {Object.keys(quoteErrors).join(', ')}</span>
+            )}
           </div>
 
           <div className="market-coverage card card--dark">

@@ -99,6 +99,7 @@ describe('deriveRow', () => {
     const row = deriveRow(h, q, noFx, 'USD');
 
     expect(row.price).toBe(200);
+    expect(row.priceCurrency).toBe('USD');
     expect(row.priceAsOf).toBe('2024-01-01T00:00:00Z');
     expect(row.priceProvider).toBe('alpaca');
   });
@@ -125,6 +126,7 @@ describe('deriveRow', () => {
     const row = deriveRow(h, undefined, noFx, 'SAR');
 
     expect(row.price).toBe(125);
+    expect(row.priceCurrency).toBe('SAR');
     expect(row.priceAsOf).toBe('2026-04-14T00:00:00Z');
     expect(row.priceProvider).toBe('assets.md');
     expect(row.marketValueBase).toBe(500);
@@ -142,8 +144,18 @@ describe('deriveRow', () => {
     const row = deriveRow(h, q, noFx, 'USD');
 
     expect(row.price).toBe(150);
+    expect(row.priceCurrency).toBe('USD');
     expect(row.priceProvider).toBe('alpaca');
     expect(row.marketValueBase).toBe(1500);
+  });
+
+  it('preserves the provider currency even when the holding fallback currency differs', () => {
+    const h = makeHolding({ quoteCurrency: 'SAR' });
+    const q = makeQuote({ currency: 'USD' });
+    const row = deriveRow(h, q, usdSar, 'SAR');
+
+    expect(row.priceCurrency).toBe('USD');
+    expect(row.marketValueBase).toBeCloseTo(5625);
   });
 });
 

@@ -5,44 +5,53 @@ import {
   createHolding,
   editHolding,
   getApiErrorMessage,
-  type PortfolioSnapshot,
+  type PortfolioLedger,
+  type PortfolioScope,
+  ME_PORTFOLIO_SCOPE,
   portfolioQueryKey,
   removeHolding,
 } from '../api/portfolio';
-import { useAdminSession } from './useAdminSession';
+import { priceSnapshotQueryKey } from '../api/prices';
 import { usePortfolioSnapshot } from './usePortfolioSnapshot';
 
 type AddHoldingInput = Omit<Holding, 'id' | 'createdAt' | 'updatedAt'>;
 
-export function useHoldings() {
+export function useHoldings(scope: PortfolioScope = ME_PORTFOLIO_SCOPE) {
   const queryClient = useQueryClient();
-  const { token, isUnlocked } = useAdminSession();
-  const portfolioQuery = usePortfolioSnapshot();
+  const portfolioQuery = usePortfolioSnapshot(scope);
 
-  const syncHoldings = useCallback((snapshot: PortfolioSnapshot) => {
-    queryClient.setQueryData(portfolioQueryKey, snapshot);
-    void queryClient.invalidateQueries({ queryKey: ['price'] });
-  }, [queryClient]);
+  const syncHoldings = useCallback(
+    (ledger: PortfolioLedger) => {
+      queryClient.setQueryData(portfolioQueryKey(scope), ledger);
+      void queryClient.invalidateQueries({ queryKey: priceSnapshotQueryKey(scope) });
+    },
+    [queryClient, scope],
+  );
 
   const reportMutationError = useCallback((error: unknown) => {
-    window.alert(getApiErrorMessage(error, 'Unable to update the shared portfolio.'));
-  }, []);
+    window.alert(
+      getApiErrorMessage(
+        error,
+        scope.kind === 'me' ? 'Unable to update your portfolio.' : 'Unable to update this portfolio.',
+      ),
+    );
+  }, [scope.kind]);
 
   const addMutation = useMutation({
-    mutationFn: (input: AddHoldingInput) => createHolding(input, token),
+    mutationFn: (input: AddHoldingInput) => createHolding(input, scope),
     onSuccess: syncHoldings,
     onError: reportMutationError,
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: Partial<Omit<Holding, 'id' | 'createdAt'>> }) =>
-      editHolding(id, updates, token),
+      editHolding(id, updates, scope),
     onSuccess: syncHoldings,
     onError: reportMutationError,
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => removeHolding(id, token),
+    mutationFn: (id: string) => removeHolding(id, scope),
     onSuccess: syncHoldings,
     onError: reportMutationError,
   });
@@ -64,10 +73,13 @@ export function useHoldings() {
     addHolding,
     updateHolding,
     deleteHolding,
-    canEdit: isUnlocked,
+    canEdit: scope.kind === 'admin' || portfolioQuery.data?.status === 'active',
     isLoading: portfolioQuery.isPending,
     errorMessage: portfolioQuery.error
-      ? getApiErrorMessage(portfolioQuery.error, 'Unable to load holdings.')
+      ? getApiErrorMessage(
+          portfolioQuery.error,
+          scope.kind === 'me' ? 'Unable to load holdings.' : 'Unable to load holdings for this portfolio.',
+        )
       : undefined,
     isSaving: addMutation.isPending || updateMutation.isPending || deleteMutation.isPending,
   };

@@ -1,8 +1,14 @@
-import { NavLink, Link } from 'react-router-dom';
-import { useAdminSession } from '../hooks/useAdminSession';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Button } from './ui/Button';
+import { authClient, getSessionRole, isAdminSession } from '../lib/auth-client';
 
 export default function NavBar() {
-  const { isUnlocked, isChecking } = useAdminSession();
+  const location = useLocation();
+  const sessionQuery = authClient.useSession();
+  const session = sessionQuery.data;
+  const isAdmin = isAdminSession(session);
+  const role = getSessionRole(session);
+  const isAdminArea = location.pathname.startsWith('/admin');
 
   return (
     <header className="site-header">
@@ -24,7 +30,7 @@ export default function NavBar() {
       </div>
 
       <nav className="navbar">
-        <Link to="/" className="navbar__brand" aria-label="Fayafolio home">
+        <Link to={isAdminArea ? '/admin' : '/app'} className="navbar__brand" aria-label="Fayafolio home">
           <span className="navbar__brand-mark" aria-hidden="true">
             <span />
             <span />
@@ -37,34 +43,55 @@ export default function NavBar() {
 
         <ul className="navbar__links">
           <li>
-            <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+            <NavLink to="/app" end className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
               Dashboard
             </NavLink>
           </li>
           <li>
-            <NavLink to="/holdings" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+            <NavLink to="/app/holdings" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
               Holdings
             </NavLink>
           </li>
           <li>
-            <NavLink to="/watchlist" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+            <NavLink to="/app/watchlist" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
               Watchlist
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+            <NavLink to="/app/settings" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
               Settings
             </NavLink>
           </li>
+          {isAdmin && (
+            <li>
+              <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+                Admin
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         <div className="navbar__actions">
-          <span className={`status-pill ${isUnlocked ? 'status-pill--positive' : 'status-pill--muted'}`}>
-            {isChecking ? 'Checking access...' : isUnlocked ? 'Admin unlocked' : 'Read-only'}
+          <span className={`status-pill ${isAdmin ? 'status-pill--positive' : 'status-pill--muted'}`}>
+            {role === 'admin' ? 'Admin session' : 'Signed in'}
           </span>
-          <Link to={isUnlocked ? '/holdings' : '/settings'} className="btn btn--primary btn--md navbar__cta">
-            {isUnlocked ? 'Add Position' : 'Unlock Editing'}
-          </Link>
+          <span className="navbar__user">{session?.user?.name ?? session?.user?.email}</span>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="navbar__cta"
+            onClick={() => {
+              void authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    window.location.assign('/');
+                  },
+                },
+              });
+            }}
+          >
+            Sign Out
+          </Button>
         </div>
       </nav>
     </header>

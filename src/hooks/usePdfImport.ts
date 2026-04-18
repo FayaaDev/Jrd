@@ -1,12 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAdminSession } from './useAdminSession';
-import { getApiErrorMessage, portfolioQueryKey } from '../api/portfolio';
-import {
-  uploadPdfForExtraction,
-  verifyImportSymbols,
-  confirmPdfImport,
-} from '../api/pdfImport';
+import { getApiErrorMessage, ME_PORTFOLIO_SCOPE, portfolioQueryKey } from '../api/portfolio';
+import { priceSnapshotQueryKey } from '../api/prices';
+import { confirmPdfImport, uploadPdfForExtraction, verifyImportSymbols } from '../api/pdfImport';
 import type {
   ExtractedHolding,
   ExtractionResult,
@@ -19,7 +15,6 @@ type WizardStep = 'idle' | 'uploading' | 'reviewing' | 'confirming' | 'done';
 const initialMergeStrategy: MergeStrategy = 'add_new';
 
 export function usePdfImport() {
-  const { token } = useAdminSession();
   const queryClient = useQueryClient();
 
   const [step, setStep] = useState<WizardStep>('idle');
@@ -31,15 +26,14 @@ export function usePdfImport() {
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
-  // Keep refs so async callbacks can read current values without stale closures
   const stepRef = useRef<WizardStep>('idle');
   const editedHoldingsRef = useRef<ExtractedHolding[]>([]);
   const selectedIdsRef = useRef<Set<number>>(new Set());
   const mergeStrategyRef = useRef<MergeStrategy>(initialMergeStrategy);
 
-  const setStepAndRef = useCallback((s: WizardStep) => {
-    stepRef.current = s;
-    setStep(s);
+  const setStepAndRef = useCallback((next: WizardStep) => {
+    stepRef.current = next;
+    setStep(next);
   }, []);
 
   const setEditedHoldingsAndRef = useCallback((holdings: ExtractedHolding[]) => {
@@ -58,18 +52,24 @@ export function usePdfImport() {
   }, []);
 
   const upload = useCallback(async (file: File) => {
-    if (stepRef.current !== 'idle') return;
+    if (stepRef.current !== 'idle') {
+      return;
+    }
+
     setStepAndRef('uploading');
     setError(null);
+
     try {
-      const result = await uploadPdfForExtraction(file, token);
+      const result = await uploadPdfForExtraction(file);
       const holdings = [...result.holdings];
       const autoSelected = new Set<number>();
+
       holdings.forEach((holding, index) => {
         if (holding.confidence >= 0.8) {
           autoSelected.add(index);
         }
       });
+
       setExtractionResult(result);
       setEditedHoldingsAndRef(holdings);
       setSelectedIdsAndRef(autoSelected);
@@ -78,7 +78,7 @@ export function usePdfImport() {
       setError(getApiErrorMessage(err, 'Failed to upload PDF.'));
       setStepAndRef('idle');
     }
-  }, [token, setStepAndRef, setEditedHoldingsAndRef, setSelectedIdsAndRef]);
+  }, [setEditedHoldingsAndRef, setSelectedIdsAndRef, setStepAndRef]);
 
   const updateHolding = useCallback((index: number, updates: Partial<ExtractedHolding>) => {
     const next = [...editedHoldingsRef.current];
@@ -93,12 +93,12 @@ export function usePdfImport() {
     } else {
       next.add(index);
     }
+
     setSelectedIdsAndRef(next);
   }, [setSelectedIdsAndRef]);
 
   const selectAll = useCallback(() => {
-    const allIndices = editedHoldingsRef.current.map((_, i) => i);
-    setSelectedIdsAndRef(new Set(allIndices));
+    setSelectedIdsAndRef(new Set(editedHoldingsRef.current.map((_, index) => index)));
   }, [setSelectedIdsAndRef]);
 
   const deselectAll = useCallback(() => {
@@ -108,22 +108,27 @@ export function usePdfImport() {
   const reverify = useCallback(async (indices?: number[]) => {
     setIsVerifying(true);
     setError(null);
+
     try {
       const current = editedHoldingsRef.current;
       const targets = indices !== undefined
-        ? indices.map(i => current[i]).filter((h): h is ExtractedHolding => h !== undefined)
+        ? indices.map((index) => current[index]).filter((holding): holding is ExtractedHolding => holding !== undefined)
         : current;
 
-      const pairs = targets.map(h => ({ symbol: h.symbol, market: h.market }));
-      const results = await verifyImportSymbols(pairs, token);
+      const pairs = targets.map((holding) => ({ symbol: holding.symbol, market: holding.market }));
+      const results = await verifyImportSymbols(pairs);
 
-      const updated = editedHoldingsRef.current.map(holding => {
+      const updated = editedHoldingsRef.current.map((holding) => {
         const match = results.find(
-          r =>
-            r.symbol.toLowerCase() === holding.symbol.toLowerCase() &&
-            r.market.toLowerCase() === holding.market.toLowerCase()
+          (result) =>
+            result.symbol.toLowerCase() === holding.symbol.toLowerCase()
+            && result.market.toLowerCase() === holding.market.toLowerCase(),
         );
-        if (!match) return holding;
+
+        if (!match) {
+          return holding;
+        }
+
         return {
           ...holding,
           verified: match.verified,
@@ -137,41 +142,38 @@ export function usePdfImport() {
     } finally {
       setIsVerifying(false);
     }
-  }, [token, setEditedHoldingsAndRef]);
+  }, [setEditedHoldingsAndRef]);
 
   const confirm = useCallback(async () => {
     setStepAndRef('confirming');
     setError(null);
-    try {
-      const currentHoldings = editedHoldingsRef.current;
-      const currentSelectedIds = selectedIdsRef.current;
-      const currentMergeStrategy = mergeStrategyRef.current;
 
-      const holdingInputs = [...currentSelectedIds]
-        .sort((a, b) => a - b)
-        .map(i => currentHoldings[i])
-        .filter((h): h is ExtractedHolding => h !== undefined)
-        .map(h => ({
-          symbol: h.symbol,
-          name: h.name ?? h.suggestedName ?? undefined,
-          assetType: h.assetType,
-          market: h.market,
-          quantity: h.quantity,
-          avgCost: h.avgCost,
-          costCurrency: h.costCurrency,
-          quoteCurrency: h.quoteCurrency,
+    try {
+      const holdingInputs = [...selectedIdsRef.current]
+        .sort((left, right) => left - right)
+        .map((index) => editedHoldingsRef.current[index])
+        .filter((holding): holding is ExtractedHolding => holding !== undefined)
+        .map((holding) => ({
+          symbol: holding.symbol,
+          name: holding.name ?? holding.suggestedName ?? undefined,
+          assetType: holding.assetType,
+          market: holding.market,
+          quantity: holding.quantity,
+          avgCost: holding.avgCost,
+          costCurrency: holding.costCurrency,
+          quoteCurrency: holding.quoteCurrency,
         }));
 
-      const result = await confirmPdfImport(holdingInputs, currentMergeStrategy, token);
-      queryClient.setQueryData(portfolioQueryKey, result.snapshot);
-      void queryClient.invalidateQueries({ queryKey: ['price'] });
+      const result = await confirmPdfImport(holdingInputs, mergeStrategyRef.current);
+      queryClient.setQueryData(portfolioQueryKey(ME_PORTFOLIO_SCOPE), result.ledger);
+      void queryClient.invalidateQueries({ queryKey: priceSnapshotQueryKey(ME_PORTFOLIO_SCOPE) });
       setImportSummary(result.summary);
       setStepAndRef('done');
     } catch (err) {
       setError(getApiErrorMessage(err, 'Failed to confirm import.'));
       setStepAndRef('reviewing');
     }
-  }, [token, queryClient, setStepAndRef]);
+  }, [queryClient, setStepAndRef]);
 
   const reset = useCallback(() => {
     setStepAndRef('idle');
@@ -182,7 +184,7 @@ export function usePdfImport() {
     setImportSummary(null);
     setError(null);
     setIsVerifying(false);
-  }, [setStepAndRef, setEditedHoldingsAndRef, setSelectedIdsAndRef, setMergeStrategyAndRef]);
+  }, [setEditedHoldingsAndRef, setMergeStrategyAndRef, setSelectedIdsAndRef, setStepAndRef]);
 
   return {
     step,

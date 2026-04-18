@@ -1,18 +1,15 @@
-import type { PortfolioSnapshot } from './portfolio';
-import { PortfolioSnapshotSchema } from './portfolio';
 import { apiPath } from './base';
+import { PortfolioLedgerSchema, type HoldingInput, type PortfolioLedger } from './portfolio';
 import {
   ExtractionResultSchema,
-  VerifySymbolsResponseSchema,
   ImportSummarySchema,
+  VerifySymbolsResponseSchema,
   type ExtractionResult,
-  type VerifySymbolResult,
   type ImportSummary,
   type MergeStrategy,
+  type VerifySymbolResult,
 } from '../schemas/pdfImport';
-import type { HoldingInput } from './portfolio';
 
-// Shared error parsing (mirrors portfolio.ts parseResponseError)
 async function parseError(response: Response): Promise<Error> {
   try {
     const json = await response.json();
@@ -20,40 +17,29 @@ async function parseError(response: Response): Promise<Error> {
       return new Error(json.message);
     }
   } catch {
-    // ignore
+    // Ignore malformed error bodies and fall back to the status text.
   }
+
   return new Error(response.statusText || `HTTP ${response.status}`);
 }
 
-/**
- * Fetch the list of valid MIC codes supported by the import pipeline.
- */
 export async function fetchValidMarkets(): Promise<string[]> {
-  const response = await fetch(apiPath('/pdf-import/valid-markets'));
+  const response = await fetch(apiPath('/pdf-import/valid-markets'), {
+    credentials: 'include',
+  });
   if (!response.ok) return [];
+
   const json = await response.json();
   return Array.isArray(json.markets) ? json.markets : [];
 }
 
-/**
- * Upload a PDF and run the full OCR → extraction → verification pipeline.
- * Returns extracted holdings with confidence scores.
- */
-export async function uploadPdfForExtraction(
-  file: File,
-  token: string | null
-): Promise<ExtractionResult> {
+export async function uploadPdfForExtraction(file: File): Promise<ExtractionResult> {
   const form = new FormData();
   form.append('file', file);
 
-  const headers = new Headers();
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  const response = await fetch(apiPath('/portfolio/import/pdf'), {
+  const response = await fetch(apiPath('/me/portfolio/import/pdf'), {
     method: 'POST',
-    headers,
+    credentials: 'include',
     body: form,
   });
 
@@ -61,25 +47,18 @@ export async function uploadPdfForExtraction(
     throw await parseError(response);
   }
 
-  const json = await response.json();
-  return ExtractionResultSchema.parse(json);
+  return ExtractionResultSchema.parse(await response.json());
 }
 
-/**
- * Re-verify symbols against price providers (used after user edits in review UI).
- */
 export async function verifyImportSymbols(
   pairs: Array<{ symbol: string; market: string }>,
-  token: string | null
 ): Promise<VerifySymbolResult[]> {
-  const headers = new Headers({ 'Content-Type': 'application/json' });
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  const response = await fetch(apiPath('/portfolio/import/pdf/verify-symbols'), {
+  const response = await fetch(apiPath('/me/portfolio/import/pdf/verify-symbols'), {
     method: 'POST',
-    headers,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ symbols: pairs }),
   });
 
@@ -87,26 +66,19 @@ export async function verifyImportSymbols(
     throw await parseError(response);
   }
 
-  const json = await response.json();
-  return VerifySymbolsResponseSchema.parse(json).results;
+  return VerifySymbolsResponseSchema.parse(await response.json()).results;
 }
 
-/**
- * Confirm import: merge reviewed holdings into the portfolio.
- */
 export async function confirmPdfImport(
   holdings: HoldingInput[],
   mergeStrategy: MergeStrategy,
-  token: string | null
-): Promise<{ snapshot: PortfolioSnapshot; summary: ImportSummary }> {
-  const headers = new Headers({ 'Content-Type': 'application/json' });
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  const response = await fetch(apiPath('/portfolio/import/pdf/confirm'), {
+): Promise<{ ledger: PortfolioLedger; summary: ImportSummary }> {
+  const response = await fetch(apiPath('/me/portfolio/import/pdf/confirm'), {
     method: 'POST',
-    headers,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ holdings, mergeStrategy }),
   });
 
@@ -115,7 +87,8 @@ export async function confirmPdfImport(
   }
 
   const json = await response.json();
-  const snapshot = PortfolioSnapshotSchema.parse(json.snapshot);
-  const summary = ImportSummarySchema.parse(json.summary);
-  return { snapshot, summary };
+  return {
+    ledger: PortfolioLedgerSchema.parse(json.ledger),
+    summary: ImportSummarySchema.parse(json.summary),
+  };
 }

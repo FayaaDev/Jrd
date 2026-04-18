@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { useSettings } from '../hooks/useSettings';
 import { usePrices } from '../hooks/usePrices';
+import { ME_PORTFOLIO_SCOPE } from '../api/portfolio';
 import { fmtCurrency, fmtAge } from '../lib/format';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -11,6 +12,7 @@ export default function Watchlist() {
   const [settings] = useSettings();
   const symbols = watchlist.map((w) => w.symbol);
   const prices = usePrices(
+    ME_PORTFOLIO_SCOPE,
     symbols,
     watchlist.map((item) => ({
       symbol: item.symbol,
@@ -56,7 +58,7 @@ export default function Watchlist() {
     return (
       <section className="page-intro card card--dark">
         <span className="section-kicker">Trade radar</span>
-        <h1 className="page-title">Loading shared watchlist...</h1>
+        <h1 className="page-title">Loading your watchlist...</h1>
       </section>
     );
   }
@@ -81,13 +83,8 @@ export default function Watchlist() {
           <h1 className="page-title">Watchlist</h1>
         </div>
         <p className="page-intro__copy page-intro__copy--inverse">
-          Stage symbols before they graduate into the portfolio. Numeric SAR symbols route to Sahmk, everything else defaults to Alpaca.
+          Stage symbols before they graduate into your holdings. Numeric SAR symbols route to Sahmk, everything else defaults to Alpaca.
         </p>
-        {!canEdit && (
-          <p className="readonly-note readonly-note--inverse">
-            Shared watchlist is public read-only. Unlock admin access in Settings to curate symbols.
-          </p>
-        )}
       </section>
 
       <form onSubmit={handleAdd} className="watchlist-add-form card">
@@ -146,7 +143,7 @@ export default function Watchlist() {
             </thead>
             <tbody>
               {watchlist.map((item) => {
-                const quote = prices[item.symbol];
+                const quote = prices.prices[item.symbol];
                 return (
                   <tr key={item.symbol} className="table__row">
                     <td className="table__td table__td--symbol">{item.symbol}</td>
@@ -154,7 +151,7 @@ export default function Watchlist() {
                     <td className="table__td">{item.quoteCurrency}</td>
                     <td className="table__td table__td--number">
                       {quote?.price != null
-                        ? fmtCurrency(quote.price, item.quoteCurrency)
+                        ? fmtCurrency(quote.price, quote.currency ?? item.quoteCurrency)
                         : '—'}
                     </td>
                     <td className="table__td table__td--number">
