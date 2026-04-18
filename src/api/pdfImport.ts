@@ -1,5 +1,6 @@
 import type { PortfolioSnapshot } from './portfolio';
 import { PortfolioSnapshotSchema } from './portfolio';
+import { apiPath } from './base';
 import {
   ExtractionResultSchema,
   VerifySymbolsResponseSchema,
@@ -25,6 +26,16 @@ async function parseError(response: Response): Promise<Error> {
 }
 
 /**
+ * Fetch the list of valid MIC codes supported by the import pipeline.
+ */
+export async function fetchValidMarkets(): Promise<string[]> {
+  const response = await fetch(apiPath('/pdf-import/valid-markets'));
+  if (!response.ok) return [];
+  const json = await response.json();
+  return Array.isArray(json.markets) ? json.markets : [];
+}
+
+/**
  * Upload a PDF and run the full OCR → extraction → verification pipeline.
  * Returns extracted holdings with confidence scores.
  */
@@ -40,7 +51,7 @@ export async function uploadPdfForExtraction(
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch('/api/portfolio/import/pdf', {
+  const response = await fetch(apiPath('/portfolio/import/pdf'), {
     method: 'POST',
     headers,
     body: form,
@@ -66,7 +77,7 @@ export async function verifyImportSymbols(
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch('/api/portfolio/import/pdf/verify-symbols', {
+  const response = await fetch(apiPath('/portfolio/import/pdf/verify-symbols'), {
     method: 'POST',
     headers,
     body: JSON.stringify({ symbols: pairs }),
@@ -93,7 +104,7 @@ export async function confirmPdfImport(
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch('/api/portfolio/import/pdf/confirm', {
+  const response = await fetch(apiPath('/portfolio/import/pdf/confirm'), {
     method: 'POST',
     headers,
     body: JSON.stringify({ holdings, mergeStrategy }),

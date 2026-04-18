@@ -5,6 +5,8 @@ import Holdings from './routes/Holdings';
 import Watchlist from './routes/Watchlist';
 import Settings from './routes/Settings';
 
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -16,4 +18,4 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <Settings /> },
     ],
   },
-]);
+], { basename });

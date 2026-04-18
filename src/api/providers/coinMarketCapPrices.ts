@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { PriceProvider, PriceQuote } from '../types';
+import { apiPath } from '../base';
 
 const QuoteSchema = z.object({
   price: z.number(),
@@ -27,7 +28,7 @@ export const coinMarketCapPricesProvider: PriceProvider = {
       symbol: symbols.join(','),
       convert: 'USD',
     });
-    const response = await fetch(`/api/coinmarketcap/v1/cryptocurrency/quotes/latest?${params}`);
+    const response = await fetch(apiPath(`/coinmarketcap/v1/cryptocurrency/quotes/latest?${params}`));
 
     if (!response.ok) {
       throw new Error(`[coinmarketcap] HTTP ${response.status}: ${response.statusText}`);

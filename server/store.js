@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { buildDefaultPortfolioSnapshot } from './defaultPortfolio.js';
+import { buildDefaultPortfolioSnapshot, buildEmptyPortfolioSnapshot } from './defaultPortfolio.js';
 import { PortfolioSnapshotSchema } from './schemas.js';
 
 const pool = new Pool({
@@ -7,6 +7,13 @@ const pool = new Pool({
 });
 
 const PORTFOLIO_SLUG = process.env.PORTFOLIO_SLUG ?? 'shared';
+const PORTFOLIO_TEMPLATE = process.env.PORTFOLIO_TEMPLATE ?? 'seeded';
+
+function buildInitialPortfolioSnapshot() {
+  return PORTFOLIO_TEMPLATE === 'empty'
+    ? buildEmptyPortfolioSnapshot()
+    : buildDefaultPortfolioSnapshot();
+}
 
 export async function initStore() {
   await pool.query(`
@@ -30,7 +37,7 @@ function parseSnapshot(row) {
 }
 
 async function ensurePortfolioExists(client) {
-  const snapshot = buildDefaultPortfolioSnapshot();
+  const snapshot = buildInitialPortfolioSnapshot();
 
   await client.query(
     `
@@ -121,7 +128,7 @@ export async function updatePortfolioSnapshot(mutator) {
 }
 
 export async function resetPortfolioSnapshot() {
-  return updatePortfolioSnapshot(() => buildDefaultPortfolioSnapshot());
+  return updatePortfolioSnapshot(() => buildInitialPortfolioSnapshot());
 }
 
 export async function closeStore() {

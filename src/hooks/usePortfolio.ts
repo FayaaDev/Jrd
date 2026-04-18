@@ -24,6 +24,15 @@ export function usePortfolio(): {
 
   const symbols = [...new Set(holdings.map((h) => h.symbol))];
 
+  // Price providers return a specific currency per market that may differ from
+  // h.quoteCurrency (e.g. Alpaca always returns USD regardless of what the LLM
+  // stored as quoteCurrency). We pre-fetch that pair so deriveRow never gets NaN.
+  const MARKET_PRICE_CURRENCY: Record<string, string> = {
+    XNAS: 'USD', XNYS: 'USD', ARCX: 'USD', BATS: 'USD', IEXG: 'USD', XASX: 'AUD',
+    XSAU: 'SAR',
+    CRYPTO: 'USD',
+  };
+
   const fxPairsMap = new Map<string, [string, string]>();
   for (const h of holdings) {
     const base = settings.baseCurrency;
@@ -32,6 +41,11 @@ export function usePortfolio(): {
     }
     if (h.quoteCurrency !== base) {
       fxPairsMap.set(`${h.quoteCurrency}:${base}`, [h.quoteCurrency, base]);
+    }
+    // Also pre-fetch the currency the price provider will actually return
+    const providerCurrency = MARKET_PRICE_CURRENCY[h.market.toUpperCase()];
+    if (providerCurrency && providerCurrency !== base) {
+      fxPairsMap.set(`${providerCurrency}:${base}`, [providerCurrency, base]);
     }
   }
   const fxPairs = Array.from(fxPairsMap.values());

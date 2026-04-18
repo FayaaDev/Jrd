@@ -1,5 +1,6 @@
 import { runMistralOcr } from './mistralOcr.js';
 import { runOpenAiExtract } from './openaiExtract.js';
+import { resolveMarket } from './marketResolver.js';
 import { verifySymbols } from './symbolVerifier.js';
 import { scoreHoldings } from './confidenceScorer.js';
 
@@ -50,6 +51,23 @@ export async function runPdfImportPipeline(pdfBuffer) {
       warnings: [...ocrWarnings],
     };
   }
+
+  // Step 4.5: Resolve markets (normalize synonyms, shape inference, Alpaca lookup)
+  const resolved = await Promise.all(
+    holdings.map((h) => resolveMarket({ symbol: h.symbol, assetType: h.assetType, rawMarket: h.market }))
+  );
+
+  resolved.forEach((r, i) => {
+    const before = holdings[i].market;
+    holdings[i].market = r.mic ?? 'UNKNOWN';
+    if (r.source !== 'llm' && r.mic) {
+      holdings[i]._marketResolvedBy = r.source;
+      holdings[i]._marketBeforeResolve = before;
+    }
+    if (!r.mic) {
+      holdings[i]._marketResolutionFailed = true;
+    }
+  });
 
   // Step 5: Verify symbols
   const verificationMap = await verifySymbols(

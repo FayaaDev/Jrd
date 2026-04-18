@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { PriceProvider, PriceQuote } from '../types';
+import { apiPath } from '../base';
 
 const BarSchema = z.object({
   t: z.string(),
@@ -19,7 +20,7 @@ export const alpacaPricesProvider: PriceProvider = {
   async getQuotes(symbols: string[]): Promise<PriceQuote[]> {
     if (symbols.length === 0) return [];
 
-    const url = `/api/alpaca/v2/stocks/bars/latest?symbols=${symbols.join(',')}&feed=iex`;
+    const url = apiPath(`/alpaca/v2/stocks/bars/latest?symbols=${symbols.join(',')}&feed=iex`);
     const response = await fetch(url);
 
     if (!response.ok) {

@@ -1612,3 +1612,23 @@ textarea {
   color: #f59e0b;
   font-size: 0.85rem;
 }
+
+.review-table__input--invalid {
+  border-color: #ef4444;
+  background: color-mix(in srgb, #ef4444 8%, var(--color-surface));
+}
+
+.market-resolved-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  color: var(--color-accent);
+  vertical-align: middle;
+  cursor: help;
+}

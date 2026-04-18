@@ -1,9 +1,10 @@
-import { useState, useRef, useCallback, type DragEvent, type ChangeEvent } from 'react';
+import { useState, useRef, useCallback, useEffect, type DragEvent, type ChangeEvent } from 'react';
 import { Modal } from './ui/Modal';
 import { Button } from './ui/Button';
 import { Select } from './ui/Select';
 import { ImportReviewTable } from './ImportReviewTable';
 import { usePdfImport } from '../hooks/usePdfImport';
+import { fetchValidMarkets } from '../api/pdfImport';
 
 interface PdfImportWizardProps {
   open: boolean;
@@ -183,6 +184,14 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
     reset,
   } = usePdfImport();
 
+  const [validMarkets, setValidMarkets] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchValidMarkets().then((markets) => {
+      if (markets.length > 0) setValidMarkets(markets);
+    });
+  }, []);
+
   const handleClose = useCallback(() => {
     reset();
     onClose();
@@ -193,6 +202,10 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
   const reverifySelected = useCallback(() => {
     reverify([...selectedIds]);
   }, [reverify, selectedIds]);
+
+  const hasUnknownMarketSelected = [...selectedIds].some(
+    (i) => editedHoldings[i]?.market === 'UNKNOWN'
+  );
 
   // Determine modal title
   const titleMap: Record<string, string> = {
@@ -254,6 +267,7 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
             onSelectAll={selectAll}
             onDeselectAll={deselectAll}
             onUpdate={updateHolding}
+            validMarkets={validMarkets.length > 0 ? validMarkets : undefined}
           />
 
           <div className="pdf-import-review__actions">
@@ -293,7 +307,8 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
               <Button
                 variant="primary"
                 onClick={confirm}
-                disabled={selectedIds.size === 0 || isVerifying}
+                disabled={selectedIds.size === 0 || isVerifying || hasUnknownMarketSelected}
+                title={hasUnknownMarketSelected ? 'Set a market for all selected holdings before importing' : undefined}
               >
                 Import {selectedIds.size} Holding{selectedIds.size !== 1 ? 's' : ''}
               </Button>

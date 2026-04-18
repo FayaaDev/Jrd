@@ -21,6 +21,7 @@ export const ExtractedHoldingSchema = z.object({
   verified: z.boolean().nullable(),
   suggestedName: z.string().optional(),
   warnings: z.array(z.string()),
+  resolvedBy: z.enum(['synonym', 'shape', 'alpaca', 'yahoo']).optional(),
 });
 
 // Full pipeline response

@@ -8,6 +8,7 @@ interface ImportReviewTableProps {
   onSelectAll: () => void;
   onDeselectAll: () => void;
   onUpdate: (index: number, updates: Partial<ExtractedHolding>) => void;
+  validMarkets?: string[];
 }
 
 function getConfidenceClass(confidence: number): string {
@@ -35,6 +36,16 @@ const ASSET_TYPE_OPTIONS = [
   { value: 'other', label: 'Other' },
 ];
 
+const DEFAULT_VALID_MARKETS = [
+  'XSAU', 'XNAS', 'XNYS', 'ARCX', 'BATS', 'IEXG', 'XASX', 'CRYPTO', 'MONEYMARKET',
+];
+
+const RESOLVED_BY_LABEL: Record<string, string> = {
+  alpaca: 'auto',
+  shape: 'inferred',
+  synonym: 'normalised',
+};
+
 export function ImportReviewTable({
   holdings,
   selectedIds,
@@ -42,6 +53,7 @@ export function ImportReviewTable({
   onSelectAll,
   onDeselectAll,
   onUpdate,
+  validMarkets = DEFAULT_VALID_MARKETS,
 }: ImportReviewTableProps) {
   const headerCheckboxRef = useRef<HTMLInputElement>(null);
 
@@ -157,13 +169,27 @@ export function ImportReviewTable({
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="text"
-                    className="review-table__input"
+                  <select
+                    className={`review-table__input${holding.market === 'UNKNOWN' ? ' review-table__input--invalid' : ''}`}
                     value={holding.market}
                     onChange={(e) => onUpdate(index, { market: e.target.value })}
                     aria-label="Market"
-                  />
+                  >
+                    {holding.market === 'UNKNOWN' && (
+                      <option value="UNKNOWN" disabled>— select market —</option>
+                    )}
+                    {validMarkets.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                  {holding.resolvedBy && (
+                    <span
+                      className="market-resolved-badge"
+                      title={`Market ${RESOLVED_BY_LABEL[holding.resolvedBy] ?? holding.resolvedBy} by the import pipeline`}
+                    >
+                      {RESOLVED_BY_LABEL[holding.resolvedBy] ?? holding.resolvedBy}
+                    </span>
+                  )}
                 </td>
                 <td>
                   <input

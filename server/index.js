@@ -21,6 +21,7 @@ import {
 } from './store.js';
 import { runPdfImportPipeline } from './pdfImport.js';
 import { verifySymbols } from './symbolVerifier.js';
+import { VALID_MICS, resolveMarket } from './marketResolver.js';
 
 try {
   process.loadEnvFile?.('.env');
@@ -421,6 +422,10 @@ app.post('/api/portfolio/import/pdf/verify-symbols', requireAdmin, async (req, r
   }
 });
 
+app.get('/api/pdf-import/valid-markets', (_req, res) => {
+  res.json({ markets: VALID_MICS });
+});
+
 app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, next) => {
   const parsed = PdfImportConfirmSchema.safeParse(req.body ?? {});
 
@@ -431,6 +436,17 @@ app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, nex
   const { holdings: incomingHoldings, mergeStrategy } = parsed.data;
 
   try {
+    // Re-resolve markets defensively (handles symbol edits made in the Review step)
+    const resolvedMarkets = await Promise.all(
+      incomingHoldings.map((h) =>
+        resolveMarket({ symbol: h.symbol, assetType: h.assetType, rawMarket: h.market })
+      )
+    );
+    const holdingsToImport = incomingHoldings.map((h, i) => ({
+      ...h,
+      market: resolvedMarkets[i].mic ?? h.market,
+    }));
+
     let added = 0;
     let updated = 0;
     let skipped = 0;
@@ -448,7 +464,7 @@ app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, nex
 
       const newHoldings = [...current.holdings];
 
-      for (const incoming of incomingHoldings) {
+      for (const incoming of holdingsToImport) {
         const key = `${incoming.symbol.toUpperCase()}:${incoming.market.toUpperCase()}`;
         const existing = existingByKey.get(key);
 

@@ -6,6 +6,14 @@ export const DEFAULT_SETTINGS = {
   theme: 'dark',
 };
 
+export function buildEmptyPortfolioSnapshot() {
+  return {
+    holdings: [],
+    settings: { ...DEFAULT_SETTINGS },
+    watchlist: [],
+  };
+}
+
 const SNAPSHOT_AS_OF = '2026-04-14T00:00:00.000Z';
 const SNAPSHOT_PROVIDER = 'assets.md';
 

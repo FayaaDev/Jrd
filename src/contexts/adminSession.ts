@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { scopedStorageKey } from '../api/base';
 
 export interface AdminSessionContextValue {
   token: string | null;
@@ -10,7 +11,7 @@ export interface AdminSessionContextValue {
 
 export const AdminSessionContext = createContext<AdminSessionContextValue | null>(null);
 
-export const TOKEN_STORAGE_KEY = 'fayafolio:admin-token';
+export const TOKEN_STORAGE_KEY = scopedStorageKey('fayafolio:admin-token');
 
 export function getStoredAdminToken() {
   if (typeof window === 'undefined') {

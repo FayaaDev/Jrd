@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { HoldingSchema, type Holding } from '../schemas/holding';
 import { SettingsSchema, type Settings } from '../schemas/settings';
 import { WatchItemSchema, type WatchItem } from '../schemas/watchlist';
+import { apiPath } from './base';
 
 export const portfolioQueryKey = ['portfolio'] as const;
 
@@ -39,7 +40,7 @@ async function parseResponseError(response: Response): Promise<Error> {
 }
 
 async function request(path: string, init?: RequestInit): Promise<Response> {
-  const response = await fetch(path, init);
+  const response = await fetch(apiPath(path), init);
   if (!response.ok) {
     throw await parseResponseError(response);
   }
@@ -68,26 +69,26 @@ export function getApiErrorMessage(error: unknown, fallback: string): string {
 }
 
 export async function fetchPortfolio(): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio');
+  const response = await request('/portfolio');
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
 export async function verifyAdminToken(token: string): Promise<void> {
-  await request('/api/admin/session', buildJsonRequest('POST', { token }));
+  await request('/admin/session', buildJsonRequest('POST', { token }));
 }
 
 export async function saveSettings(settings: Settings, token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio/settings', buildJsonRequest('PUT', settings, token));
+  const response = await request('/portfolio/settings', buildJsonRequest('PUT', settings, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
 export async function createHolding(input: HoldingInput, token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio/holdings', buildJsonRequest('POST', input, token));
+  const response = await request('/portfolio/holdings', buildJsonRequest('POST', input, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
 export async function editHolding(id: string, updates: HoldingUpdate, token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request(`/api/portfolio/holdings/${id}`, buildJsonRequest('PATCH', updates, token));
+  const response = await request(`/portfolio/holdings/${id}`, buildJsonRequest('PATCH', updates, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
@@ -97,7 +98,7 @@ export async function removeHolding(id: string, token?: string | null): Promise<
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await request(`/api/portfolio/holdings/${id}`, {
+  const response = await request(`/portfolio/holdings/${id}`, {
     method: 'DELETE',
     headers,
   });
@@ -105,7 +106,7 @@ export async function removeHolding(id: string, token?: string | null): Promise<
 }
 
 export async function createWatchItem(input: WatchItemInput, token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio/watchlist', buildJsonRequest('POST', input, token));
+  const response = await request('/portfolio/watchlist', buildJsonRequest('POST', input, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
@@ -115,7 +116,7 @@ export async function removeWatchItem(id: string, token?: string | null): Promis
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await request(`/api/portfolio/watchlist/${id}`, {
+  const response = await request(`/portfolio/watchlist/${id}`, {
     method: 'DELETE',
     headers,
   });
@@ -123,22 +124,22 @@ export async function removeWatchItem(id: string, token?: string | null): Promis
 }
 
 export async function exportPortfolio(): Promise<string> {
-  const response = await request('/api/portfolio/export');
+  const response = await request('/portfolio/export');
   return response.text();
 }
 
 export async function importPortfolio(json: string, token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio/import', buildJsonRequest('POST', { json }, token));
+  const response = await request('/portfolio/import', buildJsonRequest('POST', { json }, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
 export async function resetPortfolio(token?: string | null): Promise<PortfolioSnapshot> {
-  const response = await request('/api/portfolio/reset', buildJsonRequest('POST', {}, token));
+  const response = await request('/portfolio/reset', buildJsonRequest('POST', {}, token));
   return PortfolioSnapshotSchema.parse(await response.json());
 }
 
 export async function fetchFxRate(from: string, to: string): Promise<number> {
-  const response = await request(`/api/fx/rate?from=${from}&to=${to}`);
+  const response = await request(`/fx/rate?from=${from}&to=${to}`);
   const json = await response.json();
   return FxRateResponseSchema.parse(json).rate;
 }

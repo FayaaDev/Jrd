@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { FxProvider } from '../types';
+import { apiPath } from '../base';
 
 const SAR_USD_PEG = 3.75;
 
@@ -17,7 +18,7 @@ export const frankfurterFxProvider: FxProvider = {
     if (from === 'USD' && to === 'SAR') return SAR_USD_PEG;
     if (from === 'SAR' && to === 'USD') return 1 / SAR_USD_PEG;
 
-    const url = `/api/fx/rate?from=${from}&to=${to}`;
+    const url = apiPath(`/fx/rate?from=${from}&to=${to}`);
     const response = await fetch(url);
 
     if (!response.ok) {

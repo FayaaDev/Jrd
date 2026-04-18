@@ -67,7 +67,14 @@ export function scoreHoldings(holdings, verificationMap) {
     // Unknown market
     if ((holding.market ?? '').toUpperCase() === 'UNKNOWN') {
       confidence -= 0.10;
-      flags.push('Market is unknown — please set manually');
+      flags.push('Market could not be determined — please set manually in the Review step.');
+    } else if (holding._marketResolvedBy === 'alpaca' || holding._marketResolvedBy === 'yahoo') {
+      const via = holding._marketResolvedBy === 'alpaca' ? 'Alpaca' : 'Yahoo Finance';
+      flags.push(`Market auto-detected via ${via} (${holding.market}).`);
+    } else if (holding._marketResolvedBy === 'shape') {
+      flags.push(`Market inferred from symbol shape (${holding._marketBeforeResolve ?? holding.market} → ${holding.market}).`);
+    } else if (holding._marketResolvedBy === 'synonym') {
+      flags.push(`Market normalised from "${holding._marketBeforeResolve ?? ''}" → ${holding.market}.`);
     }
 
     // Name missing
@@ -85,13 +92,17 @@ export function scoreHoldings(holdings, verificationMap) {
     // Clamp to [0, 1]
     confidence = Math.min(1.0, Math.max(0.0, confidence));
 
+    const resolvedBy = holding._marketResolvedBy;
+    const { _marketResolvedBy, _marketResolutionFailed, _marketBeforeResolve, ...cleanHolding } = holding;
+
     return {
-      ...holding,
+      ...cleanHolding,
       confidence,
       flags,
       verified,
       suggestedName,
       warnings,
+      ...(resolvedBy ? { resolvedBy } : {}),
     };
   });
 }

@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return mergeConfig({
+    base: env.VITE_APP_BASE_PATH ?? '/',
     plugins: [react()],
     server: {
       proxy: {
