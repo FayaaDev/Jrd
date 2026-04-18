@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import express from 'express';
 import multer from 'multer';
 import { toNodeHandler } from 'better-auth/node';
+import cors from 'cors';
 import {
   FxRateQuerySchema,
   HoldingInputSchema,
@@ -46,6 +47,26 @@ const SAR_USD_PEG = 3.75;
 
 const app = express();
 app.disable('x-powered-by');
+
+const ALLOWED_ORIGINS = [
+  'fayafolio://',
+  'http://localhost:8081',
+  'http://192.168.0.235:8081',
+  'http://localhost:5173',
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin not allowed: ${origin}`));
+    }
+  },
+  credentials: true,
+  allowedHeaders: ['content-type', 'authorization', 'cookie', 'x-requested-with'],
+}));
+
 app.all('/api/auth/*splat', toNodeHandler(auth));
 app.use(express.json({ limit: '1mb' }));
 

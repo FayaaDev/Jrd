@@ -1,6 +1,7 @@
 import './env.js';
 import { randomUUID } from 'node:crypto';
 import { betterAuth } from 'better-auth';
+import { expo } from '@better-auth/expo';
 import { getMigrations } from 'better-auth/db/migration';
 import { fromNodeHeaders } from 'better-auth/node';
 import { pool } from './db.js';
@@ -24,6 +25,12 @@ export const auth = betterAuth({
   appName: 'Fayafolio',
   baseURL: process.env.BETTER_AUTH_URL ?? DEFAULT_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET ?? DEFAULT_AUTH_SECRET,
+  trustedOrigins: [
+    'fayafolio://',
+    'http://localhost:8081',
+    'http://192.168.0.235:8081',
+  ],
+  plugins: [expo()],
   database: pool,
   socialProviders,
   user: {
