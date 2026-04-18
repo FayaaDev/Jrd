@@ -3,6 +3,7 @@ import { HoldingSchema, type Holding } from '../schemas/holding';
 import { SettingsSchema, type Settings } from '../schemas/settings';
 import { WatchItemSchema, type WatchItem } from '../schemas/watchlist';
 import { apiPath } from './base';
+import { authedFetch } from './http';
 
 export const PortfolioStatusSchema = z.enum(['active', 'archived']);
 
@@ -112,15 +113,12 @@ async function parseResponseError(response: Response): Promise<Error> {
 }
 
 async function request(path: string, init?: RequestInit): Promise<Response> {
-  const response = await fetch(apiPath(path), {
-    credentials: 'include',
-    ...init,
-  });
+  const response = await authedFetch(apiPath(path), init)
   if (!response.ok) {
-    throw await parseResponseError(response);
+    throw await parseResponseError(response)
   }
 
-  return response;
+  return response
 }
 
 function buildJsonRequest(method: string, body: unknown): RequestInit {

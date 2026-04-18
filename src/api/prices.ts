@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Holding } from '../schemas/holding';
 import type { PriceProvider } from './types';
 import { apiPath } from './base';
+import { authedFetch } from './http';
 import { type PortfolioScope, ME_PORTFOLIO_SCOPE } from './portfolio';
 import { alpacaPricesProvider } from './providers/alpacaPrices';
 import { coinMarketCapPricesProvider } from './providers/coinMarketCapPrices';
@@ -134,9 +135,7 @@ async function parseResponseError(response: Response): Promise<Error> {
 }
 
 export async function fetchPriceSnapshot(scope: PortfolioScope = ME_PORTFOLIO_SCOPE): Promise<PriceSnapshot> {
-  const response = await fetch(apiPath(buildPricePath(scope, 'snapshot')), {
-    credentials: 'include',
-  });
+  const response = await authedFetch(apiPath(buildPricePath(scope, 'snapshot')));
   if (!response.ok) {
     throw await parseResponseError(response);
   }
@@ -145,9 +144,8 @@ export async function fetchPriceSnapshot(scope: PortfolioScope = ME_PORTFOLIO_SC
 }
 
 export async function refreshPriceSnapshot(scope: PortfolioScope = ME_PORTFOLIO_SCOPE): Promise<PriceSnapshot> {
-  const response = await fetch(apiPath(buildPricePath(scope, 'refresh')), {
+  const response = await authedFetch(apiPath(buildPricePath(scope, 'refresh')), {
     method: 'POST',
-    credentials: 'include',
   });
   if (!response.ok) {
     throw await parseResponseError(response);
