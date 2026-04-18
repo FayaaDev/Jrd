@@ -22,6 +22,7 @@ export function useSettings(): [Settings, (s: Settings) => void, UseSettingsMeta
     mutationFn: (next: Settings) => saveSettings(next, token),
     onSuccess: (snapshot) => {
       queryClient.setQueryData(portfolioQueryKey, snapshot);
+      void queryClient.invalidateQueries({ queryKey: ['price'] });
     },
     onError: (error) => {
       window.alert(getApiErrorMessage(error, 'Unable to update settings.'));

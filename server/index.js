@@ -22,6 +22,7 @@ import {
 import { runPdfImportPipeline } from './pdfImport.js';
 import { verifySymbols } from './symbolVerifier.js';
 import { VALID_MICS, resolveMarket } from './marketResolver.js';
+import { getPriceSnapshot, invalidatePriceSnapshot } from './quoteHub.js';
 
 try {
   process.loadEnvFile?.('.env');
@@ -174,6 +175,22 @@ app.get('/api/portfolio/watchlist', async (_req, res, next) => {
   }
 });
 
+app.get('/api/prices/snapshot', async (_req, res, next) => {
+  try {
+    res.json(await getPriceSnapshot());
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/api/prices/refresh', async (_req, res, next) => {
+  try {
+    res.json(await getPriceSnapshot({ force: true }));
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get('/api/portfolio/export', async (_req, res, next) => {
   try {
     const snapshot = await getPortfolioSnapshot();
@@ -195,6 +212,7 @@ app.put('/api/portfolio/settings', requireAdmin, async (req, res, next) => {
       ...current,
       settings: parsed.data,
     }));
+    invalidatePriceSnapshot();
     res.json(snapshot);
   } catch (error) {
     next(error);
@@ -226,6 +244,7 @@ app.post('/api/portfolio/holdings', requireAdmin, async (req, res, next) => {
       };
     });
 
+    invalidatePriceSnapshot();
     res.status(201).json(snapshot);
   } catch (error) {
     next(error);
@@ -262,6 +281,7 @@ app.patch('/api/portfolio/holdings/:id', requireAdmin, async (req, res, next) =>
       return sendError(res, 404, 'Holding not found.');
     }
 
+    invalidatePriceSnapshot();
     res.json(snapshot);
   } catch (error) {
     next(error);
@@ -286,6 +306,7 @@ app.delete('/api/portfolio/holdings/:id', requireAdmin, async (req, res, next) =
       return sendError(res, 404, 'Holding not found.');
     }
 
+    invalidatePriceSnapshot();
     res.json(snapshot);
   } catch (error) {
     next(error);
@@ -323,6 +344,7 @@ app.post('/api/portfolio/watchlist', requireAdmin, async (req, res, next) => {
       return sendError(res, 409, `${parsed.data.symbol} is already in the watchlist.`);
     }
 
+    invalidatePriceSnapshot();
     res.status(201).json(snapshot);
   } catch (error) {
     next(error);
@@ -347,6 +369,7 @@ app.delete('/api/portfolio/watchlist/:id', requireAdmin, async (req, res, next) 
       return sendError(res, 404, 'Watchlist item not found.');
     }
 
+    invalidatePriceSnapshot();
     res.json(snapshot);
   } catch (error) {
     next(error);
@@ -363,6 +386,7 @@ app.post('/api/portfolio/import', requireAdmin, async (req, res, next) => {
   try {
     const snapshot = PortfolioSnapshotSchema.parse(JSON.parse(parsed.data.json));
     const saved = await updatePortfolioSnapshot(() => snapshot);
+    invalidatePriceSnapshot();
     res.json(saved);
   } catch (error) {
     next(error);
@@ -371,7 +395,9 @@ app.post('/api/portfolio/import', requireAdmin, async (req, res, next) => {
 
 app.post('/api/portfolio/reset', requireAdmin, async (_req, res, next) => {
   try {
-    res.json(await resetPortfolioSnapshot());
+    const snapshot = await resetPortfolioSnapshot();
+    invalidatePriceSnapshot();
+    res.json(snapshot);
   } catch (error) {
     next(error);
   }
@@ -495,6 +521,7 @@ app.post('/api/portfolio/import/pdf/confirm', requireAdmin, async (req, res, nex
       return { ...current, holdings: newHoldings };
     });
 
+    invalidatePriceSnapshot();
     res.json({ snapshot, summary: { added, updated, skipped } });
   } catch (error) {
     next(error);

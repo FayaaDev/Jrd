@@ -1,45 +1,40 @@
-import { useQueries } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type { Settings } from '../schemas/settings';
 import type { PriceQuote } from '../api/types';
 import type { Holding } from '../schemas/holding';
-import { getPriceProvider, getProviderForHolding } from '../api/prices';
+import { buildPriceLookupKey, fetchPriceSnapshot } from '../api/prices';
+
+function getClientRefreshIntervalMs(refreshMs: number) {
+  return Math.min(refreshMs, Math.max(5_000, Math.floor(refreshMs / 3)));
+}
 
 export function usePrices(
   symbols: string[],
   holdings: Pick<Holding, 'symbol' | 'market' | 'assetType'>[],
   settings: Settings
 ): Record<string, PriceQuote | undefined> {
-  const holdingBySymbol = new Map<string, Pick<Holding, 'assetType' | 'market'>>(
-    holdings.map((holding) => [holding.symbol, { assetType: holding.assetType, market: holding.market }])
-  );
   const refreshMs = settings.refreshIntervalSec * 1000;
-
-  const results = useQueries({
-    queries: symbols.map((symbol) => {
-      const holding = holdingBySymbol.get(symbol);
-      const providerName = holding ? getProviderForHolding(holding) : 'snapshot';
-      const enabled = providerName !== 'snapshot';
-
-      return {
-        queryKey: ['price', settings.priceProvider, holding?.market ?? 'unknown', symbol] as const,
-        enabled,
-        queryFn: async () => {
-          if (!holding || providerName === 'snapshot') return null;
-
-          const provider = getPriceProvider(providerName);
-          const quotes = await provider.getQuotes([symbol]);
-          return quotes[0] ?? null;
-        },
-        staleTime: refreshMs,
-        refetchInterval: enabled ? refreshMs : false,
-        refetchIntervalInBackground: true,
-        gcTime: 5 * 60 * 1000,
-        retry: 1,
-      };
-    }),
+  const query = useQuery({
+    queryKey: ['price', 'snapshot'] as const,
+    queryFn: fetchPriceSnapshot,
+    staleTime: getClientRefreshIntervalMs(refreshMs),
+    refetchInterval: getClientRefreshIntervalMs(refreshMs),
+    refetchIntervalInBackground: true,
+    gcTime: 5 * 60 * 1000,
+    retry: 1,
   });
 
+  const quotes = query.data?.quotes ?? {};
+  const quotesBySymbol = new Map<string, PriceQuote>();
+
+  for (const holding of holdings) {
+    const quote = quotes[buildPriceLookupKey(holding)];
+    if (quote) {
+      quotesBySymbol.set(holding.symbol, quote);
+    }
+  }
+
   return Object.fromEntries(
-    symbols.map((symbol, i) => [symbol, results[i]?.data ?? undefined])
+    symbols.map((symbol) => [symbol, quotesBySymbol.get(symbol)])
   );
 }

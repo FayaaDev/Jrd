@@ -6,6 +6,7 @@ import type { HoldingRow, PortfolioSummary } from '../lib/metrics';
 import { SettingsSchema, type Settings } from '../schemas/settings';
 import { getApiErrorMessage } from '../api/portfolio';
 import { usePortfolioSnapshot } from './usePortfolioSnapshot';
+import { refreshPriceSnapshot } from '../api/prices';
 
 export function usePortfolio(): {
   rows: HoldingRow[];
@@ -53,36 +54,15 @@ export function usePortfolio(): {
   const prices = usePrices(symbols, holdings, settings);
   const fxLookup = useFxRates(fxPairs, settings);
 
-  const cache = queryClient.getQueryCache();
-  const trackedSymbols = new Set(symbols);
-  const isFetching = cache
-    .getAll()
-    .some(
-      (q) =>
-        Array.isArray(q.queryKey) &&
-        q.queryKey[0] === 'price' &&
-        q.state.fetchStatus === 'fetching'
-    );
-
-  let lastTimestamp: number | undefined;
-  for (const query of cache.getAll()) {
-    if (!Array.isArray(query.queryKey) || query.queryKey[0] !== 'price') {
-      continue;
-    }
-
-    const symbol = typeof query.queryKey[3] === 'string' ? query.queryKey[3] : undefined;
-    if (!symbol || !trackedSymbols.has(symbol) || !query.state.dataUpdatedAt) {
-      continue;
-    }
-
-    const timestamp = query.state.dataUpdatedAt;
-    if (lastTimestamp === undefined || timestamp > lastTimestamp) {
-      lastTimestamp = timestamp;
-    }
-  }
-
+  const priceQueryState = queryClient.getQueryState(['price', 'snapshot']);
+  const isFetching = priceQueryState?.fetchStatus === 'fetching';
   const lastUpdated =
-    lastTimestamp != null ? new Date(lastTimestamp).toISOString() : undefined;
+    typeof priceQueryState?.data === 'object' &&
+    priceQueryState.data != null &&
+    'updatedAt' in priceQueryState.data &&
+    typeof priceQueryState.data.updatedAt === 'string'
+      ? priceQueryState.data.updatedAt
+      : undefined;
 
   const rows = holdings.map((h) =>
     deriveRow(h, prices[h.symbol], fxLookup, settings.baseCurrency)
@@ -91,7 +71,13 @@ export function usePortfolio(): {
   const summary = derivePortfolio(rows);
 
   const refresh = () => {
-    void queryClient.invalidateQueries({ queryKey: ['price'] });
+    void refreshPriceSnapshot()
+      .then((snapshot) => {
+        queryClient.setQueryData(['price', 'snapshot'], snapshot);
+      })
+      .catch(() => {
+        // Keep the existing snapshot if a manual refresh fails.
+      });
   };
 
   return {

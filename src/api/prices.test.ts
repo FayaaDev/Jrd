@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getProviderForHolding, getProviderForMarket, routeBySymbol } from './prices';
+import { buildPriceLookupKey, getProviderForHolding, getProviderForMarket, routeBySymbol } from './prices';
 
 describe('getProviderForMarket', () => {
   it('routes supported US markets to Alpaca', () => {
@@ -45,5 +45,11 @@ describe('routeBySymbol', () => {
     expect(result.coinmarketcap).toEqual(['BTC']);
     expect(result.sahmk).toEqual(['2010']);
     expect(result.snapshot).toEqual(['ISDW.L']);
+  });
+});
+
+describe('buildPriceLookupKey', () => {
+  it('normalizes symbol and market casing', () => {
+    expect(buildPriceLookupKey({ symbol: 'msft', market: 'xnas', assetType: 'stock' })).toBe('MSFT|XNAS|stock');
   });
 });

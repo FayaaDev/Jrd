@@ -20,6 +20,7 @@ export function useWatchlist() {
 
   const syncWatchlist = useCallback((snapshot: PortfolioSnapshot) => {
     queryClient.setQueryData(portfolioQueryKey, snapshot);
+    void queryClient.invalidateQueries({ queryKey: ['price'] });
   }, [queryClient]);
 
   const reportMutationError = useCallback((error: unknown) => {
