@@ -1,8 +1,8 @@
 {
   "main": "expo-router/entry",
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Fayafolio",
+    "slug": "fayafolio",
     "version": "1.0.0",
     "scheme": "fayafolio",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "sa.fayaa.fayafolio"
     },
     "android": {
       "adaptiveIcon": {

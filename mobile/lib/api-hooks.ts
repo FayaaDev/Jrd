@@ -3,7 +3,8 @@ export { useHoldings } from '@shared/hooks/useHoldings'
 export { useFxRates } from '@shared/hooks/useFxRates'
 export { usePortfolioSnapshot } from '@shared/hooks/usePortfolioSnapshot'
 export { usePrices } from '@shared/hooks/usePrices'
-export { usePdfImport } from '@shared/hooks/usePdfImport'
+// usePdfImport is NOT exported here: its upload() takes a browser File object.
+// The mobile import screen uses authedFetch directly with RN FormData instead.
 export { useSettings } from '@shared/hooks/useSettings'
 export { useWatchlist } from '@shared/hooks/useWatchlist'
 

@@ -24,6 +24,13 @@ configureApiBase({
 
 configureHttp({
   credentials: 'omit',
+  headerProvider: () => {
+    // @better-auth/expo stores the session cookie in SecureStore and exposes it
+    // via getCookie(). Without this, all authedFetch calls reach the server with
+    // no credentials and hit the requireSession guard with a 401.
+    const cookie = authClient.getCookie()
+    return cookie ? { cookie } : {}
+  },
 })
 
 const queryClient = new QueryClient()
