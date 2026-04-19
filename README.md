@@ -72,3 +72,39 @@ export default defineConfig([
 ])
 ```
 # Fayafolio
+
+## Mobile app
+
+The iOS client lives in `mobile/`. It is an Expo SDK 54 app using Expo Router (file-based navigation) and reuses the shared API layer from `src/`.
+
+### Dev setup
+
+```bash
+# Install mobile dependencies
+npm run mobile:install
+
+# Start Expo dev server (requires a dev-client build on your device)
+npm run mobile
+
+# Or from the mobile/ directory directly:
+cd mobile && npx expo start --dev-client
+```
+
+Configure the API URL in `mobile/.env`:
+```
+EXPO_PUBLIC_API_BASE_URL=http://192.168.0.235:5050
+```
+
+### iOS build (EAS)
+
+```bash
+cd mobile
+
+# Simulator build (no Apple Developer account needed)
+eas build --profile development-simulator --platform ios
+
+# Device build (requires Apple Developer account)
+eas build --profile development --platform ios
+```
+
+See `mobile/eas.json` for available profiles: `development`, `development-simulator`, `preview`.

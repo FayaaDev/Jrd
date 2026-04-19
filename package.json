@@ -9,7 +9,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "mobile": "cd mobile && npx expo start --dev-client",
+    "mobile:install": "cd mobile && npm install"
   },
   "dependencies": {
     "@better-auth/expo": "^1.6.5",
