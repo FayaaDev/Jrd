@@ -4,10 +4,10 @@ import { authClient } from './auth-client';
 import { useFxRates } from '@shared/hooks/useFxRates';
 import { usePrices } from '@shared/hooks/usePrices';
 import { usePortfolioSnapshot } from '@shared/hooks/usePortfolioSnapshot';
-import { derivePortfolio, deriveRow, type HoldingRow, type PortfolioSummary } from '../lib/metrics';
-import { refreshPriceSnapshot, priceSnapshotQueryKey } from '../api/prices';
-import { getApiErrorMessage, ME_PORTFOLIO_SCOPE, type PortfolioScope } from '../api/portfolio';
-import { SettingsSchema, type Settings } from '../schemas/settings';
+import { derivePortfolio, deriveRow, type HoldingRow, type PortfolioSummary } from '@shared/lib/metrics';
+import { refreshPriceSnapshot, priceSnapshotQueryKey } from '@shared/api/prices';
+import { getApiErrorMessage, ME_PORTFOLIO_SCOPE, type PortfolioScope } from '@shared/api/portfolio';
+import { SettingsSchema, type Settings } from '@shared/schemas/settings';
 
 export function usePortfolio(
   scope: PortfolioScope = ME_PORTFOLIO_SCOPE,
