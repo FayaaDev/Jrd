@@ -1,4 +1,5 @@
 import { apiPath } from './base';
+import { authedFetch } from './http';
 import { PortfolioLedgerSchema, type HoldingInput, type PortfolioLedger } from './portfolio';
 import {
   ExtractionResultSchema,
@@ -24,9 +25,7 @@ async function parseError(response: Response): Promise<Error> {
 }
 
 export async function fetchValidMarkets(): Promise<string[]> {
-  const response = await fetch(apiPath('/pdf-import/valid-markets'), {
-    credentials: 'include',
-  });
+  const response = await authedFetch(apiPath('/pdf-import/valid-markets'));
   if (!response.ok) return [];
 
   const json = await response.json();
@@ -37,9 +36,8 @@ export async function uploadPdfForExtraction(file: File): Promise<ExtractionResu
   const form = new FormData();
   form.append('file', file);
 
-  const response = await fetch(apiPath('/me/portfolio/import/pdf'), {
+  const response = await authedFetch(apiPath('/me/portfolio/import/pdf'), {
     method: 'POST',
-    credentials: 'include',
     body: form,
   });
 
@@ -53,9 +51,8 @@ export async function uploadPdfForExtraction(file: File): Promise<ExtractionResu
 export async function verifyImportSymbols(
   pairs: Array<{ symbol: string; market: string }>,
 ): Promise<VerifySymbolResult[]> {
-  const response = await fetch(apiPath('/me/portfolio/import/pdf/verify-symbols'), {
+  const response = await authedFetch(apiPath('/me/portfolio/import/pdf/verify-symbols'), {
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -73,9 +70,8 @@ export async function confirmPdfImport(
   holdings: HoldingInput[],
   mergeStrategy: MergeStrategy,
 ): Promise<{ ledger: PortfolioLedger; summary: ImportSummary }> {
-  const response = await fetch(apiPath('/me/portfolio/import/pdf/confirm'), {
+  const response = await authedFetch(apiPath('/me/portfolio/import/pdf/confirm'), {
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },

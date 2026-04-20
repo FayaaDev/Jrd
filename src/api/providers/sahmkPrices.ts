@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { PriceProvider, PriceQuote } from '../types';
 import { apiPath } from '../base';
+import { authedFetch } from '../http';
 
 const ResponseSchema = z.object({
   symbol: z.string(),
@@ -14,7 +15,7 @@ export const sahmkPricesProvider: PriceProvider = {
     const quotes: PriceQuote[] = [];
 
     for (const symbol of symbols) {
-      const response = await fetch(apiPath(`/sahmk/quote/${symbol}/`));
+      const response = await authedFetch(apiPath(`/sahmk/quote/${symbol}/`));
 
       if (!response.ok) {
         throw new Error(`[sahmk] HTTP ${response.status}: ${response.statusText}`);

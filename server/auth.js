@@ -1,6 +1,7 @@
 import './env.js';
 import { randomUUID } from 'node:crypto';
 import { betterAuth } from 'better-auth';
+import { expo } from '@better-auth/expo';
 import { dash } from '@better-auth/infra';
 import { getMigrations } from 'better-auth/db/migration';
 import { fromNodeHeaders } from 'better-auth/node';
@@ -25,9 +26,14 @@ export const auth = betterAuth({
   appName: 'Fayafolio',
   baseURL: process.env.BETTER_AUTH_URL ?? DEFAULT_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET ?? DEFAULT_AUTH_SECRET,
-  database: pool,
-  socialProviders,
+  trustedOrigins: [
+    'fayafolio://',
+    'http://localhost:8081',
+    'http://192.168.0.235:8081',
+    'http://localhost:5173',
+  ],
   plugins: [
+    expo(),
     dash({
       // Required for Better Auth Dashboard integration.
       apiKey: process.env.BETTER_AUTH_API_KEY,
@@ -37,6 +43,8 @@ export const auth = betterAuth({
       ...(process.env.BETTER_AUTH_KV_URL ? { kvUrl: process.env.BETTER_AUTH_KV_URL } : {}),
     }),
   ],
+  database: pool,
+  socialProviders,
   user: {
     additionalFields: {
       role: {
