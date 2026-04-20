@@ -1,6 +1,7 @@
 import './env.js';
 import { randomUUID } from 'node:crypto';
 import { betterAuth } from 'better-auth';
+import { dash } from '@better-auth/infra';
 import { getMigrations } from 'better-auth/db/migration';
 import { fromNodeHeaders } from 'better-auth/node';
 import { pool } from './db.js';
@@ -26,6 +27,16 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET ?? DEFAULT_AUTH_SECRET,
   database: pool,
   socialProviders,
+  plugins: [
+    dash({
+      // Required for Better Auth Dashboard integration.
+      apiKey: process.env.BETTER_AUTH_API_KEY,
+      // Only set these when explicitly configured; passing `undefined` overrides
+      // the plugin defaults and breaks JWT verification.
+      ...(process.env.BETTER_AUTH_API_URL ? { apiUrl: process.env.BETTER_AUTH_API_URL } : {}),
+      ...(process.env.BETTER_AUTH_KV_URL ? { kvUrl: process.env.BETTER_AUTH_KV_URL } : {}),
+    }),
+  ],
   user: {
     additionalFields: {
       role: {

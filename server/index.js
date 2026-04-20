@@ -46,7 +46,8 @@ const SAR_USD_PEG = 3.75;
 
 const app = express();
 app.disable('x-powered-by');
-app.all('/api/auth/*splat', toNodeHandler(auth));
+// Mount Better Auth before JSON parsing (it reads the raw request).
+app.use('/api/auth', toNodeHandler(auth));
 app.use(express.json({ limit: '1mb' }));
 
 function createHttpError(status, message) {
