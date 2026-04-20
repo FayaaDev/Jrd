@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Alert } from 'react-native'
-import { Stack, Redirect, SplashScreen } from 'expo-router'
+import { Stack, SplashScreen, useRouter } from 'expo-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { configureApiBase } from '@shared/api/base'
 import { configureHttp } from '@shared/api/http'
@@ -37,6 +37,7 @@ const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const { data: session, isPending } = authClient.useSession()
+  const router = useRouter()
 
   useEffect(() => {
     if (!isPending) {
@@ -44,11 +45,14 @@ export default function RootLayout() {
     }
   }, [isPending])
 
-  if (isPending) return null
+  useEffect(() => {
+    if (!isPending && !session) {
+      router.replace('/(auth)/sign-in')
+    }
+  }, [isPending, session, router])
 
-  if (!session) {
-    return <Redirect href="/(auth)/sign-in" />
-  }
+  if (isPending) return null
+  if (!session) return null
 
   return (
     <QueryClientProvider client={queryClient}>
