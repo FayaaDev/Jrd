@@ -2,6 +2,7 @@ import './env.js';
 import { randomUUID } from 'node:crypto';
 import { betterAuth } from 'better-auth';
 import { expo } from '@better-auth/expo';
+import { dash } from '@better-auth/infra';
 import { getMigrations } from 'better-auth/db/migration';
 import { fromNodeHeaders } from 'better-auth/node';
 import { pool } from './db.js';
@@ -31,7 +32,17 @@ export const auth = betterAuth({
     'http://192.168.0.235:8081',
     'http://localhost:5173',
   ],
-  plugins: [expo()],
+  plugins: [
+    expo(),
+    dash({
+      // Required for Better Auth Dashboard integration.
+      apiKey: process.env.BETTER_AUTH_API_KEY,
+      // Only set these when explicitly configured; passing `undefined` overrides
+      // the plugin defaults and breaks JWT verification.
+      ...(process.env.BETTER_AUTH_API_URL ? { apiUrl: process.env.BETTER_AUTH_API_URL } : {}),
+      ...(process.env.BETTER_AUTH_KV_URL ? { kvUrl: process.env.BETTER_AUTH_KV_URL } : {}),
+    }),
+  ],
   database: pool,
   socialProviders,
   user: {

@@ -55,19 +55,22 @@ const ALLOWED_ORIGINS = [
   'http://localhost:5173',
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS: origin not allowed: ${origin}`));
-    }
-  },
-  credentials: true,
-  allowedHeaders: ['content-type', 'authorization', 'cookie', 'x-requested-with'],
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin not allowed: ${origin}`));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ['content-type', 'authorization', 'cookie', 'x-requested-with'],
+  })
+);
 
-app.all('/api/auth/*splat', toNodeHandler(auth));
+// Mount Better Auth before JSON parsing (it reads the raw request).
+app.use('/api/auth', toNodeHandler(auth));
 app.use(express.json({ limit: '1mb' }));
 
 function createHttpError(status, message) {
