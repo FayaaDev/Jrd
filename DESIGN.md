@@ -2,7 +2,7 @@
 
 ## 1. Visual Theme & Atmosphere
 
-Binance.US radiates the polished urgency of a digital trading floor — a space where money moves and decisions happen in seconds. The design is a two-tone composition that alternates between stark white trading surfaces and deep near-black panels (`#222126`), creating a visual rhythm that mirrors the bull-and-bear duality of crypto markets. Binance Yellow (`#F0B90B`) cuts through this monochrome foundation like a gold ingot on a steel desk — unmistakable, confident, and engineered to guide every eye toward the next action.
+Fayafolio radiates the polished urgency of a digital trading floor — a space where money moves and decisions happen in seconds. The design is a two-tone composition that alternates between stark white trading surfaces and deep near-black panels (`#222126`), creating a visual rhythm that mirrors the bull-and-bear duality of crypto markets. Brand orange (`#FE84389D`) cuts through this monochrome foundation — unmistakable, confident, and engineered to guide every eye toward the next action.
 
 The interface speaks the language of fintech trust. Custom BinancePlex typography gives every headline and data point a proprietary gravitas, while generous whitespace and restrained decoration keep the focus on numbers, charts, and call-to-action buttons. The design avoids visual complexity in favor of operational clarity — every element exists to either inform or convert. Product screenshots of the mobile trading app dominate the middle sections, presented on floating device mockups against golden gradients, reinforcing that this is a platform you carry with you.
 
@@ -10,7 +10,7 @@ What makes Binance.US distinctive is the tension between warmth and precision. T
 
 **Key Characteristics:**
 - Two-tone light/dark section alternation — white surfaces for trust, dark panels for depth
-- Binance Yellow (`#F0B90B`) as the singular accent color driving all primary actions
+- Brand orange (`#FE84389D`) as the singular accent color driving all primary actions
 - BinancePlex custom typeface providing proprietary brand identity at every text level
 - Pill-shaped CTA buttons (50px radius) that demand attention
 - Floating device mockups on golden gradients for product showcasing
@@ -21,13 +21,13 @@ What makes Binance.US distinctive is the tension between warmth and precision. T
 
 ### Primary
 
-- **Binance Yellow** (`#F0B90B`): The signature — primary CTA backgrounds, brand accent, active states, link color. The single most important color in the system
-- **Binance Gold** (`#FFD000`): Lighter gold variant used for pill button borders, secondary CTA fills, and golden gradient highlights
-- **Light Gold** (`#F8D12F`): Soft gold for gradient endpoints and hover-adjacent states
+- **Brand orange** (`#FE84389D`): The signature — primary CTA backgrounds, brand accent, active states, link color. The single most important color in the system
+- **Brand orange (mid)** (`#FE8438CC`): Lighter variant used for pill button borders, secondary CTA fills, and gradient highlights
+- **Brand orange (light)** (`#FE843866`): Soft tint for gradient endpoints and hover-adjacent states
 
 ### Secondary & Accent
 
-- **Active Yellow** (`#D0980B`): Darkened yellow for active/pressed button states — the "clicked" gold
+- **Brand orange (pressed)** (`#E06C20`): Darkened variant for active/pressed button states
 - **Focus Blue** (`#1EAEDB`): Accessibility focus state — appears on hover and focus for all interactive elements
 
 ### Surface & Background
@@ -52,11 +52,11 @@ What makes Binance.US distinctive is the tension between warmth and precision. T
 - **Crypto Green** (`#0ECB81`): Positive price movement, success states, "up" indicators
 - **Crypto Red** (`#F6465D`): Negative price movement, error states, "down" indicators
 - **Border Light** (`#E6E8EA`): Standard card and section borders on light backgrounds
-- **Border Gold** (`#FFD000`): Active/selected state borders, pill button outlines
+- **Border Orange** (`#FE8438CC`): Active/selected state borders, pill button outlines
 
 ### Gradient System
 
-- **Golden Glow**: Radial gradient from `#F0B90B` center to `#F8D12F` edge — used behind product mockup screenshots
+- **Orange Glow**: Radial gradient from `#FE8438` center to `#FEA06B` edge — used behind product mockup screenshots
 - **Dark Fade**: Linear gradient from `#222126` to transparent — used for dark section transitions
 - **Hero Shimmer**: Subtle animated gold gradient on hero section accents
 
@@ -101,21 +101,21 @@ BinancePlex is engineered for data-dense interfaces where numbers and text must 
 
 ### Buttons
 
-**Primary (Yellow Fill)**
-- Background: Binance Yellow (`#F0B90B`)
+**Primary (Orange Fill)**
+- Background: Brand orange (`#FE84389D`)
 - Text: Ink (`#1E2026`), 16px/600, BinancePlex
 - Border: none
 - Border radius: slightly rounded (6px)
 - Padding: 6px 32px
 - Hover: shifts to Focus Blue (`#1EAEDB`) with white text
-- Active: darkens to Active Yellow (`#D0980B`)
+- Active: darkens to Brand orange (pressed) (`#E06C20`)
 - Focus: Focus Blue (`#1EAEDB`) bg, 1px black border, 2px black outline, opacity 0.9
 - Transition: background 200ms ease
 
-**Primary Pill (Gold)**
-- Background: Binance Gold (`#FFD000`)
+**Primary Pill (Orange Mid)**
+- Background: Brand orange (mid) (`#FE8438CC`)
 - Text: White (`#FFFFFF`)
-- Border: 1px solid `#FFD000`
+- Border: 1px solid `#FE8438CC`
 - Border radius: full pill (50px)
 - Padding: 10px horizontal
 - Shadow: `rgb(153,153,153) 0px 2px 10px -3px`
@@ -123,8 +123,8 @@ BinancePlex is engineered for data-dense interfaces where numbers and text must 
 
 **Secondary (White Outlined)**
 - Background: White (`#FFFFFF`)
-- Text: Binance Yellow (`#F0B90B`)
-- Border: 1px solid `#F0B90B`
+- Text: Brand orange (`#FE84389D`)
+- Border: 1px solid `#FE84389D`
 - Border radius: full pill (50px)
 - Padding: 10px horizontal
 - Shadow: `rgb(153,153,153) 0px 2px 10px -3px`
@@ -248,7 +248,7 @@ Binance.US uses a whisper-light shadow system. Card shadows are barely perceptib
 
 ### Do
 
-- Use Binance Yellow (`#F0B90B`) exclusively for primary CTAs and brand accents — it's the single point of color
+- Use Brand orange (`#FE84389D`) exclusively for primary CTAs and brand accents — it's the single point of color
 - Keep light and dark sections strictly alternating for visual rhythm
 - Use BinancePlex at weight 500+ for all interactive elements — this is a confidence-forward design
 - Apply 50px radius to all primary CTA pill buttons — the signature interactive shape
@@ -314,8 +314,8 @@ Binance.US uses a whisper-light shadow system. Card shadows are barely perceptib
 
 ### Quick Color Reference
 
-- Primary CTA: Binance Yellow (`#F0B90B`)
-- Secondary CTA: Binance Gold (`#FFD000`)
+- Primary CTA: Brand orange (`#FE84389D`)
+- Secondary CTA: Brand orange (mid) (`#FE8438CC`)
 - Background Light: Pure White (`#FFFFFF`)
 - Background Dark: Binance Dark (`#222126`)
 - Heading text: Ink (`#1E2026`)
@@ -326,18 +326,18 @@ Binance.US uses a whisper-light shadow system. Card shadows are barely perceptib
 
 ### Example Component Prompts
 
-- "Create a hero section with white background, a 60px/700 bold headline in Ink (#1E2026), a 20px/500 subtitle in Slate (#848E9C), and a Binance Yellow (#F0B90B) pill button (50px radius) with dark text (#1E2026)"
+- "Create a hero section with white background, a 60px/700 bold headline in Ink (#1E2026), a 20px/500 subtitle in Slate (#848E9C), and a Brand orange (#FE84389D) pill button (50px radius) with dark text (#1E2026)"
 - "Design a crypto price ticker strip showing BTC, BNB, SOL prices in 14px/600 Ink (#1E2026) with green (#0ECB81) or red (#F6465D) percentage changes, on a white background with #E6E8EA bottom border"
-- "Build a feature card grid (3-column, 24px gap) with 12px radius white cards, subtle shadow (rgba(32,32,37,0.05) 0px 3px 5px), each containing a yellow (#F0B90B) icon, 20px/600 heading, and 14px/500 #848E9C description"
-- "Create a dark section (#222126) with a 34px/700 white headline centered, and a 3-column feature grid using dark cards (#2B2F36) with 12px radius and yellow (#F0B90B) accent icons"
-- "Design a sticky navigation bar with white background, Binance logo left, 14px/600 #32313A nav links center, and a yellow (#F0B90B) pill button (50px radius, 6px padding 32px) labeled 'Get Started' right"
+- "Build a feature card grid (3-column, 24px gap) with 12px radius white cards, subtle shadow (rgba(32,32,37,0.05) 0px 3px 5px), each containing a brand orange (#FE84389D) icon, 20px/600 heading, and 14px/500 #848E9C description"
+- "Create a dark section (#222126) with a 34px/700 white headline centered, and a 3-column feature grid using dark cards (#2B2F36) with 12px radius and brand orange (#FE84389D) accent icons"
+- "Design a sticky navigation bar with white background, Fayafolio logo left, 14px/600 #32313A nav links center, and a brand orange (#FE84389D) pill button (50px radius, 6px padding 32px) labeled 'Get Started' right"
 
 ### Iteration Guide
 
 When refining existing screens generated with this design system:
 1. Focus on ONE component at a time
 2. Reference specific color names and hex codes from this document
-3. Remember: Binance Yellow (#F0B90B) is the ONLY accent color — everything else is grey/dark/white
+3. Remember: Brand orange (#FE84389D) is the ONLY accent color — everything else is grey/dark/white
 4. Use the dark/light section alternation for visual pacing
 5. Numbers and data should be prominent — this is a financial platform
 6. Pill buttons (50px radius) for CTAs, regular buttons (6px radius) for form actions

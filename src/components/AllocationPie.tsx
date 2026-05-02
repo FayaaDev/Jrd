@@ -9,16 +9,16 @@ interface Props {
 }
 
 const COLORS = [
-  '#F0B90B',
-  '#F8D12F',
+  '#FE8438',
+  '#FEA06B',
   '#0ECB81',
   '#F6465D',
-  '#FFD000',
+  '#E06C20',
   '#848E9C',
   '#32313A',
   '#686A6C',
   '#2B2F36',
-  '#D0980B',
+  '#FE84389D',
 ];
 
 export default function AllocationPie({ data, title, baseCurrency }: Props) {

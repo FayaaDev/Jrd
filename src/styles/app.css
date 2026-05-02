@@ -1,8 +1,9 @@
 :root {
-  --binance-yellow: #f0b90b;
-  --binance-gold: #ffd000;
-  --light-gold: #f8d12f;
-  --active-yellow: #d0980b;
+  /* Brand accent */
+  --binance-yellow: #fe84389d;
+  --binance-gold: #fe8438cc;
+  --light-gold: #fe843866;
+  --active-yellow: #e06c20;
   --focus-blue: #1eaedb;
 
   --white: #ffffff;
@@ -25,7 +26,7 @@
   --color-surface-dark: var(--binance-dark);
   --color-card-dark: var(--dark-card);
   --color-border: var(--border-light);
-  --color-border-strong: rgba(240, 185, 11, 0.35);
+  --color-border-strong: rgba(254, 132, 56, 0.35);
   --color-text: var(--primary-text);
   --color-text-secondary: var(--secondary-text);
   --color-text-muted: var(--slate);
@@ -66,12 +67,12 @@
   --color-surface-dark: #0f1014;
   --color-card-dark: #181b22;
   --color-border: #2d3139;
-  --color-border-strong: rgba(240, 185, 11, 0.4);
+  --color-border-strong: rgba(254, 132, 56, 0.4);
   --color-text: #f3f4f6;
   --color-text-secondary: #d2d6dc;
   --color-text-muted: #9aa3af;
   --color-secondary: #181b22;
-  --color-secondary-text: #f0b90b;
+  --color-secondary-text: #fe84389d;
   --shadow-sm: rgba(0, 0, 0, 0.22) 0px 8px 24px;
   --shadow-md: rgba(0, 0, 0, 0.35) 0px 18px 40px;
   --shadow-pill: rgba(0, 0, 0, 0.25) 0px 6px 24px -8px;
@@ -85,12 +86,12 @@
     --color-surface-dark: #0f1014;
     --color-card-dark: #181b22;
     --color-border: #2d3139;
-    --color-border-strong: rgba(240, 185, 11, 0.4);
+    --color-border-strong: rgba(254, 132, 56, 0.4);
     --color-text: #f3f4f6;
     --color-text-secondary: #d2d6dc;
     --color-text-muted: #9aa3af;
     --color-secondary: #181b22;
-    --color-secondary-text: #f0b90b;
+    --color-secondary-text: #fe84389d;
     --shadow-sm: rgba(0, 0, 0, 0.22) 0px 8px 24px;
     --shadow-md: rgba(0, 0, 0, 0.35) 0px 18px 40px;
     --shadow-pill: rgba(0, 0, 0, 0.25) 0px 6px 24px -8px;
@@ -109,7 +110,7 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top right, rgba(240, 185, 11, 0.16), transparent 24%),
+    radial-gradient(circle at top right, rgba(254, 132, 56, 0.16), transparent 24%),
     linear-gradient(180deg, #ffffff 0%, #fbfbfc 38%, #f3f4f6 100%);
   color: var(--color-text);
   font-family: var(--font-sans);
@@ -119,7 +120,7 @@ body {
 
 [data-theme='dark'] body {
   background:
-    radial-gradient(circle at top right, rgba(240, 185, 11, 0.12), transparent 26%),
+    radial-gradient(circle at top right, rgba(254, 132, 56, 0.12), transparent 26%),
     linear-gradient(180deg, #101115 0%, #0f1014 100%);
 }
 
@@ -154,7 +155,7 @@ textarea {
 .market-strip {
   height: var(--ticker-height);
   background: var(--binance-dark);
-  border-bottom: 1px solid rgba(240, 185, 11, 0.14);
+  border-bottom: 1px solid rgba(254, 132, 56, 0.14);
   color: var(--white);
 }
 
@@ -223,8 +224,8 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(240, 185, 11, 0.12);
-  border: 1px solid rgba(240, 185, 11, 0.2);
+  background: rgba(254, 132, 56, 0.12);
+  border: 1px solid rgba(254, 132, 56, 0.2);
   border-radius: 10px;
   flex-shrink: 0;
 }
@@ -292,17 +293,23 @@ textarea {
   color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 600;
-  transition: color 200ms ease, background 200ms ease;
+  transition: color 200ms ease, background 200ms ease, box-shadow 200ms ease;
 }
 
 .nav-link:hover {
-  color: var(--ink);
-  background: rgba(240, 185, 11, 0.08);
+  color: var(--white);
+  background: var(--binance-gold);
+  box-shadow:
+    0 0 0 1px rgba(254, 132, 56, 0.35),
+    0 14px 30px -22px rgba(254, 132, 56, 0.95);
 }
 
 .nav-link--active {
-  color: var(--ink);
-  background: rgba(240, 185, 11, 0.18);
+  color: var(--white);
+  background: var(--binance-gold);
+  box-shadow:
+    0 0 0 1px rgba(254, 132, 56, 0.45),
+    0 18px 36px -24px rgba(254, 132, 56, 1);
 }
 
 .btn {
@@ -338,12 +345,17 @@ textarea {
 
 .btn--primary {
   background: var(--binance-yellow);
-  color: var(--ink);
+  color: var(--white);
   box-shadow: var(--shadow-pill);
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: var(--focus-blue);
+  background: var(--binance-gold);
+  color: var(--white);
+}
+
+.btn--primary:active:not(:disabled) {
+  background: var(--active-yellow);
   color: var(--white);
 }
 
@@ -355,9 +367,20 @@ textarea {
 }
 
 .btn--secondary:hover:not(:disabled) {
-  background: var(--focus-blue);
-  border-color: var(--focus-blue);
+  background: var(--binance-gold);
+  border-color: var(--binance-gold);
   color: var(--white);
+}
+
+.btn--secondary:active:not(:disabled) {
+  background: var(--active-yellow);
+  border-color: var(--active-yellow);
+  color: var(--white);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--focus-blue);
+  outline-offset: 2px;
 }
 
 .btn--danger {
@@ -393,7 +416,7 @@ textarea {
   inset: 0 auto auto 0;
   width: 110px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(240, 185, 11, 0.65), transparent);
+  background: linear-gradient(90deg, rgba(254, 132, 56, 0.65), transparent);
 }
 
 .card:hover {
@@ -420,12 +443,12 @@ textarea {
 }
 
 .card--dark::before {
-  background: linear-gradient(90deg, rgba(240, 185, 11, 0.9), transparent);
+  background: linear-gradient(90deg, rgba(254, 132, 56, 0.9), transparent);
 }
 
 .card--hero {
   background:
-    radial-gradient(circle at 85% 18%, rgba(240, 185, 11, 0.22), transparent 24%),
+    radial-gradient(circle at 85% 18%, rgba(254, 132, 56, 0.22), transparent 24%),
     linear-gradient(135deg, var(--white) 0%, #fbfbfc 52%, #f5f5f5 100%);
   padding: 36px;
 }
@@ -433,7 +456,7 @@ textarea {
 [data-theme='dark'] .card--hero,
 :root:not([data-theme='light']):not([data-theme='dark']) .card--hero {
   background:
-    radial-gradient(circle at 85% 18%, rgba(240, 185, 11, 0.16), transparent 24%),
+    radial-gradient(circle at 85% 18%, rgba(254, 132, 56, 0.16), transparent 24%),
     linear-gradient(135deg, #181b22 0%, #14161c 52%, #101115 100%);
 }
 
@@ -539,7 +562,7 @@ textarea {
   min-height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  background: rgba(240, 185, 11, 0.14);
+  background: rgba(254, 132, 56, 0.14);
   color: var(--active-yellow);
   font-size: 12px;
   font-weight: 700;
@@ -826,7 +849,7 @@ textarea {
 }
 
 .table__row:hover {
-  background: rgba(240, 185, 11, 0.06);
+  background: rgba(254, 132, 56, 0.06);
 }
 
 .table__td {
@@ -901,7 +924,7 @@ textarea {
   min-height: 28px;
   padding: 0 10px;
   border-radius: 999px;
-  background: rgba(240, 185, 11, 0.12);
+  background: rgba(254, 132, 56, 0.12);
   color: var(--active-yellow);
   font-size: 11px;
   font-weight: 700;
@@ -1022,9 +1045,9 @@ textarea {
 }
 
 .status-pill--muted {
-  background: rgba(240, 185, 11, 0.12);
+  background: rgba(254, 132, 56, 0.12);
   color: var(--color-text-secondary);
-  border: 1px solid rgba(240, 185, 11, 0.24);
+  border: 1px solid rgba(254, 132, 56, 0.24);
 }
 
 .readonly-note {
@@ -1141,7 +1164,7 @@ textarea {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: rgba(240, 185, 11, 0.14);
+  background: rgba(254, 132, 56, 0.14);
   color: var(--binance-yellow);
   font-size: 28px;
 }
@@ -1676,7 +1699,7 @@ textarea {
   padding: 0 14px;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-pill);
-  background: rgba(240, 185, 11, 0.08);
+  background: rgba(254, 132, 56, 0.08);
   color: var(--color-text-secondary);
   font-size: 13px;
   font-weight: 600;
