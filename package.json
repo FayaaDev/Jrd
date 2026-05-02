@@ -14,11 +14,11 @@
     "mobile:install": "cd mobile && npm install"
   },
   "dependencies": {
-    "@better-auth/expo": "^1.6.5",
-    "@better-auth/infra": "^0.2.4",
+    "@better-auth/expo": "^1.6.9",
+    "@better-auth/infra": "^0.2.5",
     "@tanstack/react-query": "^5.99.0",
     "apexcharts": "^5.10.6",
-    "better-auth": "^1.6.5",
+    "better-auth": "^1.6.9",
     "cors": "^2.8.6",
     "date-fns": "^4.1.0",
     "express": "^5.2.1",

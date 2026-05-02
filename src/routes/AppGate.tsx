@@ -3,15 +3,17 @@ import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { authClient } from '../lib/auth-client';
 import { usePortfolioSnapshot } from '../hooks/usePortfolioSnapshot';
+import { useI18n } from '../i18n/useI18n';
 
 export default function AppGate() {
+  const { t } = useI18n();
   const portfolioQuery = usePortfolioSnapshot();
 
   if (portfolioQuery.isPending) {
     return (
       <section className="page-intro card">
-        <span className="section-kicker">Portfolio</span>
-        <h1 className="page-title">Loading your ledger...</h1>
+        <span className="section-kicker">{t('appgate_kicker')}</span>
+        <h1 className="page-title">{t('appgate_loading_ledger')}</h1>
       </section>
     );
   }
@@ -19,7 +21,7 @@ export default function AppGate() {
   if (portfolioQuery.error) {
     return (
       <EmptyState
-        title="Portfolio unavailable"
+        title={t('appgate_portfolio_unavailable')}
         description={portfolioQuery.error instanceof Error ? portfolioQuery.error.message : 'Unable to load your ledger.'}
       />
     );
@@ -28,8 +30,8 @@ export default function AppGate() {
   if (portfolioQuery.data?.status === 'archived') {
     return (
       <EmptyState
-        title="Portfolio archived"
-        description="Your ledger is archived. Sign-in still works, but editing is disabled until an admin restores it."
+        title={t('appgate_archived_title')}
+        description={t('appgate_archived_desc')}
         action={(
           <Button
             variant="secondary"
@@ -43,7 +45,7 @@ export default function AppGate() {
               });
             }}
           >
-            Sign Out
+            {t('nav_sign_out')}
           </Button>
         )}
       />

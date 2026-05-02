@@ -6,8 +6,10 @@ import { ME_PORTFOLIO_SCOPE } from '../api/portfolio';
 import { fmtCurrency, fmtAge } from '../lib/format';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Watchlist() {
+  const { t, lang } = useI18n();
   const { watchlist, addWatchItem, removeWatchItem, canEdit, isLoading, errorMessage, isSaving } = useWatchlist();
   const [settings] = useSettings();
   const symbols = watchlist.map((w) => w.symbol);
@@ -35,11 +37,11 @@ export default function Watchlist() {
     if (!canEdit) return;
     const sym = symInput.trim().toUpperCase();
     if (!sym) {
-      setAddError('Symbol is required');
+      setAddError(t('watchlist_symbol_required'));
       return;
     }
     if (watchlist.some((w) => w.symbol === sym)) {
-      setAddError(`${sym} is already in your watchlist`);
+      setAddError(`${sym} ${t('watchlist_already_in')}`);
       return;
     }
     const currency = currencyInput.trim().toUpperCase() || 'USD';
@@ -57,8 +59,8 @@ export default function Watchlist() {
   if (isLoading) {
     return (
       <section className="page-intro card card--dark">
-        <span className="section-kicker">Trade radar</span>
-        <h1 className="page-title">Loading your watchlist...</h1>
+        <span className="section-kicker">{t('watchlist_kicker')}</span>
+        <h1 className="page-title">{t('watchlist_loading')}</h1>
       </section>
     );
   }
@@ -67,8 +69,8 @@ export default function Watchlist() {
     return (
       <div className="watchlist-page">
         <section className="page-intro card card--dark">
-          <span className="section-kicker">Trade radar</span>
-          <h1 className="page-title">Watchlist unavailable</h1>
+          <span className="section-kicker">{t('watchlist_kicker')}</span>
+          <h1 className="page-title">{t('watchlist_unavailable')}</h1>
           <p className="page-intro__copy page-intro__copy--inverse">{errorMessage}</p>
         </section>
       </div>
@@ -78,31 +80,31 @@ export default function Watchlist() {
   return (
     <div className="watchlist-page">
       <section className="page-intro card card--dark">
-        <span className="section-kicker">Trade radar</span>
+        <span className="section-kicker">{t('watchlist_kicker')}</span>
         <div className="page-header">
-          <h1 className="page-title">Watchlist</h1>
+          <h1 className="page-title">{t('watchlist_title')}</h1>
         </div>
         <p className="page-intro__copy page-intro__copy--inverse">
-          Stage symbols before they graduate into your holdings. Numeric SAR symbols route to Sahmk, everything else defaults to Alpaca.
+          {t('watchlist_lede')}
         </p>
       </section>
 
       <form onSubmit={handleAdd} className="watchlist-add-form card">
-        <h2 className="form-section-title">Add Symbol</h2>
+        <h2 className="form-section-title">{t('watchlist_add_symbol')}</h2>
         <div className="form-row">
           <Input
-            label="Symbol"
+            label={t('watchlist_symbol')}
             value={symInput}
             onChange={(e) => {
               setSymInput(e.target.value);
               setAddError('');
             }}
             disabled={!canEdit || isSaving}
-            placeholder="e.g. MSFT"
+            placeholder="MSFT"
             error={addError}
           />
           <Input
-            label="Quote Currency"
+            label={t('watchlist_quote_currency')}
             value={currencyInput}
             onChange={(e) =>
               setCurrencyInput(e.target.value.toUpperCase().slice(0, 3))
@@ -112,35 +114,35 @@ export default function Watchlist() {
             maxLength={3}
           />
           <Input
-            label="Name (optional)"
+            label={t('watchlist_name_optional')}
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             disabled={!canEdit || isSaving}
-            placeholder="e.g. Microsoft Corp."
+            placeholder={lang === 'ar' ? 'مثال: Microsoft' : 'e.g. Microsoft Corp.'}
           />
         </div>
         <Button type="submit" variant="primary" size="sm" disabled={!canEdit || isSaving}>
-          Add to Watchlist
+          {t('watchlist_add')}
         </Button>
       </form>
 
       {watchlist.length === 0 ? (
         <p className="text-muted" style={{ marginTop: '2rem', textAlign: 'center' }}>
-          Your watchlist is empty. Add symbols above.
+          {t('watchlist_empty')}
         </p>
       ) : (
         <div className="table-scroll">
           <table className="table">
             <thead>
-              <tr>
-                <th className="table__th">Symbol</th>
-                <th className="table__th">Name</th>
-                <th className="table__th">Currency</th>
-                <th className="table__th table__th--number">Price</th>
-                <th className="table__th table__th--number">As Of</th>
-                <th className="table__th">Actions</th>
-              </tr>
-            </thead>
+                <tr>
+                  <th className="table__th">{t('watchlist_col_symbol')}</th>
+                  <th className="table__th">{t('watchlist_col_name')}</th>
+                  <th className="table__th">{t('watchlist_col_currency')}</th>
+                  <th className="table__th table__th--number">{t('watchlist_col_price')}</th>
+                  <th className="table__th table__th--number">{t('watchlist_col_asof')}</th>
+                  <th className="table__th">{t('watchlist_col_actions')}</th>
+                </tr>
+              </thead>
             <tbody>
               {watchlist.map((item) => {
                 const quote = prices.prices[item.symbol];
@@ -164,7 +166,7 @@ export default function Watchlist() {
                         disabled={!canEdit || isSaving}
                         onClick={() => removeWatchItem(item.symbol)}
                       >
-                        Remove
+                        {t('watchlist_remove')}
                       </Button>
                     </td>
                   </tr>

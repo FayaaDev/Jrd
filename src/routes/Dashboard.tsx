@@ -2,11 +2,14 @@ import { Link } from 'react-router-dom';
 import { usePortfolio } from '../hooks/usePortfolio';
 import AllocationPie from '../components/AllocationPie';
 import PLBar from '../components/PLBar';
+import PortfolioSummary from '../components/PortfolioSummary';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
 import { fmtAge } from '../lib/format';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Dashboard() {
+  const { t } = useI18n();
   const {
     rows,
     summary,
@@ -30,8 +33,8 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <section className="page-intro card card--hero">
-        <span className="hero-badge">Private ledger</span>
-        <h1 className="page-title">Loading your portfolio...</h1>
+        <span className="hero-badge">{t('dashboard_kicker_private')}</span>
+        <h1 className="page-title">{t('dashboard_loading')}</h1>
       </section>
     );
   }
@@ -39,9 +42,9 @@ export default function Dashboard() {
   if (errorMessage) {
     return (
       <EmptyState
-        title="Portfolio unavailable"
+        title={t('dashboard_unavailable')}
         description={errorMessage}
-        action={<Link to="/app/settings">Open Settings</Link>}
+        action={<Link to="/app/settings">{t('dashboard_open_settings')}</Link>}
       />
     );
   }
@@ -49,11 +52,11 @@ export default function Dashboard() {
   if (rows.length === 0) {
     return (
       <EmptyState
-        title="No holdings yet"
-        description="Your ledger is ready. Add your first holding to start tracking the portfolio."
+        title={t('dashboard_no_holdings_title')}
+        description={t('dashboard_no_holdings_desc')}
         action={
           <Link to="/app/holdings">
-            <Button variant="primary">Add Holding</Button>
+            <Button variant="primary">{t('dashboard_add_holding')}</Button>
           </Link>
         }
       />
@@ -62,13 +65,13 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard">
-      <section className="hero-panel card card--hero">
+        <section className="hero-panel card card--hero">
           <div className="hero-panel__content">
             <div className="hero-panel__headline">
-            <span className="hero-badge">Live routing active</span>
-            <h1 className="page-title">Track your private ledger with live, market-aware pricing.</h1>
+            <span className="hero-badge">{t('dashboard_badge_live')}</span>
+            <h1 className="page-title">{t('dashboard_title')}</h1>
             <p className="hero-panel__lede">
-              US names route through Alpaca, crypto routes through CoinMarketCap, Saudi equities route through Sahmk, and unsupported sleeves keep their last trusted snapshot so your book stays readable.
+              {t('dashboard_lede')}
             </p>
           </div>
         </div>
@@ -76,7 +79,7 @@ export default function Dashboard() {
         <div className="hero-panel__actions">
           <div className="dashboard__refresh">
             {lastUpdated && (
-              <span className="text-muted">Last refreshed {fmtAge(lastUpdated)}</span>
+              <span className="text-muted">{t('dashboard_last_refreshed')} {fmtAge(lastUpdated)}</span>
             )}
             <Button
               variant="secondary"
@@ -84,53 +87,55 @@ export default function Dashboard() {
               onClick={refresh}
               disabled={!canRefreshMarkets || isFetching}
             >
-              {isFetching ? 'Refreshing...' : 'Refresh markets'}
+              {isFetching ? t('dashboard_refreshing') : t('dashboard_refresh_markets')}
             </Button>
             {priceErrorMessage && (
               <span className="text-negative">{priceErrorMessage}</span>
             )}
             {Object.keys(quoteErrors).length > 0 && !priceErrorMessage && (
-              <span className="text-muted">Live quote warnings: {Object.keys(quoteErrors).join(', ')}</span>
+              <span className="text-muted">{t('dashboard_live_warnings')} {Object.keys(quoteErrors).join(', ')}</span>
             )}
           </div>
 
           <div className="market-coverage card card--dark" aria-label="Portfolio classification">
             <div className="market-coverage__row">
-              <span>US market</span>
-              <strong>{usCount} assets</strong>
+              <span>{t('dashboard_market_us')}</span>
+              <strong>{usCount} {t('dashboard_assets')}</strong>
             </div>
             <div className="market-coverage__row">
-              <span>Saudi market</span>
-              <strong>{saudiCount} assets</strong>
+              <span>{t('dashboard_market_saudi')}</span>
+              <strong>{saudiCount} {t('dashboard_assets')}</strong>
             </div>
             <div className="market-coverage__row">
-              <span>Crypto</span>
-              <strong>{cryptoCount} assets</strong>
+              <span>{t('dashboard_market_crypto')}</span>
+              <strong>{cryptoCount} {t('dashboard_assets')}</strong>
             </div>
             <div className="market-coverage__row">
-              <span>Cash</span>
-              <strong>{cashCount} assets</strong>
+              <span>{t('dashboard_market_cash')}</span>
+              <strong>{cashCount} {t('dashboard_assets')}</strong>
             </div>
             <div className="market-coverage__row">
-              <span>Other</span>
-              <strong>{otherCount} assets</strong>
+              <span>{t('dashboard_market_other')}</span>
+              <strong>{otherCount} {t('dashboard_assets')}</strong>
             </div>
           </div>
         </div>
       </section>
 
+      <PortfolioSummary summary={summary} baseCurrency={settings.baseCurrency} />
+
       <section className="section-block section-block--dark">
         <div className="section-block__header">
           <div>
-            <span className="section-kicker">Allocation + exposure</span>
-            <h2 className="section-title">Read the portfolio the way a trading desk would.</h2>
+            <span className="section-kicker">{t('dashboard_section_kicker')}</span>
+            <h2 className="section-title">{t('dashboard_section_title')}</h2>
           </div>
         </div>
 
         <div className="dashboard__charts">
           <AllocationPie
             data={summary.byAssetType}
-            title="Allocation by Asset Type"
+            title={t('dashboard_chart_alloc')}
             baseCurrency={settings.baseCurrency}
           />
           <PLBar rows={rows} baseCurrency={settings.baseCurrency} />

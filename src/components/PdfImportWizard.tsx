@@ -5,6 +5,7 @@ import { Select } from './ui/Select';
 import { ImportReviewTable } from './ImportReviewTable';
 import { usePdfImport } from '../hooks/usePdfImport';
 import { fetchValidMarkets } from '../api/pdfImport';
+import { useI18n } from '../i18n/useI18n';
 
 interface PdfImportWizardProps {
   open: boolean;
@@ -24,6 +25,7 @@ function UploadStep({
   onUpload: (file: File) => void;
   error: string | null;
 }) {
+  const { t } = useI18n();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -74,15 +76,15 @@ function UploadStep({
         onDrop={handleDrop}
       >
         <div className="pdf-import-upload__icon" aria-hidden="true">↑</div>
-        <p className="pdf-import-upload__text">Drop your PDF here</p>
-        <p className="pdf-import-upload__separator">or</p>
+        <p className="pdf-import-upload__text">{t('pdf_import_drop')}</p>
+        <p className="pdf-import-upload__separator">{t('pdf_import_or')}</p>
         <Button
           variant="secondary"
           size="sm"
           type="button"
           onClick={() => fileInputRef.current?.click()}
         >
-          Browse files
+          {t('pdf_import_browse')}
         </Button>
         <input
           ref={fileInputRef}
@@ -96,7 +98,7 @@ function UploadStep({
 
       {selectedFile && (
         <p className="pdf-import-upload__filename">
-          Selected: <strong>{selectedFile.name}</strong>
+          {t('pdf_import_selected')} <strong>{selectedFile.name}</strong>
         </p>
       )}
 
@@ -108,22 +110,23 @@ function UploadStep({
         disabled={!selectedFile}
         className="pdf-import-upload__submit"
       >
-        Upload &amp; Extract
+        {t('pdf_import_upload_extract')}
       </Button>
     </div>
   );
 }
 
 function ProcessingStep() {
+  const { t } = useI18n();
   return (
     <div className="pdf-import-processing">
-      <h3 className="pdf-import-processing__heading">Processing your statement...</h3>
+      <h3 className="pdf-import-processing__heading">{t('pdf_import_processing')}</h3>
       <ul className="pdf-import-processing__stages">
         <li className="pdf-import-processing__stage pdf-import-processing__stage--active">
-          Reading PDF...
+          {t('pdf_import_stage_reading')}
         </li>
-        <li className="pdf-import-processing__stage">Extracting holdings...</li>
-        <li className="pdf-import-processing__stage">Verifying symbols...</li>
+        <li className="pdf-import-processing__stage">{t('pdf_import_stage_extracting')}</li>
+        <li className="pdf-import-processing__stage">{t('pdf_import_stage_verifying')}</li>
       </ul>
       <div className="pdf-import-processing__spinner" aria-label="Loading" />
     </div>
@@ -131,9 +134,10 @@ function ProcessingStep() {
 }
 
 function ConfirmingStep() {
+  const { t } = useI18n();
   return (
     <div className="pdf-import-processing">
-      <h3 className="pdf-import-processing__heading">Importing holdings...</h3>
+      <h3 className="pdf-import-processing__heading">{t('pdf_import_importing')}</h3>
       <div className="pdf-import-processing__spinner" aria-label="Loading" />
     </div>
   );
@@ -146,24 +150,26 @@ function DoneStep({
   summary: { added: number; updated: number; skipped: number } | null;
   onClose: () => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className="pdf-import-done">
-      <h3 className="pdf-import-done__heading">Import Complete!</h3>
+      <h3 className="pdf-import-done__heading">{t('pdf_import_done')}</h3>
       {summary && (
         <ul className="pdf-import-done__summary">
-          <li>{summary.added} holdings added</li>
-          <li>{summary.updated} holdings updated</li>
-          <li>{summary.skipped} holdings skipped</li>
+          <li>{summary.added} {t('pdf_import_added')}</li>
+          <li>{summary.updated} {t('pdf_import_updated')}</li>
+          <li>{summary.skipped} {t('pdf_import_skipped')}</li>
         </ul>
       )}
       <Button variant="primary" onClick={onClose}>
-        Close
+        {t('modal_close')}
       </Button>
     </div>
   );
 }
 
 export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
+  const { t } = useI18n();
   const {
     step,
     extractionResult,
@@ -209,11 +215,11 @@ export function PdfImportWizard({ open, onClose }: PdfImportWizardProps) {
 
   // Determine modal title
   const titleMap: Record<string, string> = {
-    idle: 'Import from PDF',
-    uploading: 'Processing...',
-    reviewing: 'Review Holdings',
-    confirming: 'Importing...',
-    done: 'Import Complete',
+    idle: t('pdf_import_title_idle'),
+    uploading: t('pdf_import_title_uploading'),
+    reviewing: t('pdf_import_title_reviewing'),
+    confirming: t('pdf_import_title_confirming'),
+    done: t('pdf_import_title_done'),
   };
 
   // In the reviewing step, prevent closing while confirming

@@ -7,16 +7,16 @@ import { usePortfolio } from '../hooks/usePortfolio';
 import { useHoldings } from '../hooks/useHoldings';
 import HoldingsTable from '../components/HoldingsTable';
 import HoldingForm from './HoldingForm';
-import { PdfImportWizard } from '../components/PdfImportWizard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Holdings() {
+  const { t } = useI18n();
   const { rows, settings, isLoading, errorMessage } = usePortfolio();
   const { deleteHolding, canEdit } = useHoldings();
   const [formOpen, setFormOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Holding | undefined>(undefined);
-  const [pdfImportOpen, setPdfImportOpen] = useState(false);
 
   const handleEdit = (row: HoldingRow) => {
     // HoldingRow extends Holding — extract the Holding fields
@@ -52,18 +52,18 @@ export default function Holdings() {
   if (isLoading) {
     return (
       <section className="page-intro card">
-        <span className="section-kicker">Portfolio inventory</span>
-        <h1 className="page-title">Loading your holdings...</h1>
+        <span className="section-kicker">{t('holdings_kicker')}</span>
+        <h1 className="page-title">{t('holdings_loading')}</h1>
       </section>
     );
   }
 
   if (errorMessage) {
     return (
-        <EmptyState
-          title="Unable to load holdings"
+      <EmptyState
+          title={t('holdings_unavailable')}
           description={errorMessage}
-          action={<Link to="/app/settings">Open Settings</Link>}
+          action={<Link to="/app/settings">{t('dashboard_open_settings')}</Link>}
         />
       );
   }
@@ -72,40 +72,37 @@ export default function Holdings() {
     <div className="holdings-page">
       <section className="page-intro card">
         <div>
-          <span className="section-kicker">Portfolio inventory</span>
+          <span className="section-kicker">{t('holdings_kicker')}</span>
           <div className="page-header">
-            <h1 className="page-title">Holdings</h1>
-            <Button variant="secondary" onClick={() => setPdfImportOpen(true)} disabled={!canEdit}>
-              Import PDF
-            </Button>
+            <h1 className="page-title">{t('holdings_title')}</h1>
             <Button variant="primary" onClick={handleAdd} disabled={!canEdit}>
-              + Add Holding
+              {t('holdings_add')}
             </Button>
           </div>
           <p className="page-intro__copy">
-            Every position in your private ledger stays in one execution surface so you can inspect live marks, blended valuations, and open P/L without leaving the book.
+            {t('holdings_lede')}
           </p>
         </div>
       </section>
 
       {rows.length === 0 ? (
         <EmptyState
-          title="No holdings yet"
+          title={t('holdings_empty_title')}
           description={
             canEdit
-              ? 'Start building your portfolio by adding your first holding.'
-              : 'This ledger is not editable right now.'
+              ? t('holdings_empty_can_edit')
+              : t('holdings_empty_readonly')
           }
           action={
             <>
               {canEdit ? (
                 <Button variant="primary" onClick={handleAdd}>
-                  Add Holding
+                  {t('dashboard_add_holding')}
                 </Button>
               ) : (
-                <Link to="/app/settings">Open Settings</Link>
+                <Link to="/app/settings">{t('dashboard_open_settings')}</Link>
               )}
-              <Link to="/app">Back to Dashboard</Link>
+              <Link to="/app">{t('holdings_back_dashboard')}</Link>
             </>
           }
         />
@@ -128,10 +125,6 @@ export default function Holdings() {
         scope={ME_PORTFOLIO_SCOPE}
       />
 
-      <PdfImportWizard
-        open={pdfImportOpen}
-        onClose={() => setPdfImportOpen(false)}
-      />
     </div>
   );
 }

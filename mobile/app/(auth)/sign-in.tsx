@@ -43,7 +43,7 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Fayafolio</Text>
+      <Text style={styles.title}>Jrd</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"

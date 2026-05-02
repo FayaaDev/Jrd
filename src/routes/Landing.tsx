@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { authClient } from '../lib/auth-client';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Landing() {
   const sessionQuery = authClient.useSession();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const { lang, setLang, t } = useI18n();
 
   if (!sessionQuery.isPending && sessionQuery.data) {
     return <Navigate to="/app" replace />;
@@ -31,19 +33,38 @@ export default function Landing() {
     <main className="landing-page">
       <section className="landing-hero card card--hero">
         <div className="landing-hero__copy">
-          <span className="hero-badge">Private By Default</span>
-          <h1 className="page-title">One Google sign-in. One private portfolio ledger.</h1>
+          <div className="page-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <img
+                src={`${import.meta.env.BASE_URL}jrdnbg.png`}
+                alt=""
+                width={40}
+                height={40}
+                style={{ display: 'block' }}
+              />
+              <span className="hero-badge">{t('landing_badge')}</span>
+            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+              aria-label={t('language')}
+            >
+              {lang === 'ar' ? 'EN' : 'عربي'}
+            </Button>
+          </div>
+          <h1 className="page-title">{t('landing_title')}</h1>
           <p className="landing-hero__lede">
-            Fayafolio now runs as one product: your own holdings, watchlist, settings, and live market view under a single authenticated ledger.
+            {t('landing_lede')}
           </p>
           <div className="landing-hero__points">
-            <span>Google OAuth only</span>
-            <span>No public portfolio URLs</span>
-            <span>Admin support when needed</span>
+            <span>{t('landing_point_oauth')}</span>
+            <span>{t('landing_point_no_urls')}</span>
+            <span>{t('landing_point_admin')}</span>
           </div>
           <div className="landing-hero__actions">
             <Button onClick={() => void continueWithGoogle()} disabled={isRedirecting || sessionQuery.isPending}>
-              {isRedirecting ? 'Redirecting...' : 'Continue with Google'}
+              {isRedirecting ? t('landing_redirecting') : t('landing_continue_google')}
             </Button>
             {errorMessage && <p className="text-negative">{errorMessage}</p>}
           </div>
@@ -51,16 +72,16 @@ export default function Landing() {
 
         <div className="landing-hero__panel card card--dark">
           <div className="landing-stat">
-            <span>Ownership</span>
-            <strong>One ledger per user</strong>
+            <span>{t('landing_stat_ownership_label')}</span>
+            <strong>{t('landing_stat_ownership_value')}</strong>
           </div>
           <div className="landing-stat">
-            <span>Visibility</span>
-            <strong>Private only</strong>
+            <span>{t('landing_stat_visibility_label')}</span>
+            <strong>{t('landing_stat_visibility_value')}</strong>
           </div>
           <div className="landing-stat">
-            <span>Admin controls</span>
-            <strong>Inspect, archive, restore, delete</strong>
+            <span>{t('landing_stat_admin_label')}</span>
+            <strong>{t('landing_stat_admin_value')}</strong>
           </div>
         </div>
       </section>

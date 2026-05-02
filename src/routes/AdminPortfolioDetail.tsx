@@ -316,6 +316,16 @@ export default function AdminPortfolioDetail() {
             disabled={settingsMeta.isSaving}
           />
           <Select
+            label="Language"
+            value={settings.language}
+            onChange={(event) => updateSetting('language', event.target.value as SettingsType['language'])}
+            options={[
+              { value: 'en', label: 'English' },
+              { value: 'ar', label: 'Arabic' },
+            ]}
+            disabled={settingsMeta.isSaving}
+          />
+          <Select
             label="Theme"
             value={settings.theme}
             onChange={(event) => updateSetting('theme', event.target.value as SettingsType['theme'])}

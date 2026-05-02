@@ -23,7 +23,7 @@ const socialProviders =
     : {};
 
 export const auth = betterAuth({
-  appName: 'Fayafolio',
+  appName: 'Jrd',
   baseURL: process.env.BETTER_AUTH_URL ?? DEFAULT_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET ?? DEFAULT_AUTH_SECRET,
   trustedOrigins: [
@@ -31,6 +31,8 @@ export const auth = betterAuth({
     'http://localhost:8081',
     'http://192.168.0.235:8081',
     'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://jrd.fayaa92.sa',
   ],
   plugins: [
     expo(),

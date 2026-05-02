@@ -6,6 +6,7 @@ export const SettingsSchema = z.object({
   fxProvider: z.literal('frankfurter').default('frankfurter'),
   refreshIntervalSec: z.number().int().positive().default(60),
   theme: z.enum(['system', 'light', 'dark']).default('dark'),
+  language: z.enum(['en', 'ar']).default('ar'),
 });
 
 export type Settings = z.infer<typeof SettingsSchema>;

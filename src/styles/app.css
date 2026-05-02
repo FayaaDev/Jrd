@@ -60,6 +60,10 @@
   --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
 }
 
+html[lang='ar'] {
+  --font-sans: 'Thmanyah Sans', 'Segoe UI', sans-serif;
+}
+
 [data-theme='dark'] {
   --color-bg: #111216;
   --color-surface: #17191f;
@@ -228,23 +232,14 @@ textarea {
   border: 1px solid rgba(254, 132, 56, 0.2);
   border-radius: 10px;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.navbar__brand-mark span {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 2px solid var(--binance-yellow);
-  transform: rotate(45deg);
-}
-
-.navbar__brand-mark span:first-child {
-  inset: auto;
-}
-
-.navbar__brand-mark span:last-child {
-  width: 17px;
-  height: 17px;
+.navbar__brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .navbar__brand-copy {
@@ -280,7 +275,7 @@ textarea {
 }
 
 .navbar__actions {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .nav-link {
@@ -685,6 +680,19 @@ textarea {
   line-height: 1.05;
 }
 
+.stat-card__money {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.stat-card__currency {
+  font-size: 0.55em;
+  line-height: 1;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
 .stat-card__meta {
   margin-top: auto;
   color: var(--color-text-muted);
@@ -815,12 +823,18 @@ textarea {
   width: 10%;
 }
 
+/* Action column (when present) needs a guaranteed width so the button isn't clipped */
+.table--holdings-compact .table__th:nth-child(10),
+.table--holdings-compact .table__td:nth-child(10) {
+  width: 64px;
+}
+
 .table__th {
   position: sticky;
   top: 0;
   z-index: 1;
   padding: 16px 14px;
-  text-align: left;
+  text-align: start;
   background: var(--color-surface-alt);
   border-bottom: 1px solid var(--color-border);
   color: var(--color-text-muted);
@@ -841,7 +855,7 @@ textarea {
 
 .table__th--number,
 .table__td--number {
-  text-align: right;
+  text-align: end;
 }
 
 .table__row {
@@ -877,6 +891,11 @@ textarea {
   justify-content: flex-end;
   gap: 6px;
   white-space: nowrap;
+  overflow: visible;
+}
+
+html[dir='rtl'] .table__td--actions {
+  justify-content: flex-start;
 }
 
 .table--holdings-compact .table__td--name {
@@ -1445,7 +1464,7 @@ textarea {
 
 .pdf-import-review__warnings ul {
   margin: 4px 0 0;
-  padding-left: 18px;
+  padding-inline-start: 18px;
 }
 
 .pdf-import-review__actions {
@@ -1519,7 +1538,7 @@ textarea {
 .review-table th,
 .review-table td {
   padding: 6px 10px;
-  text-align: left;
+  text-align: start;
   border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
 }
@@ -1643,7 +1662,7 @@ textarea {
 
 .market-resolved-badge {
   display: inline-block;
-  margin-left: 4px;
+  margin-inline-start: 4px;
   padding: 1px 5px;
   border-radius: 4px;
   font-size: 0.65rem;
@@ -1740,7 +1759,7 @@ textarea {
 }
 
 .navbar__actions {
-  margin-left: auto;
+  margin-inline-start: auto;
   display: flex;
   align-items: center;
   gap: 12px;

@@ -1,8 +1,8 @@
-# Unified Fayafolio Plan
+# Unified Jrd Plan
 
 ## Goal
 
-Collapse Fayafolio into one product, one SPA build, and one API deployment.
+Collapse Jrd into one product, one SPA build, and one API deployment.
 
 The new product model is:
 
@@ -132,7 +132,7 @@ Recommended user model additions:
 
 - Mount Better Auth at `/api/auth/*`
 - In Express 5, use the Better Auth handler before JSON body parsing for auth routes
-- Keep Better Auth cookies same-origin under the Fayafolio host
+- Keep Better Auth cookies same-origin under the Jrd host
 - Store admin status in the session-backed user record, not in `sessionStorage`
 
 ### Google OAuth Only In V1
@@ -487,7 +487,7 @@ server/
 
 - one SPA build
 - one API container
-- one Caddy rule set for Fayafolio
+- one Caddy rule set for Jrd
 
 ### Remove
 
@@ -498,7 +498,7 @@ server/
 
 ### Simplify
 
-- keep `/srv/docker/fayafolio-api` as the only Fayafolio API compose
+- keep `/srv/docker/fayafolio-api` as the only Jrd API compose
 - deploy one frontend build to `/srv/apps/static/fayafolio`
 - keep one hostname and one auth origin
 
@@ -654,7 +654,7 @@ After new private-ledger flows are live:
 
 The unification is complete when:
 
-- Fayafolio runs as one SPA and one API only
+- Jrd runs as one SPA and one API only
 - users self-sign in with Google
 - each user owns exactly one private ledger
 - admin controls every ledger from `/admin`

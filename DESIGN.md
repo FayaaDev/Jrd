@@ -2,7 +2,7 @@
 
 ## 1. Visual Theme & Atmosphere
 
-Fayafolio radiates the polished urgency of a digital trading floor — a space where money moves and decisions happen in seconds. The design is a two-tone composition that alternates between stark white trading surfaces and deep near-black panels (`#222126`), creating a visual rhythm that mirrors the bull-and-bear duality of crypto markets. Brand orange (`#FE84389D`) cuts through this monochrome foundation — unmistakable, confident, and engineered to guide every eye toward the next action.
+Jrd radiates the polished urgency of a digital trading floor — a space where money moves and decisions happen in seconds. The design is a two-tone composition that alternates between stark white trading surfaces and deep near-black panels (`#222126`), creating a visual rhythm that mirrors the bull-and-bear duality of crypto markets. Brand orange (`#FE84389D`) cuts through this monochrome foundation — unmistakable, confident, and engineered to guide every eye toward the next action.
 
 The interface speaks the language of fintech trust. Custom BinancePlex typography gives every headline and data point a proprietary gravitas, while generous whitespace and restrained decoration keep the focus on numbers, charts, and call-to-action buttons. The design avoids visual complexity in favor of operational clarity — every element exists to either inform or convert. Product screenshots of the mobile trading app dominate the middle sections, presented on floating device mockups against golden gradients, reinforcing that this is a platform you carry with you.
 
@@ -330,7 +330,7 @@ Binance.US uses a whisper-light shadow system. Card shadows are barely perceptib
 - "Design a crypto price ticker strip showing BTC, BNB, SOL prices in 14px/600 Ink (#1E2026) with green (#0ECB81) or red (#F6465D) percentage changes, on a white background with #E6E8EA bottom border"
 - "Build a feature card grid (3-column, 24px gap) with 12px radius white cards, subtle shadow (rgba(32,32,37,0.05) 0px 3px 5px), each containing a brand orange (#FE84389D) icon, 20px/600 heading, and 14px/500 #848E9C description"
 - "Create a dark section (#222126) with a 34px/700 white headline centered, and a 3-column feature grid using dark cards (#2B2F36) with 12px radius and brand orange (#FE84389D) accent icons"
-- "Design a sticky navigation bar with white background, Fayafolio logo left, 14px/600 #32313A nav links center, and a brand orange (#FE84389D) pill button (50px radius, 6px padding 32px) labeled 'Get Started' right"
+- "Design a sticky navigation bar with white background, Jrd logo left, 14px/600 #32313A nav links center, and a brand orange (#FE84389D) pill button (50px radius, 6px padding 32px) labeled 'Get Started' right"
 
 ### Iteration Guide
 

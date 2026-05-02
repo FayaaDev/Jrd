@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react';
 import type { HoldingRow } from '../lib/metrics';
 import { fmtCompactCurrency, fmtPercent, fmtNumber } from '../lib/format';
 import { Button } from './ui/Button';
+import { useI18n } from '../i18n/useI18n';
+import type { MessageKey } from '../i18n/messages';
 
 interface Props {
   rows: HoldingRow[];
@@ -23,16 +25,18 @@ type SortKey =
 
 type SortDir = 'asc' | 'desc';
 
-const COLUMNS: Array<{ key: SortKey; label: string; numeric?: boolean }> = [
-  { key: 'symbol', label: 'Asset' },
-  { key: 'name', label: 'Name' },
-  { key: 'quantity', label: 'Qty', numeric: true },
-  { key: 'avgCost', label: 'Cost', numeric: true },
-  { key: 'price', label: 'Last', numeric: true },
-  { key: 'marketValueBase', label: 'Value', numeric: true },
-  { key: 'unrealizedPL', label: 'P/L', numeric: true },
-  { key: 'weight', label: 'Wt', numeric: true },
-];
+function buildColumns(t: (k: MessageKey) => string): Array<{ key: SortKey; label: string; numeric?: boolean }> {
+  return [
+    { key: 'symbol', label: t('holdings_table_asset') },
+    { key: 'name', label: t('holdings_table_name') },
+    { key: 'quantity', label: t('holdings_table_qty'), numeric: true },
+    { key: 'avgCost', label: t('holdings_table_cost'), numeric: true },
+    { key: 'price', label: t('holdings_table_last'), numeric: true },
+    { key: 'marketValueBase', label: t('holdings_table_value'), numeric: true },
+    { key: 'unrealizedPL', label: t('holdings_table_pl'), numeric: true },
+    { key: 'weight', label: t('holdings_table_wt'), numeric: true },
+  ];
+}
 
 function shortenName(name: string | undefined): string {
   if (!name) return '—';
@@ -44,6 +48,8 @@ function compactMeta(row: HoldingRow): string {
 }
 
 export default function HoldingsTable({ rows, baseCurrency, onManage, canManage = true }: Props) {
+  const { t } = useI18n();
+  const COLUMNS = useMemo(() => buildColumns(t), [t]);
   const [filter, setFilter] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('symbol');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
@@ -86,16 +92,16 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
     <div className="holdings-table-wrapper">
       <div className="holdings-table__toolbar">
         <div className="holdings-table__toolbar-copy">
-          <span className="section-kicker">Search the book</span>
-          <p className="text-muted">{sorted.length} visible positions after filters and sorting.</p>
+          <span className="section-kicker">{t('holdings_table_search_kicker')}</span>
+          <p className="text-muted">{sorted.length} {t('holdings_table_visible_prefix')}</p>
         </div>
         <input
           type="search"
           className="form-input holdings-table__search"
-          placeholder="Filter by symbol, name, or type..."
+          placeholder={t('holdings_table_filter_placeholder')}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          aria-label="Filter holdings"
+          aria-label={t('holdings_table_filter_aria')}
         />
       </div>
       <div className="table-scroll">
@@ -112,9 +118,9 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
                   {sortKey === key ? (sortDir === 'asc' ? ' \u25b2' : ' \u25bc') : ''}
                 </th>
               ))}
-               {canManage && <th className="table__th">Actions</th>}
-             </tr>
-           </thead>
+               {canManage && <th className="table__th">{t('holdings_table_actions')}</th>}
+              </tr>
+            </thead>
            <tbody>
             {sorted.map((row) => (
               <tr key={row.id} className="table__row">
@@ -127,7 +133,7 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
                 <td className="table__td table__td--name" title={row.name ?? undefined}>
                   <div className="holding-cell">
                     <span className="holding-cell__primary holding-cell__primary--truncate">{shortenName(row.name)}</span>
-                    <span className="holding-cell__meta holding-cell__meta--truncate">{row.notes ?? row.priceProvider ?? 'Tracked position'}</span>
+                    <span className="holding-cell__meta holding-cell__meta--truncate">{row.notes ?? row.priceProvider ?? t('holdings_table_tracked')}</span>
                   </div>
                 </td>
                 <td className="table__td table__td--number" title={fmtNumber(row.quantity)}>{fmtNumber(row.quantity, row.quantity >= 100 ? 0 : 2)}</td>
@@ -141,7 +147,7 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
                         ? fmtCompactCurrency(row.price, row.priceCurrency ?? row.quoteCurrency)
                         : '—'}
                     </span>
-                    <span className="holding-cell__meta">{row.priceProvider ?? 'No source'}</span>
+                    <span className="holding-cell__meta">{row.priceProvider ?? t('holdings_table_no_source')}</span>
                   </div>
                 </td>
                 <td className="table__td table__td--number">
@@ -187,7 +193,7 @@ export default function HoldingsTable({ rows, baseCurrency, onManage, canManage 
         </table>
       </div>
       {sorted.length === 0 && (
-        <p className="table__empty">No holdings match your filter.</p>
+        <p className="table__empty">{t('holdings_table_empty')}</p>
       )}
     </div>
   );

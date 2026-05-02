@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
+import { useI18n } from '../../i18n/useI18n';
 
 interface ModalProps {
   open: boolean;
@@ -9,6 +10,7 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, title, children }: ModalProps) {
+  const { t } = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
             <button
               className="modal__close"
               onClick={onClose}
-              aria-label="Close"
+              aria-label={t('modal_close')}
             >
               &times;
             </button>

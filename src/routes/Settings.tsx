@@ -14,12 +14,14 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { PdfImportWizard } from '../components/PdfImportWizard';
 import type { Settings as SettingsType } from '../schemas/settings';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Settings() {
   const sessionQuery = authClient.useSession();
   const [settings, setSettings, settingsMeta] = useSettings();
   const [importStatus, setImportStatus] = useState<string>('');
   const [pdfImportOpen, setPdfImportOpen] = useState(false);
+  const { lang, setLang, t } = useI18n();
 
   const session = sessionQuery.data;
   const isAdmin = isAdminSession(session);
@@ -29,6 +31,9 @@ export default function Settings() {
 
   const update = <K extends keyof SettingsType>(key: K, value: SettingsType[K]) => {
     if (!canEdit) return;
+    if (key === 'language') {
+      setLang(value as SettingsType[K] as 'en' | 'ar');
+    }
     setSettings({ ...settings, [key]: value });
   };
 
@@ -44,7 +49,7 @@ export default function Settings() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      setImportStatus(getApiErrorMessage(error, 'Export failed.'));
+      setImportStatus(getApiErrorMessage(error, t('settings_export_failed')));
     }
   };
 
@@ -56,9 +61,9 @@ export default function Settings() {
     reader.onload = async () => {
       try {
         await importPortfolio(reader.result as string);
-        setImportStatus('Import successful. Your private ledger was updated.');
+        setImportStatus(t('settings_import_ok'));
       } catch (error) {
-        setImportStatus(getApiErrorMessage(error, 'Import failed: invalid or malformed file.'));
+        setImportStatus(getApiErrorMessage(error, t('settings_import_bad')));
       }
     };
     reader.readAsText(file);
@@ -70,15 +75,15 @@ export default function Settings() {
     if (!canEdit) return;
     if (
       window.confirm(
-        'Reset your ledger back to a blank portfolio? This will replace your holdings, watchlist, and settings.'
+        t('settings_reset_confirm')
       )
     ) {
       void resetPortfolio()
         .then(() => {
-          setImportStatus('Your ledger was reset to a blank state.');
+          setImportStatus(t('settings_reset_ok'));
         })
         .catch((error) => {
-          setImportStatus(getApiErrorMessage(error, 'Reset failed.'));
+          setImportStatus(getApiErrorMessage(error, t('settings_reset_failed')));
         });
     }
   };
@@ -96,32 +101,32 @@ export default function Settings() {
   return (
     <div className="settings-page">
       <section className="page-intro card">
-        <span className="section-kicker">System controls</span>
-        <h1 className="page-title">Settings</h1>
+        <span className="section-kicker">{t('settings_kicker')}</span>
+        <h1 className="page-title">{t('settings_title')}</h1>
         <p className="page-intro__copy">
-          Manage the base settings for your private ledger, export or import your own data, and keep your account session under control.
+          {t('settings_lede')}
         </p>
         <p className="readonly-note">
-          Signed in as {session?.user?.email ?? 'your account'}{isAdmin ? ' with admin access.' : '.'}
+          {t('settings_signed_in_as')} {session?.user?.email ?? '—'} {isAdmin ? t('settings_with_admin') : ''}
         </p>
       </section>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Account</h2>
-        <Input label="Name" value={session?.user?.name ?? '—'} readOnly />
-        <Input label="Email" value={session?.user?.email ?? '—'} readOnly />
-        <Input label="Role" value={role} readOnly />
+        <h2 className="settings-section__title">{t('settings_account')}</h2>
+        <Input label={lang === 'ar' ? 'الاسم' : 'Name'} value={session?.user?.name ?? '—'} readOnly />
+        <Input label={lang === 'ar' ? 'البريد الإلكتروني' : 'Email'} value={session?.user?.email ?? '—'} readOnly />
+        <Input label={lang === 'ar' ? 'الدور' : 'Role'} value={role} readOnly />
         <div className="settings-actions">
-          {isAdmin && <Link to="/admin" className="btn btn--secondary btn--md">Open Admin Console</Link>}
-          <Button type="button" variant="secondary" onClick={handleSignOut}>Sign Out</Button>
+          {isAdmin && <Link to="/admin" className="btn btn--secondary btn--md">{t('settings_open_admin')}</Link>}
+          <Button type="button" variant="secondary" onClick={handleSignOut}>{t('nav_sign_out')}</Button>
         </div>
         {settingsMeta.errorMessage && <p className="text-negative">{settingsMeta.errorMessage}</p>}
       </Card>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Portfolio</h2>
+        <h2 className="settings-section__title">{t('settings_portfolio')}</h2>
         <Input
-          label="Base Currency"
+          label={t('settings_base_currency')}
           value={settings.baseCurrency}
           disabled={disableWrites}
           onChange={(e) =>
@@ -133,30 +138,40 @@ export default function Settings() {
       </Card>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Appearance</h2>
+        <h2 className="settings-section__title">{t('settings_appearance')}</h2>
         <Select
-          label="Theme"
+          label={t('language')}
+          value={settings.language}
+          disabled={disableWrites}
+          onChange={(e) => update('language', e.target.value as SettingsType['language'])}
+          options={[
+            { value: 'en', label: t('english') },
+            { value: 'ar', label: t('arabic') },
+          ]}
+        />
+        <Select
+          label={t('settings_theme')}
           value={settings.theme}
           disabled={disableWrites}
           onChange={(e) =>
             update('theme', e.target.value as SettingsType['theme'])
           }
           options={[
-            { value: 'system', label: 'Exchange default (dark)' },
-            { value: 'light', label: 'Light' },
-            { value: 'dark', label: 'Dark' },
+            { value: 'system', label: t('settings_theme_system') },
+            { value: 'light', label: t('settings_theme_light') },
+            { value: 'dark', label: t('settings_theme_dark') },
           ]}
         />
       </Card>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Data Management</h2>
+        <h2 className="settings-section__title">{t('settings_data')}</h2>
         <div className="settings-actions">
           <div className="settings-action-group">
             <Button variant="secondary" onClick={() => void handleExport()}>
-              Export Data
+              {t('settings_export')}
             </Button>
-            <p className="text-muted">Download your private ledger as a JSON snapshot.</p>
+            <p className="text-muted">{t('settings_export_help')}</p>
           </div>
           <div className="settings-action-group">
             <label
@@ -167,7 +182,7 @@ export default function Settings() {
                 pointerEvents: disableWrites ? 'none' : 'auto',
               }}
             >
-              Import Data
+              {t('settings_import')}
               <input
                 type="file"
                 accept=".json"
@@ -188,16 +203,16 @@ export default function Settings() {
           </div>
           <div className="settings-action-group">
             <Button variant="secondary" onClick={() => setPdfImportOpen(true)} disabled={disableWrites}>
-              Import from PDF
+              {t('settings_import_pdf')}
             </Button>
-            <p className="text-muted">Import holdings from a brokerage statement PDF.</p>
+            <p className="text-muted">{t('settings_import_pdf_help')}</p>
           </div>
           <div className="settings-action-group">
             <Button variant="danger" onClick={handleReset} disabled={disableWrites}>
-              Reset All Data
+              {t('settings_reset_all')}
             </Button>
             <p className="text-muted">
-              Replace your ledger with a blank portfolio.
+              {t('settings_reset_help')}
             </p>
           </div>
         </div>

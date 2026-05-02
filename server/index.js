@@ -47,12 +47,16 @@ const SAR_USD_PEG = 3.75;
 
 const app = express();
 app.disable('x-powered-by');
+// Behind Caddy/Cloudflare, use forwarded headers for scheme + IP.
+app.set('trust proxy', true);
 
 const ALLOWED_ORIGINS = [
   'fayafolio://',
   'http://localhost:8081',
   'http://192.168.0.235:8081',
   'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://jrd.fayaa92.sa',
 ];
 
 app.use(

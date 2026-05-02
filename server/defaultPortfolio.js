@@ -6,6 +6,7 @@ export const DEFAULT_SETTINGS = {
   fxProvider: 'frankfurter',
   refreshIntervalSec: PRICE_REFRESH_INTERVAL_SEC,
   theme: 'dark',
+  language: 'ar',
 };
 
 export function buildEmptyPortfolioSnapshot() {

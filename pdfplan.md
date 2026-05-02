@@ -2,7 +2,7 @@
 
 ## Context
 
-Fayafolio currently only supports manual holding entry or full JSON snapshot import. Users with brokerage accounts need a way to bulk-import holdings from their broker's PDF statements (Saudi brokers like Al Rajhi, SNB Capital, Riyad Capital, plus international brokers). The feature uses a three-stage AI pipeline: Mistral OCR for reliable PDF text extraction, OpenAI Structured Outputs for normalizing into the app's Holding schema, and a post-LLM validation layer for confidence scoring and symbol verification.
+Jrd currently only supports manual holding entry or full JSON snapshot import. Users with brokerage accounts need a way to bulk-import holdings from their broker's PDF statements (Saudi brokers like Al Rajhi, SNB Capital, Riyad Capital, plus international brokers). The feature uses a three-stage AI pipeline: Mistral OCR for reliable PDF text extraction, OpenAI Structured Outputs for normalizing into the app's Holding schema, and a post-LLM validation layer for confidence scoring and symbol verification.
 
 ---
 

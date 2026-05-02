@@ -71,7 +71,7 @@ export default defineConfig([
   },
 ])
 ```
-# Fayafolio
+# Jrd
 
 ## Mobile app
 

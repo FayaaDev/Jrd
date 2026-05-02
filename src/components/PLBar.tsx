@@ -2,6 +2,7 @@ import ReactApexChart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
 import type { HoldingRow } from '../lib/metrics';
 import { fmtCurrency } from '../lib/format';
+import { useI18n } from '../i18n/useI18n';
 
 interface Props {
   rows: HoldingRow[];
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function PLBar({ rows, baseCurrency }: Props) {
+  const { t } = useI18n();
   const chartData = rows
     .filter((r) => r.unrealizedPL != null)
     .map((r) => ({
@@ -72,7 +74,7 @@ export default function PLBar({ rows, baseCurrency }: Props) {
 
   return (
     <div className="chart-container">
-      <h3 className="chart-title">Unrealized P/L by Holding</h3>
+      <h3 className="chart-title">{t('dashboard_chart_pl')}</h3>
       <ReactApexChart options={options} series={series} type="bar" height={280} />
     </div>
   );
