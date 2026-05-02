@@ -22,10 +22,6 @@ export default function NavBar() {
             <strong>Saudi</strong>
             <span className="text-positive">Sahmk Live</span>
           </span>
-          <span className="market-strip__item">
-            <strong>LSE + Cash</strong>
-            <span className="text-muted">Snapshot fallback</span>
-          </span>
         </div>
       </div>
 

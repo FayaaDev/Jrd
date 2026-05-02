@@ -133,13 +133,6 @@ export default function Settings() {
       </Card>
 
       <Card className="settings-section">
-        <h2 className="settings-section__title">Data Providers</h2>
-        <Input label="Price Provider" value="Auto by market (Alpaca + CoinMarketCap + Sahmk + snapshot fallback)" readOnly />
-        <Input label="FX Provider" value="Frankfurter (ECB rates)" readOnly />
-        <Input label="Refresh Interval" value={`${settings.refreshIntervalSec} seconds (server-managed)`} readOnly />
-      </Card>
-
-      <Card className="settings-section">
         <h2 className="settings-section__title">Appearance</h2>
         <Select
           label="Theme"

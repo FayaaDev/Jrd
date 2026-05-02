@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { usePortfolio } from '../hooks/usePortfolio';
-import PortfolioSummaryComponent from '../components/PortfolioSummary';
 import AllocationPie from '../components/AllocationPie';
 import PLBar from '../components/PLBar';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -22,9 +21,11 @@ export default function Dashboard() {
     refresh,
   } = usePortfolio();
 
-  const liveCount = rows.filter((row) => row.priceProvider === 'alpaca' || row.priceProvider === 'coinmarketcap' || row.priceProvider === 'sahmk').length;
-  const snapshotCount = rows.filter((row) => row.priceProvider && row.priceProvider !== 'alpaca' && row.priceProvider !== 'coinmarketcap' && row.priceProvider !== 'sahmk').length;
-  const unsupportedCount = rows.filter((row) => row.price == null).length;
+  const usCount = rows.filter((row) => row.priceProvider === 'alpaca').length;
+  const saudiCount = rows.filter((row) => row.priceProvider === 'sahmk').length;
+  const cryptoCount = rows.filter((row) => row.assetType === 'crypto' || row.priceProvider === 'coinmarketcap').length;
+  const cashCount = rows.filter((row) => row.assetType === 'cash').length;
+  const otherCount = Math.max(0, rows.length - usCount - saudiCount - cryptoCount - cashCount);
 
   if (isLoading) {
     return (
@@ -70,25 +71,6 @@ export default function Dashboard() {
               US names route through Alpaca, crypto routes through CoinMarketCap, Saudi equities route through Sahmk, and unsupported sleeves keep their last trusted snapshot so your book stays readable.
             </p>
           </div>
-
-          <div className="hero-panel__meta">
-            <div className="hero-chip">
-              <span>Tracked positions</span>
-              <strong>{rows.length}</strong>
-            </div>
-            <div className="hero-chip">
-              <span>Live marks</span>
-              <strong>{liveCount}</strong>
-            </div>
-            <div className="hero-chip">
-              <span>Snapshot marks</span>
-              <strong>{snapshotCount}</strong>
-            </div>
-            <div className="hero-chip">
-              <span>Awaiting quotes</span>
-              <strong>{unsupportedCount}</strong>
-            </div>
-          </div>
         </div>
 
         <div className="hero-panel__actions">
@@ -112,35 +94,30 @@ export default function Dashboard() {
             )}
           </div>
 
-          <div className="market-coverage card card--dark">
+          <div className="market-coverage card card--dark" aria-label="Portfolio classification">
             <div className="market-coverage__row">
-              <span>Base currency</span>
-              <strong>{settings.baseCurrency}</strong>
-            </div>
-            <div className="market-coverage__row">
-              <span>US venues</span>
-              <strong>Alpaca</strong>
-            </div>
-            <div className="market-coverage__row">
-              <span>Crypto</span>
-              <strong>CoinMarketCap</strong>
+              <span>US market</span>
+              <strong>{usCount} assets</strong>
             </div>
             <div className="market-coverage__row">
               <span>Saudi market</span>
-              <strong>Sahmk</strong>
+              <strong>{saudiCount} assets</strong>
             </div>
             <div className="market-coverage__row">
-              <span>Fallback</span>
-              <strong>Snapshot</strong>
+              <span>Crypto</span>
+              <strong>{cryptoCount} assets</strong>
+            </div>
+            <div className="market-coverage__row">
+              <span>Cash</span>
+              <strong>{cashCount} assets</strong>
+            </div>
+            <div className="market-coverage__row">
+              <span>Other</span>
+              <strong>{otherCount} assets</strong>
             </div>
           </div>
         </div>
       </section>
-
-      <PortfolioSummaryComponent
-        summary={summary}
-        baseCurrency={settings.baseCurrency}
-      />
 
       <section className="section-block section-block--dark">
         <div className="section-block__header">
@@ -154,6 +131,7 @@ export default function Dashboard() {
           <AllocationPie
             data={summary.byAssetType}
             title="Allocation by Asset Type"
+            baseCurrency={settings.baseCurrency}
           />
           <PLBar rows={rows} baseCurrency={settings.baseCurrency} />
         </div>
