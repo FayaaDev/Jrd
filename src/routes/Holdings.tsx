@@ -7,6 +7,7 @@ import { usePortfolio } from '../hooks/usePortfolio';
 import { useHoldings } from '../hooks/useHoldings';
 import HoldingsTable from '../components/HoldingsTable';
 import HoldingForm from './HoldingForm';
+import { PdfImportWizard } from '../components/PdfImportWizard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
 import { useI18n } from '../i18n/useI18n';
@@ -17,6 +18,7 @@ export default function Holdings() {
   const { deleteHolding, canEdit } = useHoldings();
   const [formOpen, setFormOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Holding | undefined>(undefined);
+  const [pdfImportOpen, setPdfImportOpen] = useState(false);
 
   const handleEdit = (row: HoldingRow) => {
     // HoldingRow extends Holding — extract the Holding fields
@@ -75,6 +77,9 @@ export default function Holdings() {
           <span className="section-kicker">{t('holdings_kicker')}</span>
           <div className="page-header">
             <h1 className="page-title">{t('holdings_title')}</h1>
+            <Button variant="secondary" onClick={() => setPdfImportOpen(true)} disabled={!canEdit}>
+              {t('holdings_import_pdf')}
+            </Button>
             <Button variant="primary" onClick={handleAdd} disabled={!canEdit}>
               {t('holdings_add')}
             </Button>
@@ -123,6 +128,11 @@ export default function Holdings() {
         onDelete={editTarget ? deleteHolding : undefined}
         canEdit={canEdit}
         scope={ME_PORTFOLIO_SCOPE}
+      />
+
+      <PdfImportWizard
+        open={pdfImportOpen}
+        onClose={() => setPdfImportOpen(false)}
       />
 
     </div>

@@ -1,0 +1,147 @@
+# Jrd Cloudflare Deployment
+
+Target architecture:
+
+- Cloudflare Worker serves the React `dist/` assets.
+- Worker handles `/api/*` on the same hostname.
+- PostgreSQL runs on a managed, public Postgres provider.
+- Cloudflare Hyperdrive pools Worker connections to Postgres.
+- The local `fayafolio-api` Docker container remains only for migration and rollback.
+
+## Current State
+
+The repo now has a Worker static-assets shell:
+
+- `worker/index.ts`
+- `wrangler.jsonc`
+
+The shell supports:
+
+- `GET /api/health`
+- `GET /api/deployment-status`
+- SPA static asset fallback
+- Hyperdrive binding to Supabase Postgres
+
+Data migration status:
+
+- Supabase schema initialized.
+- Active local data copied: 3 users and 3 portfolio ledgers.
+- Legacy `portfolio_documents` was not copied because the current app code no longer references that table and the initialized Supabase schema does not include it.
+- Temporary Worker migration endpoint and `MIGRATION_TOKEN` secret were removed after seeding.
+
+Local tunnel retirement status:
+
+- `jrd.fayaa92.sa` is cut over to the Cloudflare Worker custom domain.
+- The Caddy `jrd.fayaa92.sa` block was removed.
+- The local `fayafolio-api` container was stopped and removed.
+- `/srv/docker/fayafolio-api` was retired to `/srv/docker/fayafolio-api.retired-20260516-002503`.
+- `/srv/apps/static/Jrd` was retired to `/srv/apps/static/Jrd.retired-20260516-002503`.
+- Final local backup before retirement: `/srv/backups/fayafolio-tunnel-retire-20260516-002342`.
+
+It does not yet replace the Express API. The Express routes still need to be ported to Worker-native handlers.
+
+## Required Cloudflare Permissions
+
+The current token can authenticate Wrangler and access Hyperdrive APIs. If this regresses, update or replace the token with permissions for:
+
+- Workers Scripts edit
+- Workers Routes edit
+- Account Hyperdrive edit
+- Zone DNS edit if using custom domains/routes
+
+After updating the token, verify:
+
+```bash
+npx wrangler whoami
+npx wrangler hyperdrive list
+```
+
+## Managed Postgres And Hyperdrive
+
+The current Docker database URL uses hostname `postgres`, so it is local to the Docker network and cannot be used by Hyperdrive. Do not expose the local Postgres directly for this deployment.
+
+Managed Supabase Postgres is configured in Hyperdrive.
+
+Hyperdrive config:
+
+- `jrd-production`: `0b2ddff5a6964170a291c25f0dcc953b`
+
+Health check:
+
+- `https://jrd.drfayaa.workers.dev/api/db-health`
+
+The historical setup notes remain below for reference.
+
+Create or choose a managed Postgres database reachable from Cloudflare, then create Hyperdrive.
+
+### Neon Path
+
+1. Create a Neon project named `jrd-production`.
+2. Use the closest practical region to the expected users, or the default region if unsure.
+3. Create a database named `fayafolio`.
+4. Create an app user with least-privilege credentials for Jrd.
+5. Copy the pooled or direct PostgreSQL connection string with SSL required.
+6. Store it locally only as `JRD_PRODUCTION_DATABASE_URL` for the Hyperdrive creation command.
+
+### Supabase Path
+
+1. Create a Supabase project named `jrd-production`.
+2. Use the closest practical region to the expected users.
+3. Use the built-in Postgres database or create a dedicated `fayafolio` database/schema.
+4. Create a dedicated app user if using direct Postgres credentials.
+5. Copy the direct PostgreSQL connection string with SSL required.
+6. Store it locally only as `JRD_PRODUCTION_DATABASE_URL` for the Hyperdrive creation command.
+
+Create Hyperdrive:
+
+```bash
+npx wrangler hyperdrive create jrd-production --connection-string "$JRD_PRODUCTION_DATABASE_URL"
+```
+
+Copy the returned Hyperdrive `id` into the `hyperdrive` binding in `wrangler.jsonc`.
+
+## Secrets
+
+Set production secrets with Wrangler. Do not commit secrets to source.
+
+Required secrets:
+
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_API_KEY`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `ALPACA_KEY_ID`
+- `ALPACA_SECRET_KEY`
+- `SAHMK_API_KEY`
+- `X_CMC_PRO_API_KEY`
+- `MISTRAL_API_KEY`
+- `OPENAI_API_KEY`
+
+Non-secret vars:
+
+- `OPENAI_MODEL`
+- `SAHMK_BASE_URL`
+- `BETTER_AUTH_URL=https://jrd.fayaa92.sa`
+
+## Commands
+
+```bash
+npm run build
+npm run cf:types
+npm run cf:dry-run
+npm run cf:deploy
+```
+
+Do not deploy the production custom domain until the Worker API is fully ported and validated against Hyperdrive.
+
+## Cutover Checklist
+
+1. Backup current `fayafolio` Postgres database.
+2. Restore/import data into managed Postgres.
+3. Create Hyperdrive config.
+4. Port API routes from `server/index.js` to Worker handlers.
+5. Set Wrangler secrets.
+6. Validate auth, portfolio CRUD, admin routes, PDF import, prices, and mobile auth in staging.
+7. Add production custom domain route for `jrd.fayaa92.sa`.
+8. Keep local Docker API running for rollback.
+9. Retire local Docker API after stability window.

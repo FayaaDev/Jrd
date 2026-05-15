@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "jrd",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [{ "pattern": "jrd.fayaa92.sa", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "vars": {
+    "APP_ENV": "staging",
+    "BETTER_AUTH_URL": "https://jrd.fayaa92.sa",
+    "OPENAI_MODEL": "gpt-4o-2024-08-06",
+    "SAHMK_BASE_URL": "https://app.sahmk.sa/api/v1"
+  },
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "0b2ddff5a6964170a291c25f0dcc953b"
+    }
+  ]
+
+  // "env": {
+  //   "production": {
+  //     "name": "jrd-production",
+  //     "routes": [{ "pattern": "jrd.fayaa92.sa", "custom_domain": true }],
+  //     "vars": { "APP_ENV": "production" },
+  //     "hyperdrive": [
+  //       {
+  //         "binding": "HYPERDRIVE",
+  //         "id": "<production-hyperdrive-config-id>"
+  //       }
+  //     ]
+  //   }
+  // }
+}
