@@ -1,4 +1,5 @@
 import { Client } from 'pg'
+import { handleApiRequest } from './api'
 
 function json(data: unknown, init: ResponseInit = {}) {
   return Response.json(data, {
@@ -8,14 +9,6 @@ function json(data: unknown, init: ResponseInit = {}) {
       ...(init.headers ?? {}),
     },
   })
-}
-
-async function proxyLegacyApi(request: Request, origin: string) {
-  const sourceUrl = new URL(request.url)
-  const targetUrl = new URL(sourceUrl.pathname + sourceUrl.search, origin)
-  const proxied = new Request(targetUrl, request)
-
-  return fetch(proxied)
 }
 
 export default {
@@ -29,7 +22,7 @@ export default {
 
     if (url.pathname === '/api/deployment-status') {
       return json({
-        status: 'worker-shell-ready',
+        status: 'worker-api-ready',
         apiRuntime: runtimeEnv.HYPERDRIVE ? 'hyperdrive-configured' : 'pending-hyperdrive',
         legacyApiProxy: Boolean(runtimeEnv.LEGACY_API_ORIGIN),
       })
@@ -55,17 +48,7 @@ export default {
     }
 
     if (url.pathname.startsWith('/api/')) {
-      if (runtimeEnv.LEGACY_API_ORIGIN) {
-        return proxyLegacyApi(request, runtimeEnv.LEGACY_API_ORIGIN)
-      }
-
-      return json(
-        {
-          message:
-            'Cloudflare API runtime is not connected yet. Configure managed Postgres + Hyperdrive, then port the Express API routes.',
-        },
-        { status: 503 },
-      )
+      return handleApiRequest(request, runtimeEnv)
     }
 
     return env.ASSETS.fetch(request)

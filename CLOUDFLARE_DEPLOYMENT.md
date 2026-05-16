@@ -10,15 +10,19 @@ Target architecture:
 
 ## Current State
 
-The repo now has a Worker static-assets shell:
+The repo now has a Worker static-assets and API runtime:
 
 - `worker/index.ts`
 - `wrangler.jsonc`
 
-The shell supports:
+The Worker supports:
 
 - `GET /api/health`
 - `GET /api/deployment-status`
+- `GET /api/db-health`
+- Better Auth routes under `/api/auth/*`, including Google sign-in
+- Portfolio, admin, price snapshot, import/export, FX, and provider proxy routes
+- PDF import routes, backed by Mistral/OpenAI secrets
 - SPA static asset fallback
 - Hyperdrive binding to Supabase Postgres
 
@@ -38,7 +42,7 @@ Local tunnel retirement status:
 - `/srv/apps/static/Jrd` was retired to `/srv/apps/static/Jrd.retired-20260516-002503`.
 - Final local backup before retirement: `/srv/backups/fayafolio-tunnel-retire-20260516-002342`.
 
-It does not yet replace the Express API. The Express routes still need to be ported to Worker-native handlers.
+The Worker now replaces the retired Express API for the production custom domain.
 
 ## Required Cloudflare Permissions
 
@@ -132,16 +136,16 @@ npm run cf:dry-run
 npm run cf:deploy
 ```
 
-Do not deploy the production custom domain until the Worker API is fully ported and validated against Hyperdrive.
+The production custom domain is deployed to the Worker and validated against Hyperdrive.
 
 ## Cutover Checklist
 
 1. Backup current `fayafolio` Postgres database.
 2. Restore/import data into managed Postgres.
 3. Create Hyperdrive config.
-4. Port API routes from `server/index.js` to Worker handlers.
-5. Set Wrangler secrets.
+4. Port API routes from `server/index.js` to Worker handlers. Done.
+5. Set Wrangler secrets. Done.
 6. Validate auth, portfolio CRUD, admin routes, PDF import, prices, and mobile auth in staging.
-7. Add production custom domain route for `jrd.fayaa92.sa`.
-8. Keep local Docker API running for rollback.
-9. Retire local Docker API after stability window.
+7. Add production custom domain route for `jrd.fayaa92.sa`. Done.
+8. Keep local Docker API running for rollback. Superseded by final backup and retired service directory.
+9. Retire local Docker API after stability window. Done.
