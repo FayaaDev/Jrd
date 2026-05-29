@@ -1,110 +1,54 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 # Jrd
 
-## Mobile app
+Jrd is a private portfolio ledger for people who want one clear view of their investments, holdings, and watchlist.
 
-The iOS client lives in `mobile/`. It is an Expo SDK 54 app using Expo Router (file-based navigation) and reuses the shared API layer from `src/`.
+Upload your statements, review your assets, and follow your portfolio with live market-aware pricing across local and global markets.
 
-### Dev setup
+## What You Can Do
 
-```bash
-# Install mobile dependencies
-npm run mobile:install
+- See your total portfolio value in one place.
+- Track holdings, cost, current value, and gain or loss.
+- Import supported PDF statements instead of entering everything manually.
+- Keep a watchlist for symbols you are considering.
+- Follow US stocks, Saudi equities, crypto, cash, and other assets.
+- Switch between Arabic and English.
+- Keep your portfolio private by default.
 
-# Start Expo dev server (requires a dev-client build on your device)
-npm run mobile
+## Privacy First
 
-# Or from the mobile/ directory directly:
-cd mobile && npx expo start --dev-client
-```
+Your Jrd ledger belongs to you.
 
-Configure the API URL in `mobile/.env`:
-```
-EXPO_PUBLIC_API_BASE_URL=http://192.168.0.235:5050
-```
+Jrd uses Google sign-in and creates a private portfolio for each user. Your portfolio is not published as a public link, and other users cannot browse it.
 
-### iOS build (EAS)
+## Statement Import
 
-```bash
-cd mobile
+Jrd can help extract holdings from supported PDF statements so you can start faster.
 
-# Simulator build (no Apple Developer account needed)
-eas build --profile development-simulator --platform ios
+Supported statement sources include Tamra, Abyan, Derayah Global, Saudi banks, and other common brokerage or banking statements. After upload, Jrd reviews the file, extracts likely holdings, and lets you confirm the import.
 
-# Device build (requires Apple Developer account)
-eas build --profile development --platform ios
-```
+## Market Coverage
 
-See `mobile/eas.json` for available profiles: `development`, `development-simulator`, `preview`.
+Jrd is built for mixed portfolios.
+
+- US market positions
+- Saudi market positions
+- Crypto assets
+- Cash balances
+- Manually entered private or custom assets
+
+When live pricing is available, Jrd uses it. When an asset cannot be priced live, Jrd keeps the last trusted snapshot so your portfolio remains readable.
+
+## Mobile Access
+
+Jrd also includes a mobile experience for checking holdings, importing statements, viewing the watchlist, and managing portfolio settings from your phone.
+
+## Getting Started
+
+1. Sign in with Google.
+2. Upload a supported PDF statement or add holdings manually.
+3. Review your portfolio value, allocation, and gain or loss.
+4. Add symbols to your watchlist as you evaluate new opportunities.
+
+## Who Jrd Is For
+
+Jrd is for investors who hold assets across more than one place and want a simple private ledger instead of scattered screenshots, spreadsheets, and account statements.

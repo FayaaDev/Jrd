@@ -1,0 +1,6295 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "184c37de6226f6afe3e471462457f6a05f7d6f8c",
+  "generatedAt": "2026-05-24T19:11:29.278Z",
+  "files": {
+    ".dockerignore": {
+      "filePath": ".dockerignore",
+      "contentHash": "09314288eae44fc9981413c851bd8f63bd01735b8826e949d9cdc2147ce5722a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    ".env.example": {
+      "filePath": ".env.example",
+      "contentHash": "2b1eb614d3b8283e2d9d090cb148a346d5098a43fc03b7432b588661df803587",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    ".npmrc": {
+      "filePath": ".npmrc",
+      "contentHash": "a093bb2fed59d699b7f9a62a5203cc196054c624e9c39c6d908c9e7db5dd2464",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "e8608934035e453f9df660bdd00729165c1dad0ef4b100801d7b632e1faa7477",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "assets.md": {
+      "filePath": "assets.md",
+      "contentHash": "e9c4c7866ebd4bd571933aa7bbc67b6db5b68a8ccc9f6fac2c9ad91d80d49128",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "CLOUDFLARE_DEPLOYMENT.md": {
+      "filePath": "CLOUDFLARE_DEPLOYMENT.md",
+      "contentHash": "47151868ed30fd9d4ee44d9ea5f0893eee490d234e101ac3cecc0804db98b908",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 152,
+      "hasStructuralAnalysis": true
+    },
+    "DESIGN.md": {
+      "filePath": "DESIGN.md",
+      "contentHash": "0b635d75937ec0499f19f78baa07d5715fa86931f8f8c8bf77ffee8b329701e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 346,
+      "hasStructuralAnalysis": true
+    },
+    "Dockerfile.api": {
+      "filePath": "Dockerfile.api",
+      "contentHash": "c203126f5432c38bf03959b47b5be870f576b3a136df04109522e7c270f2ca10",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "eslint.config.js": {
+      "filePath": "eslint.config.js",
+      "contentHash": "4724a438d3d49642b42749e6adff014bc3bef1821dd8da500187f302c4e4bf71",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@eslint/js",
+          "specifiers": [
+            "js"
+          ]
+        },
+        {
+          "source": "globals",
+          "specifiers": [
+            "globals"
+          ]
+        },
+        {
+          "source": "eslint-plugin-react-hooks",
+          "specifiers": [
+            "reactHooks"
+          ]
+        },
+        {
+          "source": "eslint-plugin-react-refresh",
+          "specifiers": [
+            "reactRefresh"
+          ]
+        },
+        {
+          "source": "typescript-eslint",
+          "specifiers": [
+            "tseslint"
+          ]
+        },
+        {
+          "source": "eslint/config",
+          "specifiers": [
+            "defineConfig",
+            "globalIgnores"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "index.html": {
+      "filePath": "index.html",
+      "contentHash": "e1cc56bc49f8e240dea5621c257f1d56abb7ed328c4bc2f0e6ac1a04c9b7cec2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "metrics.md": {
+      "filePath": "metrics.md",
+      "contentHash": "607a8323caed549cd515fa2166f89d735efd2a9ad0a35f046c3a235e2d9e87af",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 550,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/.npmrc": {
+      "filePath": "mobile/.npmrc",
+      "contentHash": "a093bb2fed59d699b7f9a62a5203cc196054c624e9c39c6d908c9e7db5dd2464",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "mobile/app.json": {
+      "filePath": "mobile/app.json",
+      "contentHash": "12d38fdb1308d875c9ca433c680d08116f67597e7844e1218176c3121a93370a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/_layout.tsx": {
+      "filePath": "mobile/app/_layout.tsx",
+      "contentHash": "46b6827efde871cf98bb15193494b787bd0332332bfaf2f325e6e9a8e7d06888",
+      "functions": [
+        {
+          "name": "RootLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect"
+          ]
+        },
+        {
+          "source": "react-native",
+          "specifiers": [
+            "Alert"
+          ]
+        },
+        {
+          "source": "expo-router",
+          "specifiers": [
+            "Stack",
+            "SplashScreen",
+            "useRouter"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "QueryClient",
+            "QueryClientProvider"
+          ]
+        },
+        {
+          "source": "@shared/api/base",
+          "specifiers": [
+            "configureApiBase"
+          ]
+        },
+        {
+          "source": "@shared/api/http",
+          "specifiers": [
+            "configureHttp"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        }
+      ],
+      "exports": [
+        "RootLayout"
+      ],
+      "totalLines": 65,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(app)/_layout.tsx": {
+      "filePath": "mobile/app/(app)/_layout.tsx",
+      "contentHash": "f18a0a76fa7b29b5a7f0b191fac33add97edbc15d5150e3cf3a269fd42ed180b",
+      "functions": [
+        {
+          "name": "AppLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "expo-router",
+          "specifiers": [
+            "Tabs"
+          ]
+        }
+      ],
+      "exports": [
+        "AppLayout"
+      ],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(app)/import.tsx": {
+      "filePath": "mobile/app/(app)/import.tsx",
+      "contentHash": "0b34a52cfca137cffd776f38f704b63fafdcd8b3edc61c693544d16578f43b6e",
+      "functions": [
+        {
+          "name": "Import",
+          "params": [],
+          "exported": true,
+          "lineCount": 197
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-native",
+          "specifiers": [
+            "View",
+            "Text",
+            "TouchableOpacity",
+            "ActivityIndicator",
+            "StyleSheet",
+            "Alert",
+            "ScrollView"
+          ]
+        },
+        {
+          "source": "expo-document-picker",
+          "specifiers": [
+            "* as DocumentPicker"
+          ]
+        },
+        {
+          "source": "@shared/api/base",
+          "specifiers": [
+            "apiPath"
+          ]
+        },
+        {
+          "source": "@shared/api/http",
+          "specifiers": [
+            "authedFetch"
+          ]
+        },
+        {
+          "source": "@shared/schemas/pdfImport",
+          "specifiers": [
+            "ExtractionResultSchema",
+            "ExtractionResult",
+            "ExtractedHolding",
+            "ImportSummary"
+          ]
+        },
+        {
+          "source": "@shared/api/pdfImport",
+          "specifiers": [
+            "confirmPdfImport",
+            "verifyImportSymbols"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "@shared/api/portfolio",
+          "specifiers": [
+            "portfolioQueryKey",
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        },
+        {
+          "source": "@shared/api/prices",
+          "specifiers": [
+            "priceSnapshotQueryKey"
+          ]
+        }
+      ],
+      "exports": [
+        "Import"
+      ],
+      "totalLines": 273,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(app)/index.tsx": {
+      "filePath": "mobile/app/(app)/index.tsx",
+      "contentHash": "d5008718602b6ab38d7e56688eb5590e83c9bf5f26161b80a23d15259457e6cd",
+      "functions": [
+        {
+          "name": "Holdings",
+          "params": [],
+          "exported": true,
+          "lineCount": 68
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-native",
+          "specifiers": [
+            "View",
+            "Text",
+            "FlatList",
+            "RefreshControl",
+            "StyleSheet"
+          ]
+        },
+        {
+          "source": "../../lib/api-hooks",
+          "specifiers": [
+            "usePortfolio"
+          ]
+        },
+        {
+          "source": "@shared/lib/format",
+          "specifiers": [
+            "fmtCurrency"
+          ]
+        }
+      ],
+      "exports": [
+        "Holdings"
+      ],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(app)/settings.tsx": {
+      "filePath": "mobile/app/(app)/settings.tsx",
+      "contentHash": "4e1573ad4018062d872170961089dfa7d469a69a4a263b6a2b26ed50fbc96392",
+      "functions": [
+        {
+          "name": "Settings",
+          "params": [],
+          "exported": true,
+          "lineCount": 53
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-native",
+          "specifiers": [
+            "View",
+            "Text",
+            "TouchableOpacity",
+            "StyleSheet",
+            "ActivityIndicator",
+            "ScrollView"
+          ]
+        },
+        {
+          "source": "../../lib/api-hooks",
+          "specifiers": [
+            "useSettings"
+          ]
+        },
+        {
+          "source": "../../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        }
+      ],
+      "exports": [
+        "Settings"
+      ],
+      "totalLines": 101,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(app)/watchlist.tsx": {
+      "filePath": "mobile/app/(app)/watchlist.tsx",
+      "contentHash": "447ea98677198bcdedd45e722ad16641749a7bae717a8ebe33cbf47e8a169ef5",
+      "functions": [
+        {
+          "name": "Watchlist",
+          "params": [],
+          "exported": true,
+          "lineCount": 85
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-native",
+          "specifiers": [
+            "View",
+            "Text",
+            "FlatList",
+            "TextInput",
+            "TouchableOpacity",
+            "StyleSheet",
+            "ActivityIndicator"
+          ]
+        },
+        {
+          "source": "../../lib/api-hooks",
+          "specifiers": [
+            "useWatchlist"
+          ]
+        }
+      ],
+      "exports": [
+        "Watchlist"
+      ],
+      "totalLines": 146,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/app/(auth)/sign-in.tsx": {
+      "filePath": "mobile/app/(auth)/sign-in.tsx",
+      "contentHash": "ec06d306aca5b1a1b916e2a58863caad78ebbe73da67d3da2392fea3954b050e",
+      "functions": [
+        {
+          "name": "SignIn",
+          "params": [],
+          "exported": true,
+          "lineCount": 70
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-native",
+          "specifiers": [
+            "View",
+            "Text",
+            "TextInput",
+            "TouchableOpacity",
+            "StyleSheet",
+            "Alert",
+            "ActivityIndicator"
+          ]
+        },
+        {
+          "source": "../../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        }
+      ],
+      "exports": [
+        "SignIn"
+      ],
+      "totalLines": 122,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/babel.config.js": {
+      "filePath": "mobile/babel.config.js",
+      "contentHash": "6a1397aac1e09b7ca991786b28466ab2cfbcc553cde294c7b6d7e7430994053d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/eas.json": {
+      "filePath": "mobile/eas.json",
+      "contentHash": "38d6d6e1ea2032a5a8bc66f13c3e99518e4e82e9cd7e2dd3c6133800143ec367",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/lib/api-hooks.ts": {
+      "filePath": "mobile/lib/api-hooks.ts",
+      "contentHash": "9df234e39fe8724b85a3fe193e7bec52cdd59f9df2fab5f7738096589643c3b4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "useHoldings",
+        "useFxRates",
+        "usePortfolioSnapshot",
+        "usePrices",
+        "useSettings",
+        "useWatchlist",
+        "usePortfolio"
+      ],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/lib/auth-client.ts": {
+      "filePath": "mobile/lib/auth-client.ts",
+      "contentHash": "25986a07314f3bbaa64d468cb6baf2b583534f17e31ca8627d8fe502572d3b68",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "better-auth/react",
+          "specifiers": [
+            "createAuthClient"
+          ]
+        },
+        {
+          "source": "@better-auth/expo/client",
+          "specifiers": [
+            "expoClient"
+          ]
+        },
+        {
+          "source": "expo-secure-store",
+          "specifiers": [
+            "* as SecureStore"
+          ]
+        }
+      ],
+      "exports": [
+        "authClient"
+      ],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/lib/usePortfolio.ts": {
+      "filePath": "mobile/lib/usePortfolio.ts",
+      "contentHash": "4bcbe7920f7fd3051b88ea02ffaf8d0a16361405eef8e886c42ab6c6253910e6",
+      "functions": [
+        {
+          "name": "usePortfolio",
+          "params": [
+            "scope"
+          ],
+          "returnType": "{\n  rows: HoldingRow[];\n  summary: PortfolioSummary;\n  settings: Settings;\n  isArchived: boolean;\n  isFetching: boolean;\n  isLoading: boolean;\n  lastUpdated: string | undefined;\n  errorMessage?: string;\n  priceErrorMessage?: string;\n  quoteErrors: Record<string, string>;\n  lastAttemptedAt: string | undefined;\n  canRefreshMarkets: boolean;\n  refresh: () => void;\n}",
+          "exported": true,
+          "lineCount": 96
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "./auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        },
+        {
+          "source": "@shared/hooks/useFxRates",
+          "specifiers": [
+            "useFxRates"
+          ]
+        },
+        {
+          "source": "@shared/hooks/usePrices",
+          "specifiers": [
+            "usePrices"
+          ]
+        },
+        {
+          "source": "@shared/hooks/usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        },
+        {
+          "source": "@shared/lib/metrics",
+          "specifiers": [
+            "derivePortfolio",
+            "deriveRow",
+            "HoldingRow",
+            "PortfolioSummary"
+          ]
+        },
+        {
+          "source": "@shared/api/prices",
+          "specifiers": [
+            "refreshPriceSnapshot",
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "@shared/api/portfolio",
+          "specifiers": [
+            "getApiErrorMessage",
+            "ME_PORTFOLIO_SCOPE",
+            "PortfolioScope"
+          ]
+        },
+        {
+          "source": "@shared/schemas/settings",
+          "specifiers": [
+            "SettingsSchema",
+            "Settings"
+          ]
+        }
+      ],
+      "exports": [
+        "usePortfolio"
+      ],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/metro.config.js": {
+      "filePath": "mobile/metro.config.js",
+      "contentHash": "d0acf3072000cf840dc5b39698efa14b0fb73499177018017fac3526589514ad",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/package.json": {
+      "filePath": "mobile/package.json",
+      "contentHash": "bf599a486c7285cd62c31d96f5a0ab69703bcab44ce3fa4f1180b17ffccc575b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 49,
+      "hasStructuralAnalysis": true
+    },
+    "mobile/tsconfig.json": {
+      "filePath": "mobile/tsconfig.json",
+      "contentHash": "77a299f17898cd1d4000dad3f423c1a366d1b587ebc695742c602dd730a75b38",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "package.json": {
+      "filePath": "package.json",
+      "contentHash": "2fb787a8deb4c8cd4da789ecabf9d2c90671481293245e322e52731e666d3f27",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "pdfplan.md": {
+      "filePath": "pdfplan.md",
+      "contentHash": "7b933b7da55843c92e305758d6355f3530d6b633e7667f8a8d6551890cdb1fad",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 208,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "3cf182fd23ad3449c4ac4d0858e3c91be70457771901585d4035e1fe652912cb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 55,
+      "hasStructuralAnalysis": true
+    },
+    "server/auth.js": {
+      "filePath": "server/auth.js",
+      "contentHash": "737e2d17ad0ceddf4e9970348e86cd20d2a09e3101a1c040142b134f0d528647",
+      "functions": [
+        {
+          "name": "initAuthSchema",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "getSessionFromRequest",
+          "params": [
+            "req"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "isAdminSession",
+          "params": [
+            "session"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./env.js",
+          "specifiers": []
+        },
+        {
+          "source": "node:crypto",
+          "specifiers": [
+            "randomUUID"
+          ]
+        },
+        {
+          "source": "better-auth",
+          "specifiers": [
+            "betterAuth"
+          ]
+        },
+        {
+          "source": "@better-auth/expo",
+          "specifiers": [
+            "expo"
+          ]
+        },
+        {
+          "source": "@better-auth/infra",
+          "specifiers": [
+            "dash"
+          ]
+        },
+        {
+          "source": "better-auth/db/migration",
+          "specifiers": [
+            "getMigrations"
+          ]
+        },
+        {
+          "source": "better-auth/node",
+          "specifiers": [
+            "fromNodeHeaders"
+          ]
+        },
+        {
+          "source": "./db.js",
+          "specifiers": [
+            "pool"
+          ]
+        },
+        {
+          "source": "./store.js",
+          "specifiers": [
+            "createBlankLedgerForUser"
+          ]
+        }
+      ],
+      "exports": [
+        "auth",
+        "initAuthSchema",
+        "getSessionFromRequest",
+        "isAdminSession"
+      ],
+      "totalLines": 93,
+      "hasStructuralAnalysis": true
+    },
+    "server/confidenceScorer.js": {
+      "filePath": "server/confidenceScorer.js",
+      "contentHash": "25d6180a6b9fca9be208a0b8351a7192b0081e635f5bebc5e5d08b0f13d9e1d9",
+      "functions": [
+        {
+          "name": "scoreHoldings",
+          "params": [
+            "holdings",
+            "verificationMap"
+          ],
+          "exported": true,
+          "lineCount": 95
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "CONFIDENCE_HIGH",
+        "CONFIDENCE_LOW",
+        "scoreHoldings"
+      ],
+      "totalLines": 109,
+      "hasStructuralAnalysis": true
+    },
+    "server/config.js": {
+      "filePath": "server/config.js",
+      "contentHash": "7bdfb463b5829cf86b7903597decb3fc5d15b560ff0020055063ce3f5cefa2ec",
+      "functions": [
+        {
+          "name": "parseBoundedInt",
+          "params": [
+            "name",
+            "fallback",
+            "min",
+            "max"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "normalizeSettings",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./env.js",
+          "specifiers": []
+        }
+      ],
+      "exports": [
+        "PRICE_REFRESH_INTERVAL_SEC",
+        "ADMIN_SESSION_RATE_LIMIT_MAX",
+        "ADMIN_SESSION_RATE_LIMIT_WINDOW_MS",
+        "MANUAL_REFRESH_RATE_LIMIT_MAX",
+        "MANUAL_REFRESH_RATE_LIMIT_WINDOW_MS",
+        "normalizeSettings"
+      ],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "server/db.js": {
+      "filePath": "server/db.js",
+      "contentHash": "4d85a0387e0ae20964bef84474e9876ca20e7df62befafb613e476efa740f6c1",
+      "functions": [
+        {
+          "name": "configureDatabaseUrl",
+          "params": [
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "getDatabaseUrl",
+          "params": [],
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "connectClient",
+          "params": [],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "closeDb",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./env.js",
+          "specifiers": []
+        },
+        {
+          "source": "pg",
+          "specifiers": [
+            "Client"
+          ]
+        }
+      ],
+      "exports": [
+        "configureDatabaseUrl",
+        "pool",
+        "closeDb"
+      ],
+      "totalLines": 55,
+      "hasStructuralAnalysis": true
+    },
+    "server/defaultPortfolio.js": {
+      "filePath": "server/defaultPortfolio.js",
+      "contentHash": "f681bf2f02c040839806c98ea5d2abfde19646a9eba949b2e4520adfb8a0da02",
+      "functions": [
+        {
+          "name": "buildEmptyPortfolioSnapshot",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "buildDefaultPortfolioSnapshot",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./config.js",
+          "specifiers": [
+            "PRICE_REFRESH_INTERVAL_SEC"
+          ]
+        }
+      ],
+      "exports": [
+        "DEFAULT_SETTINGS",
+        "buildEmptyPortfolioSnapshot",
+        "buildDefaultPortfolioSnapshot"
+      ],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "server/env.js": {
+      "filePath": "server/env.js",
+      "contentHash": "ec3bcc916debee203949ec7128d66881fe451e36b01f2220a001dc31f957f637",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "server/index.js": {
+      "filePath": "server/index.js",
+      "contentHash": "d4b0ae47579b941a95ef768e10eee1b98ca7d3cddbc646fb0c1c60036db6046a",
+      "functions": [
+        {
+          "name": "createHttpError",
+          "params": [
+            "status",
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "sendError",
+          "params": [
+            "res",
+            "status",
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "route",
+          "params": [
+            "handler"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "createRateLimiter",
+          "params": [],
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "requireSession",
+          "params": [
+            "req",
+            "res",
+            "next"
+          ],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "requireAdmin",
+          "params": [
+            "req",
+            "res",
+            "next"
+          ],
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "assertActiveLedger",
+          "params": [
+            "ledger"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "getEditableMyLedger",
+          "params": [
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "withAdminOwner",
+          "params": [
+            "userId",
+            "ledger"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "parseStatusFilter",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "parseSearchQuery",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "addHoldingToLedger",
+          "params": [
+            "userId",
+            "input"
+          ],
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "updateHoldingInLedger",
+          "params": [
+            "userId",
+            "holdingId",
+            "updates"
+          ],
+          "exported": false,
+          "lineCount": 29
+        },
+        {
+          "name": "removeHoldingFromLedger",
+          "params": [
+            "userId",
+            "holdingId"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "addWatchItemToLedger",
+          "params": [
+            "userId",
+            "input"
+          ],
+          "exported": false,
+          "lineCount": 32
+        },
+        {
+          "name": "removeWatchItemFromLedger",
+          "params": [
+            "userId",
+            "watchItemId"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "confirmPdfImportForUser",
+          "params": [
+            "userId",
+            "holdings",
+            "mergeStrategy"
+          ],
+          "exported": false,
+          "lineCount": 85
+        },
+        {
+          "name": "buildProxyUrl",
+          "params": [
+            "base",
+            "strippedPathWithQuery"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "sendUpstreamResponse",
+          "params": [
+            "response",
+            "res"
+          ],
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "proxyGetRequest",
+          "params": [
+            "req",
+            "res",
+            "options"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "shutdown",
+          "params": [],
+          "exported": false,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./env.js",
+          "specifiers": []
+        },
+        {
+          "source": "node:crypto",
+          "specifiers": [
+            "randomUUID"
+          ]
+        },
+        {
+          "source": "express",
+          "specifiers": [
+            "express"
+          ]
+        },
+        {
+          "source": "multer",
+          "specifiers": [
+            "multer"
+          ]
+        },
+        {
+          "source": "better-auth/node",
+          "specifiers": [
+            "toNodeHandler"
+          ]
+        },
+        {
+          "source": "cors",
+          "specifiers": [
+            "cors"
+          ]
+        },
+        {
+          "source": "./schemas.js",
+          "specifiers": [
+            "FxRateQuerySchema",
+            "HoldingInputSchema",
+            "HoldingUpdateSchema",
+            "ImportPayloadSchema",
+            "PdfImportConfirmSchema",
+            "PortfolioSnapshotSchema",
+            "SettingsSchema",
+            "WatchItemInputSchema"
+          ]
+        },
+        {
+          "source": "./store.js",
+          "specifiers": [
+            "closeStore",
+            "createBlankLedgerForUser",
+            "deleteLedgerByUserId",
+            "getAdminDashboardStats",
+            "getLedgerByUserId",
+            "getUserById",
+            "initStore",
+            "listPortfolios",
+            "listUsers",
+            "replaceLedgerByUserId",
+            "resetLedgerByUserId",
+            "restoreLedgerByUserId",
+            "updateLedgerByUserId",
+            "archiveLedgerByUserId"
+          ]
+        },
+        {
+          "source": "./auth.js",
+          "specifiers": [
+            "auth",
+            "getSessionFromRequest",
+            "initAuthSchema",
+            "isAdminSession"
+          ]
+        },
+        {
+          "source": "./pdfImport.js",
+          "specifiers": [
+            "runPdfImportPipeline"
+          ]
+        },
+        {
+          "source": "./symbolVerifier.js",
+          "specifiers": [
+            "verifySymbols"
+          ]
+        },
+        {
+          "source": "./marketResolver.js",
+          "specifiers": [
+            "VALID_MICS",
+            "resolveMarket"
+          ]
+        },
+        {
+          "source": "./quoteHub.js",
+          "specifiers": [
+            "clearPriceSnapshot",
+            "getPriceSnapshot",
+            "invalidatePriceSnapshot"
+          ]
+        },
+        {
+          "source": "./config.js",
+          "specifiers": [
+            "MANUAL_REFRESH_RATE_LIMIT_MAX",
+            "MANUAL_REFRESH_RATE_LIMIT_WINDOW_MS"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 964,
+      "hasStructuralAnalysis": true
+    },
+    "server/marketResolver.js": {
+      "filePath": "server/marketResolver.js",
+      "contentHash": "40918cd1ad3fe10ba825b9848cbe1cf5cc0d75cd3bba5a72a34a332b5eb4ad96",
+      "functions": [
+        {
+          "name": "normalizeMarketString",
+          "params": [
+            "raw"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "inferFromSymbolShape",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "resolveViaAlpaca",
+          "params": [
+            "symbol"
+          ],
+          "exported": true,
+          "lineCount": 41
+        },
+        {
+          "name": "resolveViaYahoo",
+          "params": [
+            "symbol"
+          ],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "resolveMarket",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "VALID_MICS",
+        "normalizeMarketString",
+        "inferFromSymbolShape",
+        "resolveViaAlpaca",
+        "resolveViaYahoo",
+        "resolveMarket"
+      ],
+      "totalLines": 227,
+      "hasStructuralAnalysis": true
+    },
+    "server/mistralOcr.js": {
+      "filePath": "server/mistralOcr.js",
+      "contentHash": "351b4415f8309347d214e2e1310e2ff2b6c5de2119df6dee6a9c2d0a3b15a282",
+      "functions": [
+        {
+          "name": "runMistralOcr",
+          "params": [
+            "pdfBuffer"
+          ],
+          "exported": true,
+          "lineCount": 64
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "runMistralOcr"
+      ],
+      "totalLines": 67,
+      "hasStructuralAnalysis": true
+    },
+    "server/openaiExtract.js": {
+      "filePath": "server/openaiExtract.js",
+      "contentHash": "9cc5c4fb35043a34673da19708e5aab16a7fb195e840db3f975673b30d0c7f0b",
+      "functions": [
+        {
+          "name": "runOpenAiExtract",
+          "params": [
+            "ocrText"
+          ],
+          "exported": true,
+          "lineCount": 62
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "runOpenAiExtract"
+      ],
+      "totalLines": 139,
+      "hasStructuralAnalysis": true
+    },
+    "server/pdfImport.js": {
+      "filePath": "server/pdfImport.js",
+      "contentHash": "66e606967e923e2f14e1866f698426b3c74557c6e7521a30f666798cbfc00b98",
+      "functions": [
+        {
+          "name": "runPdfImportPipeline",
+          "params": [
+            "pdfBuffer"
+          ],
+          "exported": true,
+          "lineCount": 66
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./mistralOcr.js",
+          "specifiers": [
+            "runMistralOcr"
+          ]
+        },
+        {
+          "source": "./openaiExtract.js",
+          "specifiers": [
+            "runOpenAiExtract"
+          ]
+        },
+        {
+          "source": "./marketResolver.js",
+          "specifiers": [
+            "resolveMarket"
+          ]
+        },
+        {
+          "source": "./symbolVerifier.js",
+          "specifiers": [
+            "verifySymbols"
+          ]
+        },
+        {
+          "source": "./confidenceScorer.js",
+          "specifiers": [
+            "scoreHoldings"
+          ]
+        }
+      ],
+      "exports": [
+        "runPdfImportPipeline"
+      ],
+      "totalLines": 89,
+      "hasStructuralAnalysis": true
+    },
+    "server/quoteHub.js": {
+      "filePath": "server/quoteHub.js",
+      "contentHash": "12f11724fec71847f387dd6da7c038109284dd959496586ee7c17055b31348a9",
+      "functions": [
+        {
+          "name": "createQuoteState",
+          "params": [],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "getQuoteState",
+          "params": [
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "invalidatePriceSnapshot",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "clearPriceSnapshot",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "__resetQuoteHubStateForTests",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "buildInstrumentKey",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "getProviderForInstrument",
+          "params": [
+            "instrument"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "inferWatchlistInstrument",
+          "params": [
+            "item"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "buildTrackedInstruments",
+          "params": [
+            "snapshot"
+          ],
+          "exported": false,
+          "lineCount": 28
+        },
+        {
+          "name": "createAbortHandle",
+          "params": [],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "normalizeErrorMessage",
+          "params": [
+            "error",
+            "fallback"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "fetchAlpacaQuotes",
+          "params": [
+            "instruments"
+          ],
+          "exported": false,
+          "lineCount": 53
+        },
+        {
+          "name": "fetchCoinMarketCapQuotes",
+          "params": [
+            "instruments"
+          ],
+          "exported": false,
+          "lineCount": 56
+        },
+        {
+          "name": "fetchSahmkQuotes",
+          "params": [
+            "instruments"
+          ],
+          "exported": false,
+          "lineCount": 50
+        },
+        {
+          "name": "buildSnapshot",
+          "params": [
+            "state"
+          ],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "refreshQuotes",
+          "params": [
+            "userId",
+            "state"
+          ],
+          "exported": false,
+          "lineCount": 78
+        },
+        {
+          "name": "getPriceSnapshot",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./store.js",
+          "specifiers": [
+            "getLedgerByUserId"
+          ]
+        }
+      ],
+      "exports": [
+        "invalidatePriceSnapshot",
+        "clearPriceSnapshot",
+        "__resetQuoteHubStateForTests",
+        "getPriceSnapshot"
+      ],
+      "totalLines": 422,
+      "hasStructuralAnalysis": true
+    },
+    "server/quoteHub.test.js": {
+      "filePath": "server/quoteHub.test.js",
+      "contentHash": "078ef52a48540dc23d3e03d2820227985b3cb125110720599dad533e2e8939a7",
+      "functions": [
+        {
+          "name": "buildSnapshot",
+          "params": [],
+          "exported": false,
+          "lineCount": 27
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "it",
+            "vi"
+          ]
+        },
+        {
+          "source": "./store.js",
+          "specifiers": [
+            "getLedgerByUserId"
+          ]
+        },
+        {
+          "source": "./quoteHub.js",
+          "specifiers": [
+            "__resetQuoteHubStateForTests",
+            "getPriceSnapshot"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 115,
+      "hasStructuralAnalysis": true
+    },
+    "server/schemas.js": {
+      "filePath": "server/schemas.js",
+      "contentHash": "62b98f2e5c53adf3a6326bdbdc6f0a71827f9db3279d07518f2f716493924440",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "./config.js",
+          "specifiers": [
+            "PRICE_REFRESH_INTERVAL_SEC"
+          ]
+        }
+      ],
+      "exports": [
+        "SettingsSchema",
+        "HoldingSchema",
+        "WatchItemSchema",
+        "PortfolioSnapshotSchema",
+        "PortfolioStatusSchema",
+        "PortfolioLedgerSchema",
+        "HoldingInputSchema",
+        "HoldingUpdateSchema",
+        "WatchItemInputSchema",
+        "ImportPayloadSchema",
+        "AdminSessionSchema",
+        "FxRateQuerySchema",
+        "PdfImportConfirmSchema"
+      ],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "server/store.js": {
+      "filePath": "server/store.js",
+      "contentHash": "ec1a546856c6022d5d640ae0003f28344021862f1c7748b87478886be9369775",
+      "functions": [
+        {
+          "name": "createHttpError",
+          "params": [
+            "status",
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "toIsoString",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "buildInitialPortfolioSnapshot",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "normalizeSnapshot",
+          "params": [
+            "snapshot"
+          ],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "parseSnapshot",
+          "params": [
+            "snapshot"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "parseLedgerRow",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "parseUserRow",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "loadLedger",
+          "params": [
+            "client",
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "insertBlankLedger",
+          "params": [
+            "client",
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 64
+        },
+        {
+          "name": "loadOrCreateLedger",
+          "params": [
+            "client",
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "saveLedgerSnapshot",
+          "params": [
+            "client",
+            "userId",
+            "snapshot"
+          ],
+          "exported": false,
+          "lineCount": 35
+        },
+        {
+          "name": "initStore",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "maybeGetLedgerByUserId",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "getLedgerByUserId",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "createBlankLedgerForUser",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "updateLedgerByUserId",
+          "params": [
+            "userId",
+            "mutator"
+          ],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "replaceLedgerByUserId",
+          "params": [
+            "userId",
+            "snapshot"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "resetLedgerByUserId",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "archiveLedgerByUserId",
+          "params": [
+            "userId",
+            "adminUserId"
+          ],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "restoreLedgerByUserId",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "deleteLedgerByUserId",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "getUserById",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "listUsers",
+          "params": [],
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "listPortfolios",
+          "params": [],
+          "exported": true,
+          "lineCount": 44
+        },
+        {
+          "name": "getAdminDashboardStats",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "closeStore",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./defaultPortfolio.js",
+          "specifiers": [
+            "buildDefaultPortfolioSnapshot"
+          ]
+        },
+        {
+          "source": "./db.js",
+          "specifiers": [
+            "pool",
+            "closeDb"
+          ]
+        },
+        {
+          "source": "./config.js",
+          "specifiers": [
+            "normalizeSettings"
+          ]
+        },
+        {
+          "source": "./schemas.js",
+          "specifiers": [
+            "PortfolioLedgerSchema",
+            "PortfolioSnapshotSchema"
+          ]
+        }
+      ],
+      "exports": [
+        "initStore",
+        "maybeGetLedgerByUserId",
+        "getLedgerByUserId",
+        "createBlankLedgerForUser",
+        "updateLedgerByUserId",
+        "replaceLedgerByUserId",
+        "resetLedgerByUserId",
+        "archiveLedgerByUserId",
+        "restoreLedgerByUserId",
+        "deleteLedgerByUserId",
+        "getUserById",
+        "listUsers",
+        "listPortfolios",
+        "getAdminDashboardStats",
+        "closeStore"
+      ],
+      "totalLines": 500,
+      "hasStructuralAnalysis": true
+    },
+    "server/symbolVerifier.js": {
+      "filePath": "server/symbolVerifier.js",
+      "contentHash": "3db3ac1ea7fa3fc676a548a83aebb0c71d9e2bfbd1230b43030cec46a220df0d",
+      "functions": [
+        {
+          "name": "makeAbortSignal",
+          "params": [],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "getProvider",
+          "params": [
+            "market"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "verifyAlpaca",
+          "params": [
+            "pairs",
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 45
+        },
+        {
+          "name": "verifySahmk",
+          "params": [
+            "pairs",
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 37
+        },
+        {
+          "name": "verifyCoinMarketCap",
+          "params": [
+            "pairs",
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 46
+        },
+        {
+          "name": "verifySymbols",
+          "params": [
+            "pairs"
+          ],
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "verifySymbols"
+      ],
+      "totalLines": 190,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/base.ts": {
+      "filePath": "src/api/base.ts",
+      "contentHash": "fe020b80362c3f0a7caa0e8e7f42f3b5202b41fd96c744e83b98a2d34440aaad",
+      "functions": [
+        {
+          "name": "configureApiBase",
+          "params": [
+            "opts"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "apiPath",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "scopedStorageKey",
+          "params": [
+            "key"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "configureApiBase",
+        "apiPath",
+        "scopedStorageKey"
+      ],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/fx.ts": {
+      "filePath": "src/api/fx.ts",
+      "contentHash": "eb5c54569d1fffb04d8c5830c69669b3e3b5c419de5491d45adfaa1539cef0e5",
+      "functions": [
+        {
+          "name": "getFxProvider",
+          "params": [
+            "name"
+          ],
+          "returnType": "FxProvider",
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./types",
+          "specifiers": [
+            "FxProvider"
+          ]
+        },
+        {
+          "source": "./providers/frankfurterFx",
+          "specifiers": [
+            "frankfurterFxProvider"
+          ]
+        }
+      ],
+      "exports": [
+        "getFxProvider"
+      ],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/http.ts": {
+      "filePath": "src/api/http.ts",
+      "contentHash": "10c9d60852982c1f52b82f9a723cc66be2573ccc3ffaf5f35aaca15fcc48c6bc",
+      "functions": [
+        {
+          "name": "configureHttp",
+          "params": [
+            "opts"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "authedFetch",
+          "params": [
+            "input",
+            "init"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "configureHttp",
+        "authedFetch"
+      ],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/pdfImport.ts": {
+      "filePath": "src/api/pdfImport.ts",
+      "contentHash": "9a162518e801ef5389c286b3ac0b47fde3f1a9a45fb7287fe17cfe23ab3f6831",
+      "functions": [
+        {
+          "name": "parseError",
+          "params": [
+            "response"
+          ],
+          "returnType": "Promise<Error>",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "fetchValidMarkets",
+          "params": [],
+          "returnType": "Promise<string[]>",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "uploadPdfForExtraction",
+          "params": [
+            "file"
+          ],
+          "returnType": "Promise<ExtractionResult>",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "verifyImportSymbols",
+          "params": [
+            "pairs"
+          ],
+          "returnType": "Promise<VerifySymbolResult[]>",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "confirmPdfImport",
+          "params": [
+            "holdings",
+            "mergeStrategy"
+          ],
+          "returnType": "Promise<{ ledger: PortfolioLedger; summary: ImportSummary }>",
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./base",
+          "specifiers": [
+            "apiPath"
+          ]
+        },
+        {
+          "source": "./http",
+          "specifiers": [
+            "authedFetch"
+          ]
+        },
+        {
+          "source": "./portfolio",
+          "specifiers": [
+            "PortfolioLedgerSchema",
+            "HoldingInput",
+            "PortfolioLedger"
+          ]
+        },
+        {
+          "source": "../schemas/pdfImport",
+          "specifiers": [
+            "ExtractionResultSchema",
+            "ImportSummarySchema",
+            "VerifySymbolsResponseSchema",
+            "ExtractionResult",
+            "ImportSummary",
+            "MergeStrategy",
+            "VerifySymbolResult"
+          ]
+        }
+      ],
+      "exports": [
+        "fetchValidMarkets",
+        "uploadPdfForExtraction",
+        "verifyImportSymbols",
+        "confirmPdfImport"
+      ],
+      "totalLines": 91,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/portfolio.ts": {
+      "filePath": "src/api/portfolio.ts",
+      "contentHash": "dcd5920e0ca316225a6b092b0492372ef9e9f2b22c4f2c8a7c8e0d3d1180ed69",
+      "functions": [
+        {
+          "name": "portfolioQueryKey",
+          "params": [
+            "scope"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "buildPortfolioPath",
+          "params": [
+            "scope",
+            "suffix"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "parseResponseError",
+          "params": [
+            "response"
+          ],
+          "returnType": "Promise<Error>",
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "request",
+          "params": [
+            "path",
+            "init"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "buildJsonRequest",
+          "params": [
+            "method",
+            "body"
+          ],
+          "returnType": "RequestInit",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "getApiErrorMessage",
+          "params": [
+            "error",
+            "fallback"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "fetchPortfolio",
+          "params": [
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "saveSettings",
+          "params": [
+            "settings",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "createHolding",
+          "params": [
+            "input",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "editHolding",
+          "params": [
+            "id",
+            "updates",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "removeHolding",
+          "params": [
+            "id",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "createWatchItem",
+          "params": [
+            "input",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "removeWatchItem",
+          "params": [
+            "id",
+            "scope"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "exportPortfolio",
+          "params": [],
+          "returnType": "Promise<string>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "exportAdminPortfolio",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<string>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "importPortfolio",
+          "params": [
+            "json"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "resetPortfolio",
+          "params": [],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fetchAdminSummary",
+          "params": [],
+          "returnType": "Promise<AdminSummary>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fetchAdminUsers",
+          "params": [
+            "search"
+          ],
+          "returnType": "Promise<AdminUser[]>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fetchAdminUser",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<AdminUser>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fetchAdminPortfolios",
+          "params": [
+            "options"
+          ],
+          "returnType": "Promise<AdminPortfolioSummary[]>",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "createOrRecreateAdminLedger",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "archiveAdminLedger",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "restoreAdminLedger",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<PortfolioLedger>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "deleteAdminLedger",
+          "params": [
+            "userId"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "fetchFxRate",
+          "params": [
+            "from",
+            "to"
+          ],
+          "returnType": "Promise<number>",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "HoldingSchema",
+            "Holding"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsSchema",
+            "Settings"
+          ]
+        },
+        {
+          "source": "../schemas/watchlist",
+          "specifiers": [
+            "WatchItemSchema",
+            "WatchItem"
+          ]
+        },
+        {
+          "source": "./base",
+          "specifiers": [
+            "apiPath"
+          ]
+        },
+        {
+          "source": "./http",
+          "specifiers": [
+            "authedFetch"
+          ]
+        }
+      ],
+      "exports": [
+        "PortfolioStatusSchema",
+        "PortfolioScopeSchema",
+        "PortfolioLedgerSchema",
+        "AdminSummarySchema",
+        "AdminUserSchema",
+        "AdminPortfolioSummarySchema",
+        "ME_PORTFOLIO_SCOPE",
+        "portfolioQueryKey",
+        "getApiErrorMessage",
+        "fetchPortfolio",
+        "saveSettings",
+        "createHolding",
+        "editHolding",
+        "removeHolding",
+        "createWatchItem",
+        "removeWatchItem",
+        "exportPortfolio",
+        "exportAdminPortfolio",
+        "importPortfolio",
+        "resetPortfolio",
+        "fetchAdminSummary",
+        "fetchAdminUsers",
+        "fetchAdminUser",
+        "fetchAdminPortfolios",
+        "createOrRecreateAdminLedger",
+        "archiveAdminLedger",
+        "restoreAdminLedger",
+        "deleteAdminLedger",
+        "fetchFxRate"
+      ],
+      "totalLines": 274,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/prices.test.ts": {
+      "filePath": "src/api/prices.test.ts",
+      "contentHash": "25292444c42e30ccda2eabeca843e89556e15c329e298f263bcb208de2a9fc42",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "afterEach",
+            "describe",
+            "expect",
+            "it",
+            "vi"
+          ]
+        },
+        {
+          "source": "./prices",
+          "specifiers": [
+            "buildPriceLookupKey",
+            "fetchPriceSnapshot",
+            "getProviderForHolding",
+            "getProviderForMarket",
+            "refreshPriceSnapshot",
+            "routeBySymbol"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 133,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/prices.ts": {
+      "filePath": "src/api/prices.ts",
+      "contentHash": "2ce1e28a0eaed4d8360767e980cde86b15c2b193fd55447ad4d9965d85b79939",
+      "functions": [
+        {
+          "name": "buildPricePath",
+          "params": [
+            "scope",
+            "action"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "priceSnapshotQueryKey",
+          "params": [
+            "scope"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "getPriceProvider",
+          "params": [
+            "name"
+          ],
+          "returnType": "PriceProvider",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "getProviderForMarket",
+          "params": [
+            "market"
+          ],
+          "returnType": "MarketPriceProvider",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "getProviderForHolding",
+          "params": [
+            "holding"
+          ],
+          "returnType": "MarketPriceProvider",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "routeBySymbol",
+          "params": [
+            "symbols",
+            "holdings"
+          ],
+          "returnType": "{ alpaca: string[]; coinmarketcap: string[]; sahmk: string[]; snapshot: string[] }",
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "buildPriceLookupKey",
+          "params": [
+            "holding"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "parseResponseError",
+          "params": [
+            "response"
+          ],
+          "returnType": "Promise<Error>",
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "fetchPriceSnapshot",
+          "params": [
+            "scope"
+          ],
+          "returnType": "Promise<PriceSnapshot>",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "refreshPriceSnapshot",
+          "params": [
+            "scope"
+          ],
+          "returnType": "Promise<PriceSnapshot>",
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "./types",
+          "specifiers": [
+            "PriceProvider"
+          ]
+        },
+        {
+          "source": "./base",
+          "specifiers": [
+            "apiPath"
+          ]
+        },
+        {
+          "source": "./http",
+          "specifiers": [
+            "authedFetch"
+          ]
+        },
+        {
+          "source": "./portfolio",
+          "specifiers": [
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        },
+        {
+          "source": "./providers/alpacaPrices",
+          "specifiers": [
+            "alpacaPricesProvider"
+          ]
+        },
+        {
+          "source": "./providers/coinMarketCapPrices",
+          "specifiers": [
+            "coinMarketCapPricesProvider"
+          ]
+        },
+        {
+          "source": "./providers/sahmkPrices",
+          "specifiers": [
+            "sahmkPricesProvider"
+          ]
+        }
+      ],
+      "exports": [
+        "priceSnapshotQueryKey",
+        "getPriceProvider",
+        "getProviderForMarket",
+        "getProviderForHolding",
+        "routeBySymbol",
+        "buildPriceLookupKey",
+        "fetchPriceSnapshot",
+        "refreshPriceSnapshot"
+      ],
+      "totalLines": 156,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/providers/alpacaPrices.ts": {
+      "filePath": "src/api/providers/alpacaPrices.ts",
+      "contentHash": "28e12a85f1a8b947c564ee671446df327f3ac4369af3b628412ec79ced7c4d6a",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../types",
+          "specifiers": [
+            "PriceProvider",
+            "PriceQuote"
+          ]
+        },
+        {
+          "source": "../base",
+          "specifiers": [
+            "apiPath"
+          ]
+        }
+      ],
+      "exports": [
+        "alpacaPricesProvider"
+      ],
+      "totalLines": 51,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/providers/coinMarketCapPrices.ts": {
+      "filePath": "src/api/providers/coinMarketCapPrices.ts",
+      "contentHash": "0e9689003bee7a3ab960f362a999acef98382d6153bfe3b90d25744a8fa42813",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../types",
+          "specifiers": [
+            "PriceProvider",
+            "PriceQuote"
+          ]
+        },
+        {
+          "source": "../base",
+          "specifiers": [
+            "apiPath"
+          ]
+        }
+      ],
+      "exports": [
+        "coinMarketCapPricesProvider"
+      ],
+      "totalLines": 67,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/providers/frankfurterFx.test.ts": {
+      "filePath": "src/api/providers/frankfurterFx.test.ts",
+      "contentHash": "023e4f95c238f1f12b6bcc53ff78a47cd3610f9bcf1199bcd0b8ddd00d140d9e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "it"
+          ]
+        },
+        {
+          "source": "./frankfurterFx",
+          "specifiers": [
+            "frankfurterFxProvider"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/providers/frankfurterFx.ts": {
+      "filePath": "src/api/providers/frankfurterFx.ts",
+      "contentHash": "facc828cf28ae6568f4abac95c95be488622d3f3cd3a4f891d5a95bb5b5b9c40",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../types",
+          "specifiers": [
+            "FxProvider"
+          ]
+        },
+        {
+          "source": "../base",
+          "specifiers": [
+            "apiPath"
+          ]
+        }
+      ],
+      "exports": [
+        "frankfurterFxProvider"
+      ],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/providers/sahmkPrices.ts": {
+      "filePath": "src/api/providers/sahmkPrices.ts",
+      "contentHash": "7fbbbd7820e34e9281a4fce983215f0fcfcb9f24ab183a2fc99dc65cc28d4b4a",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        },
+        {
+          "source": "../types",
+          "specifiers": [
+            "PriceProvider",
+            "PriceQuote"
+          ]
+        },
+        {
+          "source": "../base",
+          "specifiers": [
+            "apiPath"
+          ]
+        },
+        {
+          "source": "../http",
+          "specifiers": [
+            "authedFetch"
+          ]
+        }
+      ],
+      "exports": [
+        "sahmkPricesProvider"
+      ],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "src/api/types.ts": {
+      "filePath": "src/api/types.ts",
+      "contentHash": "fa1d176b6aeb6fa7219a183b8865b4900cc562657f2950038956ebbbaaa741e4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "src/App.tsx": {
+      "filePath": "src/App.tsx",
+      "contentHash": "d96b8f9b42c98a0d43c1388216d18bef147da4d27a165e3eecca83e853bc685c",
+      "functions": [
+        {
+          "name": "App",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "RouterProvider"
+          ]
+        },
+        {
+          "source": "./router",
+          "specifiers": [
+            "router"
+          ]
+        },
+        {
+          "source": "./i18n/I18nProvider",
+          "specifiers": [
+            "I18nProvider"
+          ]
+        }
+      ],
+      "exports": [
+        "App"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/AllocationPie.tsx": {
+      "filePath": "src/components/AllocationPie.tsx",
+      "contentHash": "3221366ab05f9492ec8614d669721b3e37b8fa8e7aa7279a8db97aa3c41c7d7f",
+      "functions": [
+        {
+          "name": "AllocationPie",
+          "params": [
+            "{ data, title, baseCurrency }"
+          ],
+          "exported": true,
+          "lineCount": 64
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-apexcharts",
+          "specifiers": [
+            "ReactApexChart"
+          ]
+        },
+        {
+          "source": "apexcharts",
+          "specifiers": [
+            "ApexOptions"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtCurrency"
+          ]
+        }
+      ],
+      "exports": [
+        "AllocationPie"
+      ],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/HoldingsTable.tsx": {
+      "filePath": "src/components/HoldingsTable.tsx",
+      "contentHash": "e0fd70b2303c579dcff51cc1c30b630c1c6b34bff1b5c1bf5ea462ebe2ab81d8",
+      "functions": [
+        {
+          "name": "buildColumns",
+          "params": [
+            "t"
+          ],
+          "returnType": "Array<{ key: SortKey; label: string; numeric?: boolean }>",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "shortenName",
+          "params": [
+            "name"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "compactMeta",
+          "params": [
+            "row"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "HoldingsTable",
+          "params": [
+            "{ rows, baseCurrency, onManage, canManage = true }"
+          ],
+          "exported": true,
+          "lineCount": 151
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState",
+            "useMemo"
+          ]
+        },
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "HoldingRow"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtCompactCurrency",
+            "fmtPercent",
+            "fmtNumber"
+          ]
+        },
+        {
+          "source": "./ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        },
+        {
+          "source": "../i18n/messages",
+          "specifiers": [
+            "MessageKey"
+          ]
+        }
+      ],
+      "exports": [
+        "HoldingsTable"
+      ],
+      "totalLines": 201,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ImportReviewTable.tsx": {
+      "filePath": "src/components/ImportReviewTable.tsx",
+      "contentHash": "ae70cff1847df492ce298cbb154db753682c7753d589526101960bfa790632c1",
+      "functions": [
+        {
+          "name": "getConfidenceClass",
+          "params": [
+            "confidence"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "VerifiedBadge",
+          "params": [
+            "{ verified }"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "ImportReviewTable",
+          "params": [
+            "{\n  holdings,\n  selectedIds,\n  onToggle,\n  onSelectAll,\n  onDeselectAll,\n  onUpdate,\n  validMarkets = DEFAULT_VALID_MARKETS,\n}"
+          ],
+          "exported": true,
+          "lineCount": 204
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useRef",
+            "useEffect"
+          ]
+        },
+        {
+          "source": "../schemas/pdfImport",
+          "specifiers": [
+            "ExtractedHolding"
+          ]
+        }
+      ],
+      "exports": [
+        "ImportReviewTable"
+      ],
+      "totalLines": 253,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/NavBar.tsx": {
+      "filePath": "src/components/NavBar.tsx",
+      "contentHash": "482ce4428fdfb44a8a0d2fcdb1491fad8961cc58720a3bee1ecd7ead6888bd5f",
+      "functions": [
+        {
+          "name": "NavBar",
+          "params": [],
+          "exported": true,
+          "lineCount": 109
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link",
+            "NavLink",
+            "useLocation"
+          ]
+        },
+        {
+          "source": "./ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient",
+            "isAdminSession"
+          ]
+        },
+        {
+          "source": "../hooks/useSettings",
+          "specifiers": [
+            "useSettings"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "NavBar"
+      ],
+      "totalLines": 116,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/PdfImportWizard.tsx": {
+      "filePath": "src/components/PdfImportWizard.tsx",
+      "contentHash": "79ad88e2a96610a688e155c3d253a8d89a7a0f199dab39f0f00c64a2f90ab1c3",
+      "functions": [
+        {
+          "name": "UploadStep",
+          "params": [
+            "{\n  onUpload,\n  error,\n}"
+          ],
+          "exported": false,
+          "lineCount": 97
+        },
+        {
+          "name": "ProcessingStep",
+          "params": [],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "ConfirmingStep",
+          "params": [],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "DoneStep",
+          "params": [
+            "{\n  summary,\n  onClose,\n}"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "PdfImportWizard",
+          "params": [
+            "{ open, onClose }"
+          ],
+          "exported": true,
+          "lineCount": 163
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState",
+            "useRef",
+            "useCallback",
+            "useEffect",
+            "DragEvent",
+            "ChangeEvent"
+          ]
+        },
+        {
+          "source": "./ui/Modal",
+          "specifiers": [
+            "Modal"
+          ]
+        },
+        {
+          "source": "./ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "./ui/Select",
+          "specifiers": [
+            "Select"
+          ]
+        },
+        {
+          "source": "./ImportReviewTable",
+          "specifiers": [
+            "ImportReviewTable"
+          ]
+        },
+        {
+          "source": "../hooks/usePdfImport",
+          "specifiers": [
+            "usePdfImport"
+          ]
+        },
+        {
+          "source": "../api/pdfImport",
+          "specifiers": [
+            "fetchValidMarkets"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "PdfImportWizard"
+      ],
+      "totalLines": 334,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/PLBar.tsx": {
+      "filePath": "src/components/PLBar.tsx",
+      "contentHash": "2661291a18850102bfd26447faffb8a0597f66af01129e67f9654649679c3e64",
+      "functions": [
+        {
+          "name": "PLBar",
+          "params": [
+            "{ rows, baseCurrency }"
+          ],
+          "exported": true,
+          "lineCount": 70
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-apexcharts",
+          "specifiers": [
+            "ReactApexChart"
+          ]
+        },
+        {
+          "source": "apexcharts",
+          "specifiers": [
+            "ApexOptions"
+          ]
+        },
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "HoldingRow"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtCurrency"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "PLBar"
+      ],
+      "totalLines": 82,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/PortfolioSummary.tsx": {
+      "filePath": "src/components/PortfolioSummary.tsx",
+      "contentHash": "0ed6cf036e8690a9e29eb07ffc6004298c5846e9cbf70553664f5ca4609037b2",
+      "functions": [
+        {
+          "name": "StatCard",
+          "params": [
+            "{ eyebrow, label, value, subtitle, highlight = 'neutral' }"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "MoneyValue",
+          "params": [
+            "{ value, currency }"
+          ],
+          "exported": false,
+          "lineCount": 26
+        },
+        {
+          "name": "PortfolioSummary",
+          "params": [
+            "{ summary, baseCurrency }"
+          ],
+          "exported": true,
+          "lineCount": 45
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "PortfolioSummaryType"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtPercent"
+          ]
+        },
+        {
+          "source": "./ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "ReactNode"
+          ]
+        }
+      ],
+      "exports": [
+        "PortfolioSummary"
+      ],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/Button.tsx": {
+      "filePath": "src/components/ui/Button.tsx",
+      "contentHash": "3115427ddcef3d318a7853215432c3b23cece6561064dcadbc09e71f8b83f201",
+      "functions": [
+        {
+          "name": "Button",
+          "params": [
+            "{\n  variant = 'primary',\n  size = 'md',\n  className = '',\n  children,\n  ...rest\n}"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "ButtonHTMLAttributes"
+          ]
+        }
+      ],
+      "exports": [
+        "Button"
+      ],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/Card.tsx": {
+      "filePath": "src/components/ui/Card.tsx",
+      "contentHash": "af1e4626020290afbd76de3bf20178fac2278dd0e1df55ff507a63f935135f6a",
+      "functions": [
+        {
+          "name": "Card",
+          "params": [
+            "{ children, className = '' }"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "ReactNode"
+          ]
+        }
+      ],
+      "exports": [
+        "Card"
+      ],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/EmptyState.tsx": {
+      "filePath": "src/components/ui/EmptyState.tsx",
+      "contentHash": "d229e33f21a7ca9f9192069141af08d4d0dd482fb454152b9c59318c9b15eef6",
+      "functions": [
+        {
+          "name": "EmptyState",
+          "params": [
+            "{ title, description, action }"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "ReactNode"
+          ]
+        }
+      ],
+      "exports": [
+        "EmptyState"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/Input.tsx": {
+      "filePath": "src/components/ui/Input.tsx",
+      "contentHash": "88406bf78f0f4ad1c7b04ccda479fda14ed06056640cc75bd07d5e460f107034",
+      "functions": [
+        {
+          "name": "Input",
+          "params": [
+            "{ label, error, id, className = '', ...rest }"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "InputHTMLAttributes"
+          ]
+        }
+      ],
+      "exports": [
+        "Input"
+      ],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/Modal.tsx": {
+      "filePath": "src/components/ui/Modal.tsx",
+      "contentHash": "3235da598ac9ab6ea96f0aa443df727541e13b945c2bc83a4baeac92b6e19e9b",
+      "functions": [
+        {
+          "name": "Modal",
+          "params": [
+            "{ open, onClose, title, children }"
+          ],
+          "exported": true,
+          "lineCount": 52
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "ReactNode"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useRef"
+          ]
+        },
+        {
+          "source": "../../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Modal"
+      ],
+      "totalLines": 64,
+      "hasStructuralAnalysis": true
+    },
+    "src/components/ui/Select.tsx": {
+      "filePath": "src/components/ui/Select.tsx",
+      "contentHash": "32d25d06f628af66820900c4f1a18c847c4730689c097b12a6e7437bb9bea7a7",
+      "functions": [
+        {
+          "name": "Select",
+          "params": [
+            "{\n  label,\n  error,\n  options,\n  id,\n  className = '',\n  ...rest\n}"
+          ],
+          "exported": true,
+          "lineCount": 27
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "SelectHTMLAttributes"
+          ]
+        }
+      ],
+      "exports": [
+        "Select"
+      ],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/useFxRates.ts": {
+      "filePath": "src/hooks/useFxRates.ts",
+      "contentHash": "a58bb950b3ca091941d12f7515e5b4cb8810f96444636c666dffe75ec3e47d33",
+      "functions": [
+        {
+          "name": "useFxRates",
+          "params": [
+            "pairs",
+            "settings"
+          ],
+          "returnType": "FxLookup",
+          "exported": true,
+          "lineCount": 39
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueries"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "Settings"
+          ]
+        },
+        {
+          "source": "../api/fx",
+          "specifiers": [
+            "getFxProvider"
+          ]
+        }
+      ],
+      "exports": [
+        "useFxRates"
+      ],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/useHoldings.ts": {
+      "filePath": "src/hooks/useHoldings.ts",
+      "contentHash": "5aaa2b9bf3465eed0ab4c33cee38c15801598b1d163ff40e574aff0f4280ef93",
+      "functions": [
+        {
+          "name": "useHoldings",
+          "params": [
+            "scope"
+          ],
+          "exported": true,
+          "lineCount": 68
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useMutation",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "createHolding",
+            "editHolding",
+            "getApiErrorMessage",
+            "PortfolioLedger",
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE",
+            "portfolioQueryKey",
+            "removeHolding"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "./usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        }
+      ],
+      "exports": [
+        "useHoldings"
+      ],
+      "totalLines": 87,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/usePdfImport.ts": {
+      "filePath": "src/hooks/usePdfImport.ts",
+      "contentHash": "48fda95d75957ca63147635f601e768f1a86f12af5c76eb06b4a7e1dc6e18783",
+      "functions": [
+        {
+          "name": "usePdfImport",
+          "params": [],
+          "exported": true,
+          "lineCount": 192
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState",
+            "useCallback",
+            "useRef"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "getApiErrorMessage",
+            "ME_PORTFOLIO_SCOPE",
+            "portfolioQueryKey"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "../api/pdfImport",
+          "specifiers": [
+            "confirmPdfImport",
+            "uploadPdfForExtraction",
+            "verifyImportSymbols"
+          ]
+        },
+        {
+          "source": "../schemas/pdfImport",
+          "specifiers": [
+            "ExtractedHolding",
+            "ExtractionResult",
+            "ImportSummary",
+            "MergeStrategy"
+          ]
+        }
+      ],
+      "exports": [
+        "usePdfImport"
+      ],
+      "totalLines": 209,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/usePortfolio.ts": {
+      "filePath": "src/hooks/usePortfolio.ts",
+      "contentHash": "d7209025b53aac2cec22607749eccb9e6bfbb0d549e0f3dc0a14d5a20b9e0d78",
+      "functions": [
+        {
+          "name": "usePortfolio",
+          "params": [
+            "scope"
+          ],
+          "returnType": "{\n  rows: HoldingRow[];\n  summary: PortfolioSummary;\n  settings: Settings;\n  isArchived: boolean;\n  isFetching: boolean;\n  isLoading: boolean;\n  lastUpdated: string | undefined;\n  errorMessage?: string;\n  priceErrorMessage?: string;\n  quoteErrors: Record<string, string>;\n  lastAttemptedAt: string | undefined;\n  canRefreshMarkets: boolean;\n  refresh: () => void;\n}",
+          "exported": true,
+          "lineCount": 96
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        },
+        {
+          "source": "./useFxRates",
+          "specifiers": [
+            "useFxRates"
+          ]
+        },
+        {
+          "source": "./usePrices",
+          "specifiers": [
+            "usePrices"
+          ]
+        },
+        {
+          "source": "./usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        },
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "derivePortfolio",
+            "deriveRow",
+            "HoldingRow",
+            "PortfolioSummary"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "refreshPriceSnapshot",
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "getApiErrorMessage",
+            "ME_PORTFOLIO_SCOPE",
+            "PortfolioScope"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsSchema",
+            "Settings"
+          ]
+        }
+      ],
+      "exports": [
+        "usePortfolio"
+      ],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/usePortfolioSnapshot.ts": {
+      "filePath": "src/hooks/usePortfolioSnapshot.ts",
+      "contentHash": "d58e65e34ff5e2d98f782849555397e1e44f836d5a2b064f2a0121d79ff8fa49",
+      "functions": [
+        {
+          "name": "usePortfolioSnapshot",
+          "params": [
+            "scope"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "fetchPortfolio",
+            "portfolioQueryKey",
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        }
+      ],
+      "exports": [
+        "usePortfolioSnapshot"
+      ],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/usePrices.ts": {
+      "filePath": "src/hooks/usePrices.ts",
+      "contentHash": "759b80f2523fbf0c02036524ac89db3565cc23aa2ff29cfb7c7b81e289d548c0",
+      "functions": [
+        {
+          "name": "getClientRefreshIntervalMs",
+          "params": [
+            "refreshMs"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "usePrices",
+          "params": [
+            "scope",
+            "symbols",
+            "holdings",
+            "settings"
+          ],
+          "returnType": "UsePricesResult",
+          "exported": true,
+          "lineCount": 34
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "Settings"
+          ]
+        },
+        {
+          "source": "../api/types",
+          "specifiers": [
+            "PriceQuote"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "fetchPriceSnapshot",
+            "buildPriceLookupKey",
+            "priceSnapshotQueryKey",
+            "PriceSnapshot"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "PortfolioScope"
+          ]
+        }
+      ],
+      "exports": [
+        "usePrices"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/useSettings.ts": {
+      "filePath": "src/hooks/useSettings.ts",
+      "contentHash": "1d7ea73ce1670123892f8efc048f9a7f904839089f223db5a336b35b1a3b82eb",
+      "functions": [
+        {
+          "name": "useSettings",
+          "params": [
+            "scope"
+          ],
+          "returnType": "[Settings, (settings: Settings) => void, UseSettingsMeta]",
+          "exported": true,
+          "lineCount": 41
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useMutation",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsSchema",
+            "Settings"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "getApiErrorMessage",
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE",
+            "portfolioQueryKey",
+            "saveSettings"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "./usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        }
+      ],
+      "exports": [
+        "useSettings"
+      ],
+      "totalLines": 56,
+      "hasStructuralAnalysis": true
+    },
+    "src/hooks/useWatchlist.ts": {
+      "filePath": "src/hooks/useWatchlist.ts",
+      "contentHash": "4ef12f5f035135e9589e31c5a6a6b4ddfed55f9dd718a2d0ece41a7cbe6990af",
+      "functions": [
+        {
+          "name": "useWatchlist",
+          "params": [
+            "scope"
+          ],
+          "exported": true,
+          "lineCount": 61
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useMutation",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../schemas/watchlist",
+          "specifiers": [
+            "WatchItem"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "createWatchItem",
+            "getApiErrorMessage",
+            "PortfolioLedger",
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE",
+            "portfolioQueryKey",
+            "removeWatchItemRequest"
+          ]
+        },
+        {
+          "source": "../api/prices",
+          "specifiers": [
+            "priceSnapshotQueryKey"
+          ]
+        },
+        {
+          "source": "./usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        }
+      ],
+      "exports": [
+        "useWatchlist"
+      ],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "src/i18n/context.ts": {
+      "filePath": "src/i18n/context.ts",
+      "contentHash": "700978d1fc1ebdec77b1e9ab98ce778fc07ce5fa97be2b03046e066fa2d5bf00",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "createContext"
+          ]
+        },
+        {
+          "source": "./messages",
+          "specifiers": [
+            "Lang",
+            "MessageKey"
+          ]
+        }
+      ],
+      "exports": [
+        "I18nContext"
+      ],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "src/i18n/core.ts": {
+      "filePath": "src/i18n/core.ts",
+      "contentHash": "93331abb8cc6bea53e742df3082bd226768d557427a544d47eb5e03d2867f36e",
+      "functions": [
+        {
+          "name": "getInitialLang",
+          "params": [],
+          "returnType": "Lang",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "persistLang",
+          "params": [
+            "lang"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "applyDocumentLang",
+          "params": [
+            "lang"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./messages",
+          "specifiers": [
+            "Lang"
+          ]
+        }
+      ],
+      "exports": [
+        "I18N_STORAGE_KEY",
+        "getInitialLang",
+        "persistLang",
+        "applyDocumentLang"
+      ],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "src/i18n/I18nProvider.tsx": {
+      "filePath": "src/i18n/I18nProvider.tsx",
+      "contentHash": "391d62df731359b18b7fdf1f9c941a723dc27a200f0224e7e292412c19263879",
+      "functions": [
+        {
+          "name": "I18nProvider",
+          "params": [
+            "{ children }"
+          ],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useMemo",
+            "useState",
+            "ReactNode"
+          ]
+        },
+        {
+          "source": "./messages",
+          "specifiers": [
+            "messages",
+            "Lang"
+          ]
+        },
+        {
+          "source": "./core",
+          "specifiers": [
+            "applyDocumentLang",
+            "getInitialLang",
+            "persistLang"
+          ]
+        },
+        {
+          "source": "./context",
+          "specifiers": [
+            "I18nContext",
+            "I18nContextValue"
+          ]
+        }
+      ],
+      "exports": [
+        "I18nProvider"
+      ],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "src/i18n/messages.ts": {
+      "filePath": "src/i18n/messages.ts",
+      "contentHash": "d4884f6b77153589360c5758ca63eeec10c1538c8c7047f59f76a33fc3b9e53e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "messages"
+      ],
+      "totalLines": 387,
+      "hasStructuralAnalysis": true
+    },
+    "src/i18n/useI18n.ts": {
+      "filePath": "src/i18n/useI18n.ts",
+      "contentHash": "6ec4aadd6ea0bfd0c1a2d7766c5493712c9c7abee65b81417431f07c07af5c49",
+      "functions": [
+        {
+          "name": "useI18n",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useContext"
+          ]
+        },
+        {
+          "source": "./context",
+          "specifiers": [
+            "I18nContext"
+          ]
+        }
+      ],
+      "exports": [
+        "useI18n"
+      ],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "src/index.css": {
+      "filePath": "src/index.css",
+      "contentHash": "a2b156b9d46430d4cbce2a7ce2d0220e55327f4026b7d1f92314c0196954818e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 72,
+      "hasStructuralAnalysis": false
+    },
+    "src/lib/auth-client.ts": {
+      "filePath": "src/lib/auth-client.ts",
+      "contentHash": "da031ab29adaf1e867b9334e7d39fd0cd9714a5b7a77acb54e136be7114acd22",
+      "functions": [
+        {
+          "name": "getSessionRole",
+          "params": [
+            "session"
+          ],
+          "returnType": "AppRole",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "isAdminSession",
+          "params": [
+            "session"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "better-auth/react",
+          "specifiers": [
+            "createAuthClient"
+          ]
+        }
+      ],
+      "exports": [
+        "authClient",
+        "getSessionRole",
+        "isAdminSession"
+      ],
+      "totalLines": 43,
+      "hasStructuralAnalysis": true
+    },
+    "src/lib/format.ts": {
+      "filePath": "src/lib/format.ts",
+      "contentHash": "55b180d14b2d13ad29c8119a2543d7cf13984d86d3f709752c00f5e2f411a0d6",
+      "functions": [
+        {
+          "name": "fmtCurrency",
+          "params": [
+            "value",
+            "currency",
+            "locale"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "fmtCompactCurrency",
+          "params": [
+            "value",
+            "currency",
+            "locale"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "fmtPercent",
+          "params": [
+            "value",
+            "decimals"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fmtNumber",
+          "params": [
+            "value",
+            "decimals"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "fmtAge",
+          "params": [
+            "isoDate"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "date-fns",
+          "specifiers": [
+            "formatDistanceToNow"
+          ]
+        }
+      ],
+      "exports": [
+        "fmtCurrency",
+        "fmtCompactCurrency",
+        "fmtPercent",
+        "fmtNumber",
+        "fmtAge"
+      ],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "src/lib/id.ts": {
+      "filePath": "src/lib/id.ts",
+      "contentHash": "e02acc79f38d0a98f1eb3e7f96a47cfb6d8937ab700ba596f049f8b607ea1627",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "nanoid"
+      ],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "src/lib/metrics.test.ts": {
+      "filePath": "src/lib/metrics.test.ts",
+      "contentHash": "34cfd68bb0b9d458c0c3a32922b99656416b7359f5b04c117d1bb278fe6e670f",
+      "functions": [
+        {
+          "name": "makeHolding",
+          "params": [
+            "overrides"
+          ],
+          "returnType": "Holding",
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "makeQuote",
+          "params": [
+            "overrides"
+          ],
+          "returnType": "PriceQuote",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "noFx",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "usdSar",
+          "params": [
+            "from",
+            "to"
+          ],
+          "exported": false,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "it",
+            "expect"
+          ]
+        },
+        {
+          "source": "./metrics",
+          "specifiers": [
+            "deriveRow",
+            "derivePortfolio",
+            "FxLookup"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../api/types",
+          "specifiers": [
+            "PriceQuote"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 207,
+      "hasStructuralAnalysis": true
+    },
+    "src/lib/metrics.ts": {
+      "filePath": "src/lib/metrics.ts",
+      "contentHash": "7d97216923181bc7d003b4c270e169009a932ee44608a63b4df69d518c7b2a7a",
+      "functions": [
+        {
+          "name": "safeNum",
+          "params": [
+            "n"
+          ],
+          "returnType": "number | undefined",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "deriveRow",
+          "params": [
+            "h",
+            "quote",
+            "fx",
+            "base"
+          ],
+          "returnType": "HoldingRow",
+          "exported": true,
+          "lineCount": 58
+        },
+        {
+          "name": "derivePortfolio",
+          "params": [
+            "rows"
+          ],
+          "returnType": "PortfolioSummary",
+          "exported": true,
+          "lineCount": 44
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../api/types",
+          "specifiers": [
+            "PriceQuote"
+          ]
+        }
+      ],
+      "exports": [
+        "deriveRow",
+        "derivePortfolio"
+      ],
+      "totalLines": 134,
+      "hasStructuralAnalysis": true
+    },
+    "src/main.tsx": {
+      "filePath": "src/main.tsx",
+      "contentHash": "7ca9ea65aba4624a790806fedb6fa71b4ffc52e7351165b76317329b434a826e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "StrictMode"
+          ]
+        },
+        {
+          "source": "react-dom/client",
+          "specifiers": [
+            "createRoot"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "QueryClient",
+            "QueryClientProvider"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query-devtools",
+          "specifiers": [
+            "ReactQueryDevtools"
+          ]
+        },
+        {
+          "source": "./api/base",
+          "specifiers": [
+            "configureApiBase"
+          ]
+        },
+        {
+          "source": "./index.css",
+          "specifiers": []
+        },
+        {
+          "source": "./styles/app.css",
+          "specifiers": []
+        },
+        {
+          "source": "./App",
+          "specifiers": [
+            "App"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "src/router.tsx": {
+      "filePath": "src/router.tsx",
+      "contentHash": "d77f7423ec59b83d6a4e09c3feb53aff70231e6402854cd89d3e7c176631fe2e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "createBrowserRouter"
+          ]
+        },
+        {
+          "source": "./routes/RootLayout",
+          "specifiers": [
+            "RootLayout"
+          ]
+        },
+        {
+          "source": "./routes/Landing",
+          "specifiers": [
+            "Landing"
+          ]
+        },
+        {
+          "source": "./routes/RequireSession",
+          "specifiers": [
+            "RequireSession"
+          ]
+        },
+        {
+          "source": "./routes/RequireAdmin",
+          "specifiers": [
+            "RequireAdmin"
+          ]
+        },
+        {
+          "source": "./routes/AppGate",
+          "specifiers": [
+            "AppGate"
+          ]
+        },
+        {
+          "source": "./routes/Dashboard",
+          "specifiers": [
+            "Dashboard"
+          ]
+        },
+        {
+          "source": "./routes/Holdings",
+          "specifiers": [
+            "Holdings"
+          ]
+        },
+        {
+          "source": "./routes/Watchlist",
+          "specifiers": [
+            "Watchlist"
+          ]
+        },
+        {
+          "source": "./routes/Settings",
+          "specifiers": [
+            "Settings"
+          ]
+        },
+        {
+          "source": "./routes/AdminDashboard",
+          "specifiers": [
+            "AdminDashboard"
+          ]
+        },
+        {
+          "source": "./routes/AdminPortfolios",
+          "specifiers": [
+            "AdminPortfolios"
+          ]
+        },
+        {
+          "source": "./routes/AdminPortfolioDetail",
+          "specifiers": [
+            "AdminPortfolioDetail"
+          ]
+        },
+        {
+          "source": "./routes/AdminUsers",
+          "specifiers": [
+            "AdminUsers"
+          ]
+        }
+      ],
+      "exports": [
+        "router"
+      ],
+      "totalLines": 63,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/AdminDashboard.tsx": {
+      "filePath": "src/routes/AdminDashboard.tsx",
+      "contentHash": "04259afd67850c50a0eead2bb05c3dd366204b9d50ea5ca8937139a9ec420b22",
+      "functions": [
+        {
+          "name": "AdminDashboard",
+          "params": [],
+          "exported": true,
+          "lineCount": 51
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "fetchAdminSummary"
+          ]
+        },
+        {
+          "source": "../components/ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminDashboard"
+      ],
+      "totalLines": 64,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/AdminPortfolioDetail.tsx": {
+      "filePath": "src/routes/AdminPortfolioDetail.tsx",
+      "contentHash": "6bbf361994af56faf0d2a61418226ffd726f1e64b30d03f676509452df001285",
+      "functions": [
+        {
+          "name": "downloadJsonFile",
+          "params": [
+            "filename",
+            "contents"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "AdminPortfolioDetail",
+          "params": [],
+          "exported": true,
+          "lineCount": 387
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery",
+            "useMutation",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link",
+            "useParams"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "archiveAdminLedger",
+            "createOrRecreateAdminLedger",
+            "deleteAdminLedger",
+            "exportAdminPortfolio",
+            "fetchAdminUser",
+            "getApiErrorMessage",
+            "restoreAdminLedger",
+            "PortfolioScope"
+          ]
+        },
+        {
+          "source": "../hooks/useHoldings",
+          "specifiers": [
+            "useHoldings"
+          ]
+        },
+        {
+          "source": "../hooks/usePortfolio",
+          "specifiers": [
+            "usePortfolio"
+          ]
+        },
+        {
+          "source": "../hooks/useSettings",
+          "specifiers": [
+            "useSettings"
+          ]
+        },
+        {
+          "source": "../hooks/useWatchlist",
+          "specifiers": [
+            "useWatchlist"
+          ]
+        },
+        {
+          "source": "../hooks/usePrices",
+          "specifiers": [
+            "usePrices"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "HoldingRow"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsType"
+          ]
+        },
+        {
+          "source": "../components/HoldingsTable",
+          "specifiers": [
+            "HoldingsTable"
+          ]
+        },
+        {
+          "source": "./HoldingForm",
+          "specifiers": [
+            "HoldingForm"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../components/ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        },
+        {
+          "source": "../components/ui/EmptyState",
+          "specifiers": [
+            "EmptyState"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../components/ui/Select",
+          "specifiers": [
+            "Select"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtAge",
+            "fmtCurrency"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminPortfolioDetail"
+      ],
+      "totalLines": 428,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/AdminPortfolios.tsx": {
+      "filePath": "src/routes/AdminPortfolios.tsx",
+      "contentHash": "325c5a3b3d77b493d78f09e765cf8e5aeef5fa8868d0968597ba993bb19ae7d8",
+      "functions": [
+        {
+          "name": "AdminPortfolios",
+          "params": [],
+          "exported": true,
+          "lineCount": 177
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useMemo",
+            "useState"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useMutation",
+            "useQuery",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "archiveAdminLedger",
+            "createOrRecreateAdminLedger",
+            "deleteAdminLedger",
+            "fetchAdminPortfolios",
+            "getApiErrorMessage",
+            "restoreAdminLedger"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../components/ui/Select",
+          "specifiers": [
+            "Select"
+          ]
+        },
+        {
+          "source": "../components/ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtAge"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminPortfolios"
+      ],
+      "totalLines": 195,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/AdminUsers.tsx": {
+      "filePath": "src/routes/AdminUsers.tsx",
+      "contentHash": "caecc67c49a432a732cc5d9db9e070d4f551dbcce15447365ad0ff46f783e176",
+      "functions": [
+        {
+          "name": "AdminUsers",
+          "params": [],
+          "exported": true,
+          "lineCount": 70
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "fetchAdminUsers"
+          ]
+        },
+        {
+          "source": "../components/ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtAge"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminUsers"
+      ],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/AppGate.tsx": {
+      "filePath": "src/routes/AppGate.tsx",
+      "contentHash": "57efbd57ad14d7ac5807c29ba1c6e480b248cb508d0ad1de4aff5aa4952353e5",
+      "functions": [
+        {
+          "name": "AppGate",
+          "params": [],
+          "exported": true,
+          "lineCount": 49
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Outlet"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../components/ui/EmptyState",
+          "specifiers": [
+            "EmptyState"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        },
+        {
+          "source": "../hooks/usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "AppGate"
+      ],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/Dashboard.tsx": {
+      "filePath": "src/routes/Dashboard.tsx",
+      "contentHash": "9a74e0e0124e40e96b7bc276b0f36573d6447e86430cb20d3bdb227508b92dc3",
+      "functions": [
+        {
+          "name": "Dashboard",
+          "params": [],
+          "exported": true,
+          "lineCount": 136
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "../hooks/usePortfolio",
+          "specifiers": [
+            "usePortfolio"
+          ]
+        },
+        {
+          "source": "../components/AllocationPie",
+          "specifiers": [
+            "AllocationPie"
+          ]
+        },
+        {
+          "source": "../components/PLBar",
+          "specifiers": [
+            "PLBar"
+          ]
+        },
+        {
+          "source": "../components/PortfolioSummary",
+          "specifiers": [
+            "PortfolioSummary"
+          ]
+        },
+        {
+          "source": "../components/ui/EmptyState",
+          "specifiers": [
+            "EmptyState"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtAge"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Dashboard"
+      ],
+      "totalLines": 147,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/HoldingForm.tsx": {
+      "filePath": "src/routes/HoldingForm.tsx",
+      "contentHash": "6662cf79a856f9b2f8c266fc88fa4fde0d33c9ce405a9d91282e94063eb34cff",
+      "functions": [
+        {
+          "name": "emptyForm",
+          "params": [],
+          "returnType": "FormState",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "holdingToForm",
+          "params": [
+            "h"
+          ],
+          "returnType": "FormState",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "HoldingForm",
+          "params": [
+            "{ open, onClose, holding, onDelete, canEdit = true, scope = ME_PORTFOLIO_SCOPE }"
+          ],
+          "exported": true,
+          "lineCount": 182
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding",
+            "AssetTypeValue"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "HoldingSchema"
+          ]
+        },
+        {
+          "source": "../hooks/useHoldings",
+          "specifiers": [
+            "useHoldings"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "PortfolioScope",
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        },
+        {
+          "source": "../components/ui/Modal",
+          "specifiers": [
+            "Modal"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../components/ui/Select",
+          "specifiers": [
+            "Select"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        }
+      ],
+      "exports": [
+        "HoldingForm"
+      ],
+      "totalLines": 256,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/Holdings.tsx": {
+      "filePath": "src/routes/Holdings.tsx",
+      "contentHash": "f75287110244d391c7c6a39228cf59f57a96cea318e6f62c03f37c48705cb72f",
+      "functions": [
+        {
+          "name": "Holdings",
+          "params": [],
+          "exported": true,
+          "lineCount": 126
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        },
+        {
+          "source": "../schemas/holding",
+          "specifiers": [
+            "Holding"
+          ]
+        },
+        {
+          "source": "../lib/metrics",
+          "specifiers": [
+            "HoldingRow"
+          ]
+        },
+        {
+          "source": "../hooks/usePortfolio",
+          "specifiers": [
+            "usePortfolio"
+          ]
+        },
+        {
+          "source": "../hooks/useHoldings",
+          "specifiers": [
+            "useHoldings"
+          ]
+        },
+        {
+          "source": "../components/HoldingsTable",
+          "specifiers": [
+            "HoldingsTable"
+          ]
+        },
+        {
+          "source": "./HoldingForm",
+          "specifiers": [
+            "HoldingForm"
+          ]
+        },
+        {
+          "source": "../components/PdfImportWizard",
+          "specifiers": [
+            "PdfImportWizard"
+          ]
+        },
+        {
+          "source": "../components/ui/EmptyState",
+          "specifiers": [
+            "EmptyState"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Holdings"
+      ],
+      "totalLines": 141,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/Landing.tsx": {
+      "filePath": "src/routes/Landing.tsx",
+      "contentHash": "209c2044686ba6333d70cf47ab141d5d16c64d7180ed873a296eff338b94b2f4",
+      "functions": [
+        {
+          "name": "Landing",
+          "params": [],
+          "exported": true,
+          "lineCount": 84
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Navigate"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Landing"
+      ],
+      "totalLines": 91,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/RequireAdmin.tsx": {
+      "filePath": "src/routes/RequireAdmin.tsx",
+      "contentHash": "90d93b99d87b190d66594136f7dc5c910eefefd67b68666892a327f5767c1854",
+      "functions": [
+        {
+          "name": "RequireAdmin",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Navigate",
+            "Outlet"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient",
+            "isAdminSession"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "RequireAdmin"
+      ],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/RequireSession.tsx": {
+      "filePath": "src/routes/RequireSession.tsx",
+      "contentHash": "145c47139e2c577ef5c96301b0b589ab40bd9f9e527c0c0994077eae2d4dcd35",
+      "functions": [
+        {
+          "name": "RequireSession",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Navigate",
+            "Outlet",
+            "useLocation"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "RequireSession"
+      ],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/RootLayout.tsx": {
+      "filePath": "src/routes/RootLayout.tsx",
+      "contentHash": "e2cc5a32172e9c6f21d0b479b249fe60e55b800c0d10efb71cbdb2f8bd31b417",
+      "functions": [
+        {
+          "name": "RootLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 24
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Outlet"
+          ]
+        },
+        {
+          "source": "../components/NavBar",
+          "specifiers": [
+            "NavBar"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsSchema"
+          ]
+        },
+        {
+          "source": "../hooks/usePortfolioSnapshot",
+          "specifiers": [
+            "usePortfolioSnapshot"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        },
+        {
+          "source": "../styles/app.css",
+          "specifiers": []
+        }
+      ],
+      "exports": [
+        "RootLayout"
+      ],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/Settings.tsx": {
+      "filePath": "src/routes/Settings.tsx",
+      "contentHash": "c9ba0eb066367752ee729d221eb0de01d0227b9330fecfd7a9010f2a055f41e7",
+      "functions": [
+        {
+          "name": "Settings",
+          "params": [],
+          "exported": true,
+          "lineCount": 208
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "../lib/auth-client",
+          "specifiers": [
+            "authClient",
+            "getSessionRole",
+            "isAdminSession"
+          ]
+        },
+        {
+          "source": "../hooks/useSettings",
+          "specifiers": [
+            "useSettings"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "exportPortfolio",
+            "getApiErrorMessage",
+            "importPortfolio",
+            "resetPortfolio"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../components/ui/Select",
+          "specifiers": [
+            "Select"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../components/ui/Card",
+          "specifiers": [
+            "Card"
+          ]
+        },
+        {
+          "source": "../components/PdfImportWizard",
+          "specifiers": [
+            "PdfImportWizard"
+          ]
+        },
+        {
+          "source": "../schemas/settings",
+          "specifiers": [
+            "SettingsType"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Settings"
+      ],
+      "totalLines": 227,
+      "hasStructuralAnalysis": true
+    },
+    "src/routes/Watchlist.tsx": {
+      "filePath": "src/routes/Watchlist.tsx",
+      "contentHash": "97b78b2b0fe74807d30d2426af31045910f80c01811105b670ce4f4f68c16cf5",
+      "functions": [
+        {
+          "name": "Watchlist",
+          "params": [],
+          "exported": true,
+          "lineCount": 171
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "../hooks/useWatchlist",
+          "specifiers": [
+            "useWatchlist"
+          ]
+        },
+        {
+          "source": "../hooks/useSettings",
+          "specifiers": [
+            "useSettings"
+          ]
+        },
+        {
+          "source": "../hooks/usePrices",
+          "specifiers": [
+            "usePrices"
+          ]
+        },
+        {
+          "source": "../api/portfolio",
+          "specifiers": [
+            "ME_PORTFOLIO_SCOPE"
+          ]
+        },
+        {
+          "source": "../lib/format",
+          "specifiers": [
+            "fmtCurrency",
+            "fmtAge"
+          ]
+        },
+        {
+          "source": "../components/ui/Button",
+          "specifiers": [
+            "Button"
+          ]
+        },
+        {
+          "source": "../components/ui/Input",
+          "specifiers": [
+            "Input"
+          ]
+        },
+        {
+          "source": "../i18n/useI18n",
+          "specifiers": [
+            "useI18n"
+          ]
+        }
+      ],
+      "exports": [
+        "Watchlist"
+      ],
+      "totalLines": 182,
+      "hasStructuralAnalysis": true
+    },
+    "src/schemas/holding.ts": {
+      "filePath": "src/schemas/holding.ts",
+      "contentHash": "3ff76ed3d8c6783e9dc82b95e540b6400b9decac05f05d6f32d6f625d995f9c2",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "AssetType",
+        "HoldingSchema"
+      ],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "src/schemas/pdfImport.ts": {
+      "filePath": "src/schemas/pdfImport.ts",
+      "contentHash": "5320e0ea5bde8b0b1ae02b68cf94be4fe9bba565efff4af3e00a139dc33cf18b",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "ExtractedHoldingSchema",
+        "ExtractionResultSchema",
+        "VerifySymbolResultSchema",
+        "VerifySymbolsResponseSchema",
+        "ImportSummarySchema"
+      ],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "src/schemas/settings.ts": {
+      "filePath": "src/schemas/settings.ts",
+      "contentHash": "00e4ed36622d8c79c5e7688ae83e7d560be6b30e53aa26205ca1dd0af6a0890b",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "SettingsSchema"
+      ],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    "src/schemas/watchlist.ts": {
+      "filePath": "src/schemas/watchlist.ts",
+      "contentHash": "4e607b9beca62881496b06a2d261fbd91cf4ee5355f84790fd07d4c6623a704a",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "WatchItemSchema"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "src/styles/app.css": {
+      "filePath": "src/styles/app.css",
+      "contentHash": "d256f2669c08e712748099868fa4bb5f90620d3194b5b7f9028ba009a38ec4db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1878,
+      "hasStructuralAnalysis": false
+    },
+    "src/test-setup.ts": {
+      "filePath": "src/test-setup.ts",
+      "contentHash": "a46d66851af2c056e805fdd574bf5ec3adb1181c43c5e41f0a1c592e338afe64",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@testing-library/jest-dom",
+          "specifiers": []
+        }
+      ],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "src/vite-env.d.ts": {
+      "filePath": "src/vite-env.d.ts",
+      "contentHash": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "tsconfig.app.json": {
+      "filePath": "tsconfig.app.json",
+      "contentHash": "dfaeb7e13cd844712d3830b69392bb8794a55117105e258388448a7d3ec76245",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "tsconfig.json": {
+      "filePath": "tsconfig.json",
+      "contentHash": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "tsconfig.node.json": {
+      "filePath": "tsconfig.node.json",
+      "contentHash": "bb6ec966b89c844a47eba36f49205e4940233f86ec9524527ef03deed1447eae",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "Unified.md": {
+      "filePath": "Unified.md",
+      "contentHash": "5caa6cc5844a87fe2f9d7e95e82e76ad3ed1e93b10942f0966616918f3ab79b6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 663,
+      "hasStructuralAnalysis": true
+    },
+    "vite.config.ts": {
+      "filePath": "vite.config.ts",
+      "contentHash": "0e5270fceb3add8708d484d4b67db60766fd40e72ebd8c50cf4fa08491ef5c1f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vite",
+          "specifiers": [
+            "defineConfig",
+            "loadEnv",
+            "mergeConfig"
+          ]
+        },
+        {
+          "source": "vitest/config",
+          "specifiers": [
+            "defineTestConfig"
+          ]
+        },
+        {
+          "source": "@vitejs/plugin-react",
+          "specifiers": [
+            "react"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "worker-configuration.d.ts": {
+      "filePath": "worker-configuration.d.ts",
+      "contentHash": "495ead6bdbe470eca6b3829b974f7acb709e4d0a854338460aef41256fd61286",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13639,
+      "hasStructuralAnalysis": true
+    },
+    "worker/api.ts": {
+      "filePath": "worker/api.ts",
+      "contentHash": "6c969c503be5f38821d94ad72edf4591bb804d2ae58df6ba3a51c4e75000918e",
+      "functions": [
+        {
+          "name": "syncProcessEnv",
+          "params": [
+            "env"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "getAuthModule",
+          "params": [],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "ensureInitialized",
+          "params": [
+            "env"
+          ],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "json",
+          "params": [
+            "data",
+            "init"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "sendError",
+          "params": [
+            "status",
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "withCors",
+          "params": [
+            "request",
+            "response"
+          ],
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "corsPreflight",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "createHttpError",
+          "params": [
+            "status",
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "getRequestIp",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "createRateLimiter",
+          "params": [
+            "{\n  windowMs,\n  max,\n  message,\n  key,\n}"
+          ],
+          "exported": false,
+          "lineCount": 38
+        },
+        {
+          "name": "readJson",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "requireSession",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "requireAdmin",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "assertActiveLedger",
+          "params": [
+            "ledger"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "getEditableMyLedger",
+          "params": [
+            "userId"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "withAdminOwner",
+          "params": [
+            "userId",
+            "ledger"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "parseStatusFilter",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "parseSearchQuery",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "addHoldingToLedger",
+          "params": [
+            "userId",
+            "input",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "updateHoldingInLedger",
+          "params": [
+            "userId",
+            "holdingId",
+            "updates",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 34
+        },
+        {
+          "name": "removeHoldingFromLedger",
+          "params": [
+            "userId",
+            "holdingId",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "addWatchItemToLedger",
+          "params": [
+            "userId",
+            "input",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 32
+        },
+        {
+          "name": "removeWatchItemFromLedger",
+          "params": [
+            "userId",
+            "watchItemId",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "confirmPdfImportForUser",
+          "params": [
+            "userId",
+            "holdings",
+            "mergeStrategy",
+            "{ createIfMissing = false }"
+          ],
+          "exported": false,
+          "lineCount": 90
+        },
+        {
+          "name": "matchPath",
+          "params": [
+            "pathname",
+            "pattern"
+          ],
+          "exported": false,
+          "lineCount": 25
+        },
+        {
+          "name": "buildProxyUrl",
+          "params": [
+            "base",
+            "strippedPathWithQuery"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "proxyGetRequest",
+          "params": [
+            "request",
+            "url",
+            "options"
+          ],
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "proxyLegacyApi",
+          "params": [
+            "request",
+            "origin"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "routeApi",
+          "params": [
+            "{ request, env, url }"
+          ],
+          "exported": false,
+          "lineCount": 535
+        },
+        {
+          "name": "handleRouteError",
+          "params": [
+            "error"
+          ],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "handleApiRequest",
+          "params": [
+            "request",
+            "env"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:process",
+          "specifiers": [
+            "process"
+          ]
+        },
+        {
+          "source": "node:buffer",
+          "specifiers": [
+            "Buffer"
+          ]
+        },
+        {
+          "source": "../server/db.js",
+          "specifiers": [
+            "configureDatabaseUrl"
+          ]
+        },
+        {
+          "source": "../server/schemas.js",
+          "specifiers": [
+            "FxRateQuerySchema",
+            "HoldingInputSchema",
+            "HoldingUpdateSchema",
+            "ImportPayloadSchema",
+            "PdfImportConfirmSchema",
+            "PortfolioSnapshotSchema",
+            "SettingsSchema",
+            "WatchItemInputSchema"
+          ]
+        },
+        {
+          "source": "../server/store.js",
+          "specifiers": [
+            "archiveLedgerByUserId",
+            "createBlankLedgerForUser",
+            "deleteLedgerByUserId",
+            "getAdminDashboardStats",
+            "getLedgerByUserId",
+            "getUserById",
+            "initStore",
+            "listPortfolios",
+            "listUsers",
+            "replaceLedgerByUserId",
+            "resetLedgerByUserId",
+            "restoreLedgerByUserId",
+            "updateLedgerByUserId"
+          ]
+        },
+        {
+          "source": "../server/pdfImport.js",
+          "specifiers": [
+            "runPdfImportPipeline"
+          ]
+        },
+        {
+          "source": "../server/symbolVerifier.js",
+          "specifiers": [
+            "verifySymbols"
+          ]
+        },
+        {
+          "source": "../server/marketResolver.js",
+          "specifiers": [
+            "VALID_MICS",
+            "resolveMarket"
+          ]
+        },
+        {
+          "source": "../server/quoteHub.js",
+          "specifiers": [
+            "clearPriceSnapshot",
+            "getPriceSnapshot",
+            "invalidatePriceSnapshot"
+          ]
+        },
+        {
+          "source": "../server/config.js",
+          "specifiers": [
+            "MANUAL_REFRESH_RATE_LIMIT_MAX",
+            "MANUAL_REFRESH_RATE_LIMIT_WINDOW_MS"
+          ]
+        }
+      ],
+      "exports": [
+        "handleApiRequest"
+      ],
+      "totalLines": 1161,
+      "hasStructuralAnalysis": true
+    },
+    "worker/index.ts": {
+      "filePath": "worker/index.ts",
+      "contentHash": "6384b189ee7666dd00dd55cc8a517d90f81301cb9c7b18a7c7aa408d515e7de5",
+      "functions": [
+        {
+          "name": "json",
+          "params": [
+            "data",
+            "init"
+          ],
+          "exported": false,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pg",
+          "specifiers": [
+            "Client"
+          ]
+        },
+        {
+          "source": "./api",
+          "specifiers": [
+            "handleApiRequest"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "wrangler.jsonc": {
+      "filePath": "wrangler.jsonc",
+      "contentHash": "4fb46c7eb7e402be51f1d0c5289f1878f0fe5ca5ea415c30006a9eda7b773190",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

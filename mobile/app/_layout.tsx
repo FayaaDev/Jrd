@@ -29,7 +29,9 @@ configureHttp({
     // via getCookie(). Without this, all authedFetch calls reach the server with
     // no credentials and hit the requireSession guard with a 401.
     const cookie = authClient.getCookie()
-    return cookie ? { cookie } : {}
+    const headers: Record<string, string> = {}
+    if (cookie) headers.cookie = cookie
+    return headers
   },
 })
 
