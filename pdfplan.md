@@ -2,7 +2,7 @@
 
 ## Context
 
-Jrd currently supports LLM-backed import. Users with brokerage accounts need a way to bulk-import holdings from their broker's PDF statements (Saudi brokers like Al Rajhi, SNB Capital, Riyad Capital, plus international brokers). The feature uses a three-stage AI pipeline: Mistral OCR for reliable PDF text extraction, OpenAI Structured Outputs for normalizing into the app's Holding schema, and a post-LLM validation layer for confidence scoring and symbol verification.
+Jrd currently supports LLM-backed import. Users with brokerage accounts need a way to bulk-import holdings from their broker's PDF statements (Saudi brokers like Al Rajhi, SNB Capital, Riyad Capital, plus international brokers). The feature uses a two-layer LLM pipeline: Mistral OCR for reliable PDF text extraction, OpenAI Structured Outputs for normalizing into the app's Holding schema, and a post-LLM validation layer for confidence scoring and symbol verification.
 
 ---
 
@@ -12,13 +12,13 @@ Jrd currently supports LLM-backed import. Users with brokerage accounts need a w
 PDF Upload → Mistral OCR → OpenAI Structured Outputs → Validation Layer → Review UI → Merge
 ```
 
-### Stage 1: Mistral OCR
+### Stage 1: Mistral OCR (LLM Layer 1)
 - Send base64-encoded PDF to `POST https://api.mistral.ai/v1/ocr` using `mistral-ocr-latest` model
 - Concatenate all `pages[].markdown` with page-break markers
 - Handles: scanned docs, Arabic text, complex table layouts
 - Error: empty extraction returns warning, API failure returns 502
 
-### Stage 2: OpenAI Structured Outputs
+### Stage 2: OpenAI Structured Outputs (LLM Layer 2)
 - Send OCR markdown to OpenAI with `response_format: { type: "json_schema", json_schema: { strict: true, schema: ... } }`
 - System prompt instructs: extract symbol, name, assetType, market (MIC code), quantity, avgCost, totalCost, totalMarketValue, currentPrice, costCurrency, quoteCurrency, rawText per holding; plus brokerName, statementDate, accountNumber
 - `temperature: 0` for deterministic extraction
