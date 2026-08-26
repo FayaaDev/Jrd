@@ -4,9 +4,9 @@ Target architecture:
 
 - Cloudflare Worker serves the React `dist/` assets.
 - Worker handles `/api/*` on the same hostname.
-- PostgreSQL runs on a managed, public Postgres provider.
+- PostgreSQL 17 runs privately on the FayaaLink host.
 - Cloudflare Hyperdrive pools Worker connections to Postgres.
-- The local `fayafolio-api` Docker container remains only for migration and rollback.
+- Workers VPC and Cloudflare Tunnel connect Hyperdrive to the private database.
 
 ## Current State
 
@@ -24,12 +24,13 @@ The Worker supports:
 - Portfolio, admin, price snapshot, import/export, FX, and provider proxy routes
 - PDF import routes, backed by Mistral/OpenAI secrets
 - SPA static asset fallback
-- Hyperdrive binding to Supabase Postgres
+- Hyperdrive binding to private PostgreSQL 17
 
 Data migration status:
 
-- Supabase schema initialized.
-- Active local data copied: 3 users and 3 portfolio ledgers.
+- The final Supabase `public` schema was copied to database `jrd` on 2026-08-26.
+- All 10 tables and 203 rows matched Supabase by exact row count and canonical SHA-256.
+- Supabase remains active as the pre-cutover rollback source, but does not receive new Jrd writes.
 - Legacy `portfolio_documents` was not copied because the current app code no longer references that table and the initialized Supabase schema does not include it.
 - Temporary Worker migration endpoint and `MIGRATION_TOKEN` secret were removed after seeding.
 
@@ -46,7 +47,7 @@ The Worker now replaces the retired Express API for the production custom domain
 
 ## Required Cloudflare Permissions
 
-The current token can authenticate Wrangler and access Hyperdrive APIs. If this regresses, update or replace the token with permissions for:
+Wrangler requires a valid local Cloudflare token. The stale token found during the 2026-08-26 cutover was invalid and was removed; the scoped cutover token was deleted after deployment. Create a replacement with:
 
 - Workers Scripts edit
 - Workers Routes edit
@@ -60,19 +61,23 @@ npx wrangler whoami
 npx wrangler hyperdrive list
 ```
 
-## Managed Postgres And Hyperdrive
+## Private Postgres And Hyperdrive
 
-The current Docker database URL uses hostname `postgres`, so it is local to the Docker network and cannot be used by Hyperdrive. Do not expose the local Postgres directly for this deployment.
+PostgreSQL 17 runs as `postgres17` on the private `caddy_default` Docker network. It has no published host port. TLS is enabled at the database, and Workers VPC reaches it through `fayaa92-tunnel`.
 
-Managed Supabase Postgres is configured in Hyperdrive.
+Current private connectivity:
 
-Hyperdrive config:
+- Workers VPC service `jrd-postgres17`: `01a03f16-5205-73d3-9c7f-ca1b138114c3`
+- Hyperdrive `jrd-postgres17`: `ed42409af74b4335b94aba87d56652d9`
+- Database: `jrd`
+- Application role: `jrd_app`
+- Hyperdrive caching: disabled
 
-- `jrd-production`: `0b2ddff5a6964170a291c25f0dcc953b`
+The former Supabase Hyperdrive `jrd-production` (`0b2ddff5a6964170a291c25f0dcc953b`) is retained temporarily for rollback. Do not switch back after new production writes without first reconciling data from PostgreSQL 17.
 
 Health check:
 
-- `https://jrd.drfayaa.workers.dev/api/db-health`
+- `https://jrd.fayaa92.sa/api/db-health`
 
 The historical setup notes remain below for reference.
 
