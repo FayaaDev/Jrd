@@ -94,7 +94,6 @@ export async function runOpenAiExtract(ocrText) {
       },
       body: JSON.stringify({
         model,
-        temperature: 0,
         response_format: RESPONSE_FORMAT,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },

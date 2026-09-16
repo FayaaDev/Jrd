@@ -1,46 +1,62 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "jrd",
-  "main": "./worker/index.ts",
-  "compatibility_date": "2026-05-15",
-  "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true,
-  "preview_urls": true,
-  "routes": [{ "pattern": "jrd.fayaa92.sa", "custom_domain": true }],
-  "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS",
-    "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*"]
-  },
-  "observability": {
-    "enabled": true,
-    "head_sampling_rate": 1
-  },
-  "vars": {
-    "APP_ENV": "staging",
-    "BETTER_AUTH_URL": "https://jrd.fayaa92.sa",
-    "OPENAI_MODEL": "gpt-4o-2024-08-06",
-    "SAHMK_BASE_URL": "https://app.sahmk.sa/api/v1"
-  },
-  "hyperdrive": [
-    {
-      "binding": "HYPERDRIVE",
-      "id": "ed42409af74b4335b94aba87d56652d9"
-    }
-  ]
-
-  // "env": {
-  //   "production": {
-  //     "name": "jrd-production",
-  //     "routes": [{ "pattern": "jrd.fayaa92.sa", "custom_domain": true }],
-  //     "vars": { "APP_ENV": "production" },
-  //     "hyperdrive": [
-  //       {
-  //         "binding": "HYPERDRIVE",
-  //         "id": "<production-hyperdrive-config-id>"
-  //       }
-  //     ]
-  //   }
-  // }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "jrd",
+	"main": "./worker/index.ts",
+	"compatibility_date": "2026-05-15",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"workers_dev": false,
+	"preview_urls": false,
+	"routes": [
+		{
+			"pattern": "jrd.fayaa92.sa",
+			"custom_domain": true
+		},
+		{
+			"pattern": "jrd.fayaalab.com",
+			"zone_name": "fayaalab.com",
+			"custom_domain": true,
+			"enabled": true,
+			"previews_enabled": false
+		}
+	],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+		"run_worker_first": [
+			"/api/*"
+		]
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+		"redact_query_string": false
+	},
+	"vars": {
+		"APP_ENV": "staging",
+		"BETTER_AUTH_URL": "https://jrd.fayaa92.sa",
+		"OPENAI_MODEL": "gpt-5.6-luna",
+		"SAHMK_BASE_URL": "https://app.sahmk.sa/api/v1"
+	},
+	"hyperdrive": [
+		{
+			"binding": "HYPERDRIVE",
+			"id": "ed42409af74b4335b94aba87d56652d9"
+		}
+	]
+	// "env": {
+	//   "production": {
+	//     "name": "jrd-production",
+	//     "routes": [{ "pattern": "jrd.fayaa92.sa", "custom_domain": true }],
+	//     "vars": { "APP_ENV": "production" },
+	//     "hyperdrive": [
+	//       {
+	//         "binding": "HYPERDRIVE",
+	//         "id": "<production-hyperdrive-config-id>"
+	//       }
+	//     ]
+	//   }
+	// }
 }
